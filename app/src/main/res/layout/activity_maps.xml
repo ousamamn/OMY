@@ -1,14 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom">
+    android:layout_height="match_parent"
+    tools:context=".MapsActivity">
 
     <include
         android:id="@+id/navigation_bar"
+        layout="@layout/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/bottom_navigation" />
+        android:layout_alignParentBottom="true" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/navigation_bar"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="50px"
+        android:layout_marginBottom="40px"
+        android:backgroundTint="#545454"
+        android:drawableRight="@drawable/ic_outline_arrow_circle_right_24"
+        android:elevation="50px"
+        android:fontFamily="@font/nunito_bold"
+        android:paddingLeft="35px"
+        android:paddingTop="20px"
+        android:paddingRight="35px"
+        android:paddingBottom="20px"
+        android:text="NEW TRIP"
+        android:textSize="60px"
+        app:cornerRadius="50px" />
+
+</RelativeLayout>
