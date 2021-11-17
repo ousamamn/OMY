@@ -13,6 +13,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" />
 
+    <View
+        android:layout_width="84dp"
+        android:layout_height="114dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="40px"
+        android:layout_marginRight="40px"
+        android:elevation="50px"
+        android:background="@drawable/main_weather_border"/>
+
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
@@ -23,7 +32,7 @@
         android:layout_marginBottom="40px"
         android:backgroundTint="#545454"
         android:drawableRight="@drawable/ic_outline_arrow_circle_right_24"
-        android:elevation="50px"
+        android:elevation="100px"
         android:fontFamily="@font/nunito_bold"
         android:paddingLeft="35px"
         android:paddingTop="20px"
