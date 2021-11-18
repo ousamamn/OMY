@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MapsActivity">
+    tools:context=".MainsActivity">
 
     <include
         android:id="@+id/navigation_bar"
@@ -17,29 +17,29 @@
         android:layout_width="84dp"
         android:layout_height="114dp"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="40px"
-        android:layout_marginRight="40px"
-        android:elevation="50px"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:elevation="12dp"
         android:background="@drawable/main_weather_border"/>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/new_trip_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/navigation_bar"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="50px"
-        android:layout_marginBottom="40px"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="10dp"
         android:backgroundTint="#545454"
         android:drawableRight="@drawable/ic_outline_arrow_circle_right_24"
-        android:elevation="100px"
+        android:elevation="30dp"
         android:fontFamily="@font/nunito_bold"
-        android:paddingLeft="35px"
-        android:paddingTop="20px"
-        android:paddingRight="35px"
-        android:paddingBottom="20px"
+        android:paddingLeft="12dp"
+        android:paddingTop="10dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="10dp"
         android:text="NEW TRIP"
-        android:textSize="60px"
-        app:cornerRadius="50px" />
+        android:textSize="25dp"
+        app:cornerRadius="15dp" />
 
 </RelativeLayout>
