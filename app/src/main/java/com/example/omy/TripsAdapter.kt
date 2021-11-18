@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import org.w3c.dom.Text
+import kotlin.properties.Delegates
 
-class MyAdapter : RecyclerView.Adapter<MyAdapter.ViewHolder> {
+class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     private lateinit var context: Context
     private var items: Array<TripElement>
 
@@ -32,14 +34,11 @@ class MyAdapter : RecyclerView.Adapter<MyAdapter.ViewHolder> {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        //Use the provided View Holder on the onCreateViewHolder method to populate the
-        // current row on the RecyclerView
-        if (items[position] != null) {
-            holder.title.text = items[position].title
-            holder.preview.text = items[position].preview
-            holder.imageView.setImageResource(items[position].image)
-        }
-        //animate(holder);
+        holder.title.text = items[position].title
+        holder.date.text = items[position].date
+        holder.distance.text = items[position].distance
+        holder.numOfLocations.text = items[position].numOfLocations
+        holder.imageView.setImageResource(items[position].image)
     }
 
     override fun getItemCount(): Int {
@@ -49,7 +48,9 @@ class MyAdapter : RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         lateinit var image: Image
         var title: TextView = itemView.findViewById<View>(R.id.title) as TextView
-        var preview: TextView = itemView.findViewById<View>(R.id.preview) as TextView
+        var date: TextView = itemView.findViewById<View>(R.id.date) as TextView
+        var distance: TextView = itemView.findViewById<View>(R.id.distance) as TextView
+        var numOfLocations: TextView = itemView.findViewById(R.id.numOfLocations) as TextView
         var imageView: ImageView = itemView.findViewById<View>(R.id.image_item) as ImageView
 
     }

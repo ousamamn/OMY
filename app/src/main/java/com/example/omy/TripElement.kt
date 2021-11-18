@@ -1,6 +1,6 @@
 package com.example.omy
 
-class TripElement( var title: String, var date: String, val locations: Int, var image: Int) {
+class TripElement(var title: String, var date: String, var distance: String, var numOfLocations: String, var image: Int) {
     init {
     }
 }
