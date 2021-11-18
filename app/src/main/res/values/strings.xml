@@ -7,4 +7,5 @@
     <string name="title_trips">Trips</string>
     <string name="title_pictures">Pictures</string>
     <string name="heading_past_trips">PAST TRIPS</string>
+    <string name="action_settings">Settings</string>
 </resources>

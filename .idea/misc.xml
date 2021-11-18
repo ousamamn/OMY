@@ -10,13 +10,17 @@
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/font/font.xml" value="0.284375" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/activity_main.xml" value="0.1793478260869565" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/activity_maps.xml" value="0.19649122807017544" />
-        <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/activity_trips.xml" value="0.6" />
+        <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/activity_trips.xml" value="0.264" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/content_trips.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/fragment_first.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/fragment_second.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/list_item_image.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/navigation_bar.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/trips_activity.xml" value="0.42397914856646396" />
+        <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/trips_content.xml" value="0.536" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/menu/menu_bar.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/menu/menu_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/menu/navigation_bar.xml" value="0.25416666666666665" />
       </map>
     </option>
