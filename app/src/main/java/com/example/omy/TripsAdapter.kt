@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import org.w3c.dom.Text
-import kotlin.properties.Delegates
 
 class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     private lateinit var context: Context
@@ -27,7 +25,7 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         //Inflate the layout, initialize the View Holder
         val v: View = LayoutInflater.from(parent.context).inflate(
-            R.layout.list_item_image,
+            R.layout.trip_list_item,
             parent, false
         )
         return ViewHolder(v)
