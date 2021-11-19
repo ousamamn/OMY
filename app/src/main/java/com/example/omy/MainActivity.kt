@@ -2,6 +2,9 @@ package com.example.omy
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
@@ -33,6 +36,23 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+        val nt_button: Button = findViewById(R.id.new_trip_button)
+        val go_button: Button = findViewById(R.id.go_button)
+        val cancel_button: Button = findViewById(R.id.cancel_button)
+        val tn_edit_text: EditText = findViewById(R.id.trip_name_edit_text)
+        nt_button.setOnClickListener() {
+            nt_button.visibility = View.GONE
+            go_button.visibility = View.VISIBLE
+            cancel_button.visibility = View.VISIBLE
+            tn_edit_text.visibility = View.VISIBLE
+        }
+        cancel_button.setOnClickListener() {
+            nt_button.visibility = View.VISIBLE
+            go_button.visibility = View.GONE
+            cancel_button.visibility = View.GONE
+            tn_edit_text.visibility = View.GONE
+        }
+
         val textView = findViewById<TextView>(R.id.api)
 
         val queue = Volley.newRequestQueue(this)
@@ -42,7 +62,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         // Make a GET request to locationURL to obtain a location key
         val lat = 53.38
         val lon = -1.46
-        val apikey = BuildConfig.ACCUWEATHER_APIKEY
+        /**
+        val apikey = BuildConfig.WEATHER_APIKEY
         var er : String
         val params = "?apikey=" + apikey + "&q=" + lat + "," + lon
         val stringRequest = StringRequest(
@@ -50,6 +71,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             { response -> Log.v("MainActivity", response) },
             { textView.text = "Error"})
         queue.add(stringRequest)
+        */
 
         // Make another GET request to get current weather
         /**

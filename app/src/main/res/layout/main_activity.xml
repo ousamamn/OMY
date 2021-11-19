@@ -6,12 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <include
+        layout="@layout/maps"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MainActivity" />
+        android:layout_height="match_parent"/>
 
     <include
         android:id="@+id/navigation_bar"
@@ -21,13 +19,18 @@
         android:layout_alignParentBottom="true" />
 
     <View
-        android:layout_width="84dp"
-        android:layout_height="114dp"
+        android:layout_width="85dp"
+        android:layout_height="115dp"
         android:layout_alignParentRight="true"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
-        android:elevation="12dp"
-        android:background="@drawable/main_weather_border"/>
+        android:background="@drawable/main_weather_border"
+        android:elevation="12dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/api"/>
 
     <Button
         android:id="@+id/new_trip_button"
@@ -35,18 +38,81 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/navigation_bar"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="12dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
         android:backgroundTint="#545454"
         android:drawableRight="@drawable/ic_outline_arrow_circle_right_24"
         android:elevation="30dp"
         android:fontFamily="@font/nunito_bold"
-        android:paddingLeft="12dp"
+        android:paddingLeft="15dp"
         android:paddingTop="10dp"
-        android:paddingRight="12dp"
+        android:paddingRight="15dp"
         android:paddingBottom="10dp"
         android:text="NEW TRIP"
         android:textSize="25dp"
+        app:cornerRadius="15dp" />
+
+    <Button
+        android:id="@+id/go_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/trip_name_edit_text"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="#545454"
+        android:drawableRight="@drawable/ic_outline_arrow_circle_right_24"
+        android:elevation="30dp"
+        android:fontFamily="@font/nunito_bold"
+        android:paddingLeft="15dp"
+        android:paddingTop="10dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="10dp"
+        android:text="Go"
+        android:textSize="25dp"
+        android:visibility="gone"
+        app:cornerRadius="15dp" />
+
+    <Button
+        android:id="@+id/cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/trip_name_edit_text"
+        android:layout_toLeftOf="@+id/go_button"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="#545454"
+        android:elevation="30dp"
+        android:fontFamily="@font/nunito_bold"
+        android:paddingLeft="15dp"
+        android:paddingTop="10dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="10dp"
+        android:text="Cancel"
+        android:textSize="25dp"
+        android:visibility="gone"
+        app:cornerRadius="15dp" />
+
+    <EditText
+        android:id="@+id/trip_name_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/navigation_bar"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@color/white"
+        android:background="@drawable/edit_text_border"
+        android:elevation="10dp"
+        android:fontFamily="@font/nunito_bold"
+        android:paddingLeft="30dp"
+        android:paddingTop="10dp"
+        android:paddingRight="30dp"
+        android:paddingBottom="10dp"
+        android:hint="TRIP NAME"
+        android:textSize="25dp"
+        android:textColor="@color/darkgrey"
+        android:visibility="gone"
         app:cornerRadius="15dp" />
 
 </RelativeLayout>
