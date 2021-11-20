@@ -73,6 +73,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                     R.string.successfully_created_trip,
                     Snackbar.LENGTH_SHORT
                 ).show()
+                tnEditText.text.clear()
             }
         }
 
