@@ -2,6 +2,7 @@ package com.example.omy
 
 import android.content.Context
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -56,11 +57,19 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             tn_edit_text.visibility = View.GONE
         }
         go_button.setOnClickListener() {
-            Snackbar.make(
-                findViewById(R.id.notification_view),
-                R.string.successfully_created_trip,
-                Snackbar.LENGTH_SHORT
-            ).show()
+            if (TextUtils.isEmpty(tn_edit_text.text.toString())) {
+                Snackbar.make(
+                    findViewById(R.id.notification_view),
+                    R.string.enter_trip_name_notification,
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            } else {
+                Snackbar.make(
+                    findViewById(R.id.notification_view),
+                    R.string.successfully_created_trip,
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
         }
         val textView = findViewById<TextView>(R.id.api)
 
