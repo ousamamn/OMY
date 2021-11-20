@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/lightgreen"
-        android:fontFamily="@font/raleway_bold"
+        android:fontFamily="@font/nunito_bold"
         android:gravity="center"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"

@@ -6,6 +6,7 @@
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/drawable/bottom_border.xml" value="0.2703125" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/drawable/ic_baseline_explore_24.xml" value="0.2703125" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/drawable/ic_baseline_image_24.xml" value="0.2703125" />
+        <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/drawable/rounded_corners.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/drawable/shadow.xml" value="0.2703125" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/font/font.xml" value="0.284375" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/activity_main.xml" value="0.1793478260869565" />
@@ -14,9 +15,9 @@
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/content_trips.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/fragment_first.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/fragment_second.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/list_item_image.xml" value="0.17889492753623187" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/navigation_bar.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/trip_list_item.xml" value="0.4" />
+        <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/trips_activity.xml" value="0.1" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/menu/menu_bar.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/menu/navigation_bar.xml" value="0.25416666666666665" />
