@@ -16,3 +16,4 @@
 .cxx
 .idea
 local.properties
+gradle.properties
