@@ -3,6 +3,7 @@ package com.example.omy
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.service.autofill.UserData
 import android.text.TextUtils
 import android.util.Log
 import android.view.MotionEvent
@@ -13,10 +14,6 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-//import com.android.volley.Request
-//import com.android.volley.Response
-//import com.android.volley.toolbox.StringRequest
-//import com.android.volley.toolbox.Volley
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -26,6 +23,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.omy.databinding.MainActivityBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.GsonBuilder
+import okhttp3.*
+import java.io.IOException
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -76,33 +76,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
-        val textView = findViewById<TextView>(R.id.api)
-
-        //val queue = Volley.newRequestQueue(this)
-        val locationURL = "http://dataservice.accuweather.com/locations/v1/cities/geoposition/search"
-        val weatherURL = "http://dataservice.accuweather.com/forecasts/v1/hourly/1hour/"
-
-        // Make a GET request to locationURL to obtain a location key
-        val lat = 53.38
-        val lon = -1.46
-        /**
-        val apikey = BuildConfig.WEATHER_APIKEY
-        var er : String
-        val params = "?apikey=" + apikey + "&q=" + lat + "," + lon
-        val stringRequest = StringRequest(
-            Request.Method.GET, locationURL + params,
-            { response -> Log.v("MainActivity", response) },
-            { textView.text = "Error"})
-        queue.add(stringRequest)
-        */
-
-        // Make another GET request to get current weather
-        /**
-        val weatherRequest = StringRequest(
-            Request.Method.GET, weatherURL + er["Key"],
-            { response -> textView.text = response },
-            { textView.text = "Error"})
-        )*/
+        getCurrentWeather()
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         //val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment mapFragment.getMapAsync(this)
@@ -138,5 +112,45 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         val sydney = LatLng(-34.0, 151.0)
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    }
+
+    private fun getCurrentWeather() {
+
+        val textView = findViewById<TextView>(R.id.api)
+
+        //var client = OkHttpClient()
+        //var request = OkHttpRequest(client)
+        val client = OkHttpClient()
+
+
+        // Make a GET request to locationURL to obtain a location key
+        val lat = 53.38
+        val lon = -1.46
+
+        val url = "http://api.weatherapi.com/v1/current.json?key=" + BuildConfig.WEATHER_APIKEY + "&q=" + lat + "," + lon
+
+        val request = Request.Builder().url(url).build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onResponse(call: Call, response: Response) {
+                val body = response.body?.string()
+                //println(body)
+                //val gson = GsonBuilder().create()
+                //val data = gson.fromJson(body, UserData::class.java)
+                //println(data)
+                textView.text = body
+            }
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+        })
+
+        // Make another GET request to get current weather
+        /**
+        val weatherRequest = StringRequest(
+        Request.Method.GET, weatherURL + er["Key"],
+        { response -> textView.text = response },
+        { textView.text = "Error"})
+        )*/
     }
 }
