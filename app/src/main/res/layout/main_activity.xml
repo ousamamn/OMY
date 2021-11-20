@@ -93,6 +93,11 @@
         android:visibility="gone"
         app:cornerRadius="15dp" />
 
+    <View
+        android:id="@+id/notification_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <EditText
         android:id="@+id/trip_name_edit_text"
         android:layout_width="wrap_content"

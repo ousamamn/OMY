@@ -1,16 +1,18 @@
 package com.example.omy
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
+//import com.android.volley.Request
+//import com.android.volley.Response
+//import com.android.volley.toolbox.StringRequest
+//import com.android.volley.toolbox.Volley
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -19,6 +21,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.omy.databinding.MainActivityBinding
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -52,10 +55,16 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             cancel_button.visibility = View.GONE
             tn_edit_text.visibility = View.GONE
         }
-
+        go_button.setOnClickListener() {
+            Snackbar.make(
+                findViewById(R.id.notification_view),
+                R.string.successfully_created_trip,
+                Snackbar.LENGTH_SHORT
+            ).show()
+        }
         val textView = findViewById<TextView>(R.id.api)
 
-        val queue = Volley.newRequestQueue(this)
+        //val queue = Volley.newRequestQueue(this)
         val locationURL = "http://dataservice.accuweather.com/locations/v1/cities/geoposition/search"
         val weatherURL = "http://dataservice.accuweather.com/forecasts/v1/hourly/1hour/"
 
