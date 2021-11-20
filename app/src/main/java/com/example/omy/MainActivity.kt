@@ -1,15 +1,18 @@
 package com.example.omy
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 //import com.android.volley.Request
 //import com.android.volley.Response
 //import com.android.volley.toolbox.StringRequest
@@ -40,29 +43,30 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        val nt_button: Button = findViewById(R.id.new_trip_button)
-        val go_button: Button = findViewById(R.id.go_button)
-        val cancel_button: Button = findViewById(R.id.cancel_button)
-        val tn_edit_text: EditText = findViewById(R.id.trip_name_edit_text)
-        nt_button.setOnClickListener() {
-            nt_button.visibility = View.GONE
-            go_button.visibility = View.VISIBLE
-            cancel_button.visibility = View.VISIBLE
-            tn_edit_text.visibility = View.VISIBLE
+        val ntButton: Button = findViewById(R.id.new_trip_button)
+        val goButton: Button = findViewById(R.id.go_button)
+        val cancelButton: Button = findViewById(R.id.cancel_button)
+        val tnEditText: EditText = findViewById(R.id.trip_name_edit_text)
+        ntButton.setOnClickListener() {
+            ntButton.visibility = View.GONE
+            goButton.visibility = View.VISIBLE
+            cancelButton.visibility = View.VISIBLE
+            tnEditText.visibility = View.VISIBLE
         }
-        cancel_button.setOnClickListener() {
-            nt_button.visibility = View.VISIBLE
-            go_button.visibility = View.GONE
-            cancel_button.visibility = View.GONE
-            tn_edit_text.visibility = View.GONE
+        cancelButton.setOnClickListener() {
+            ntButton.visibility = View.VISIBLE
+            goButton.visibility = View.GONE
+            cancelButton.visibility = View.GONE
+            tnEditText.visibility = View.GONE
         }
-        go_button.setOnClickListener() {
-            if (TextUtils.isEmpty(tn_edit_text.text.toString())) {
+        goButton.setOnClickListener() {
+            if (TextUtils.isEmpty(tnEditText.text.toString())) {
                 Snackbar.make(
                     findViewById(R.id.notification_view),
                     R.string.enter_trip_name_notification,
                     Snackbar.LENGTH_SHORT
                 ).show()
+                it.showKeyboard()
             } else {
                 Snackbar.make(
                     findViewById(R.id.notification_view),
@@ -71,6 +75,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 ).show()
             }
         }
+
         val textView = findViewById<TextView>(R.id.api)
 
         //val queue = Volley.newRequestQueue(this)
@@ -101,6 +106,19 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         //val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment mapFragment.getMapAsync(this)
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        if (currentFocus != null ) {
+            val imm  = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm .hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+        }
+        return super.dispatchTouchEvent(ev)
+    }
+
+    private fun View.showKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
     }
 
     /**
