@@ -14,18 +14,23 @@
     <include
         android:id="@+id/navigation_bar"
         layout="@layout/bottom_navigation"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" />
 
-    <include
-        layout="@layout/main_weather_widget"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <View
+        android:layout_width="85dp"
+        android:layout_height="115dp"
         android:layout_alignParentRight="true"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
+        android:background="@drawable/main_weather_border"
         android:elevation="12dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/api"/>
 
     <Button
         android:id="@+id/new_trip_button"

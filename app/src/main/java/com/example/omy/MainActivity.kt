@@ -1,20 +1,19 @@
 package com.example.omy
 
+import android.app.Activity
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.service.autofill.UserData
 import android.text.TextUtils
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -24,11 +23,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.omy.databinding.MainActivityBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.GsonBuilder
 import okhttp3.*
-import org.json.JSONException
-import org.json.JSONObject
 import java.io.IOException
-import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -79,9 +76,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
-        val textView = findViewById<TextView>(R.id.weather_temperature)
-        val imageView = findViewById<ImageView>(R.id.weather_icon)
-        getCurrentWeather(textView, imageView)
+        getCurrentWeather()
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         //val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment mapFragment.getMapAsync(this)
@@ -119,57 +114,43 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 
-    private fun getCurrentWeather(textView: TextView, imageView: ImageView) {
+    private fun getCurrentWeather() {
+
+        val textView = findViewById<TextView>(R.id.api)
+
+        //var client = OkHttpClient()
+        //var request = OkHttpRequest(client)
+        val client = OkHttpClient()
 
 
-        // TODO: Replace lat&long with actual geolocation
+        // Make a GET request to locationURL to obtain a location key
         val lat = 53.38
         val lon = -1.46
 
         val url = "http://api.weatherapi.com/v1/current.json?key=" + BuildConfig.WEATHER_APIKEY + "&q=" + lat + "," + lon
-        val client = OkHttpClient()
+
         val request = Request.Builder().url(url).build()
+
         client.newCall(request).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
-                val body = response.body!!.string()
-                runOnUiThread {
-                    try {
-                        val json = JSONObject(body)
-                        val responseObject: JSONObject = json.getJSONObject("current")
-                        val tempC = responseObject.get("temp_c")
-                        val weather = responseObject.getJSONObject("condition")
-                        val wea = weather.get("text")
-                        val icon = weather.get("icon")
-
-                        //loadIcon(icon)
-                        textView.text = tempC.toString() + "°C"
-                        loadImage(imageView, "https:$icon")
-
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
-                    }
-                }
+                val body = response.body?.string()
+                //println(body)
+                //val gson = GsonBuilder().create()
+                //val data = gson.fromJson(body, UserData::class.java)
+                //println(data)
+                textView.text = body
             }
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
             }
         })
-    }
 
-    private fun loadImage(icon: ImageView, url: String) {
-        val executor = Executors.newSingleThreadExecutor()
-        val handler = Handler(Looper.getMainLooper())
-        var image: Bitmap? = null
-        executor.execute {
-            try {
-                val onlineIcon = java.net.URL(url).openStream()
-                image = BitmapFactory.decodeStream(onlineIcon)
-                handler.post {
-                    icon.setImageBitmap(image)
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+        // Make another GET request to get current weather
+        /**
+        val weatherRequest = StringRequest(
+        Request.Method.GET, weatherURL + er["Key"],
+        { response -> textView.text = response },
+        { textView.text = "Error"})
+        )*/
     }
 }
