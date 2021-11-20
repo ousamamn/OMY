@@ -78,13 +78,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 ).show()
             }
         }
-
         val textView = findViewById<TextView>(R.id.weather_temperature)
         val imageView = findViewById<ImageView>(R.id.weather_icon)
         getCurrentWeather(textView, imageView)
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        //val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment mapFragment.getMapAsync(this)
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
@@ -111,8 +107,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        mMap.uiSettings.isZoomControlsEnabled = false
-
         // Add a marker in Sydney and move the camera
         val sydney = LatLng(-34.0, 151.0)
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
@@ -120,8 +114,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun getCurrentWeather(textView: TextView, imageView: ImageView) {
-
-
         // TODO: Replace lat&long with actual geolocation
         val lat = 53.38
         val lon = -1.46
@@ -138,21 +130,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                         val responseObject: JSONObject = json.getJSONObject("current")
                         val tempC = responseObject.get("temp_c")
                         val weather = responseObject.getJSONObject("condition")
-                        val wea = weather.get("text")
                         val icon = weather.get("icon")
 
-                        //loadIcon(icon)
-                        textView.text = tempC.toString() + "°C"
+                        textView.setText("${tempC.toString()}°C")
                         loadImage(imageView, "https:$icon")
-
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
-                    }
+                    } catch (e: JSONException) { e.printStackTrace() }
                 }
             }
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
+            override fun onFailure(call: Call, e: IOException) { e.printStackTrace() }
         })
     }
 
@@ -164,12 +149,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             try {
                 val onlineIcon = java.net.URL(url).openStream()
                 image = BitmapFactory.decodeStream(onlineIcon)
-                handler.post {
-                    icon.setImageBitmap(image)
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+                handler.post { icon.setImageBitmap(image) }
+            } catch (e: Exception) { e.printStackTrace() }
         }
     }
 }
