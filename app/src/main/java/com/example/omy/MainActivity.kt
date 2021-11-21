@@ -27,12 +27,19 @@ import com.google.android.material.snackbar.Snackbar
 import okhttp3.*
 import org.json.JSONException
 import org.json.JSONObject
+import org.w3c.dom.Text
 import java.io.IOException
 import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
+    private lateinit var ntButton: Button
+    private lateinit var goButton: Button
+    private lateinit var cancelButton: Button
+    private lateinit var tnEditText: EditText
+    private lateinit var weatherTemperatureText: TextView
+    private lateinit var weatherIconView: ImageView
     private lateinit var binding: MainActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,10 +53,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        val ntButton: Button = findViewById(R.id.new_trip_button)
-        val goButton: Button = findViewById(R.id.go_button)
-        val cancelButton: Button = findViewById(R.id.cancel_button)
-        val tnEditText: EditText = findViewById(R.id.trip_name_edit_text)
+        ntButton = findViewById(R.id.new_trip_button)
+        goButton = findViewById(R.id.go_button)
+        cancelButton = findViewById(R.id.cancel_button)
+        tnEditText = findViewById(R.id.trip_name_edit_text)
         ntButton.setOnClickListener() {
             ntButton.visibility = View.GONE
             goButton.visibility = View.VISIBLE
@@ -64,27 +71,23 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         goButton.setOnClickListener() {
             if (TextUtils.isEmpty(tnEditText.text.toString())) {
-                Snackbar.make(
-                    findViewById(R.id.notification_view),
-                    R.string.enter_trip_name_notification,
-                    Snackbar.LENGTH_SHORT
-                ).show()
+                Snackbar.make(findViewById(R.id.notification_view),
+                    R.string.enter_trip_name_notification, Snackbar.LENGTH_SHORT).show()
                 it.showKeyboard()
             } else {
-                Snackbar.make(
-                    findViewById(R.id.notification_view),
-                    R.string.successfully_created_trip,
-                    Snackbar.LENGTH_SHORT
+                Snackbar.make(findViewById(R.id.notification_view),
+                    R.string.successfully_created_trip, Snackbar.LENGTH_SHORT
                 ).show()
             }
         }
-        val textView = findViewById<TextView>(R.id.weather_temperature)
-        val imageView = findViewById<ImageView>(R.id.weather_icon)
-        getCurrentWeather(textView, imageView)
+
+        weatherTemperatureText = findViewById(R.id.weather_temperature)
+        weatherIconView = findViewById(R.id.weather_icon)
+        getCurrentWeather(weatherTemperatureText, weatherIconView)
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        if (currentFocus != null ) {
+        if (currentFocus != null) {
             val imm  = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm .hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
         }
@@ -96,23 +99,17 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        val sheffield = LatLng(53.38, -1.46)
+        // Tried zooming in, but no luck
+        //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sheffield, 20.0f))
+        mMap.addMarker(MarkerOptions().position(sheffield).title("Marker in Sydney"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sheffield))
     }
 
+
+    /* --- Get weather and temperature --- */
     private fun getCurrentWeather(textView: TextView, imageView: ImageView) {
         // TODO: Replace lat&long with actual geolocation
         val lat = 53.38
