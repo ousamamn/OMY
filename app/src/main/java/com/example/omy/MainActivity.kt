@@ -44,9 +44,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = MainActivityBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.main_activity)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -78,6 +76,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 Snackbar.make(findViewById(R.id.notification_view),
                     R.string.successfully_created_trip, Snackbar.LENGTH_SHORT
                 ).show()
+                tnEditText.text.clear()
             }
         }
 

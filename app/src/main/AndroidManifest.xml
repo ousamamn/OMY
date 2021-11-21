@@ -29,10 +29,13 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+        <uses-permission android:name="android.permission.INTERNET" />
+        <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE">
+
+    </uses-permission>
 
 
 
@@ -44,6 +47,7 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.OMY">
+        <uses-library android:name="com.google.android.maps" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
