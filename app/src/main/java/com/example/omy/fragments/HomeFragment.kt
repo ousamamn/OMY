@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,8 +19,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.example.omy.BuildConfig
-import com.example.omy.MainActivity
 import com.example.omy.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -69,11 +68,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             if (TextUtils.isEmpty(tnEditText.text.toString())) {
                 Snackbar.make(view.findViewById(R.id.notification_view),
                     R.string.enter_trip_name_notification, Snackbar.LENGTH_SHORT).show()
-                it.showKeyboard()
+                showSoftKeyboard(tnEditText)
             } else {
                 Snackbar.make(view.findViewById(R.id.notification_view),
                     R.string.successfully_created_trip, Snackbar.LENGTH_SHORT
                 ).show()
+                closeKeyboard(tnEditText)
             }
         }
 
@@ -83,10 +83,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             goButton.visibility = View.GONE
             cancelButton.visibility = View.GONE
             tnEditText.visibility = View.GONE
+            closeKeyboard(tnEditText)
         }
 
         tnEditText = view.findViewById(R.id.trip_name_edit_text)
 
+        closeKeyboard(tnEditText)
 
 
         weatherTemperatureText = view.findViewById(R.id.weather_temperature)
@@ -94,17 +96,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         getCurrentWeather(weatherTemperatureText, weatherIconView)
     }
 
-    /*override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        if (currentFocus != null) {
-            val imm  = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm .hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
-        }
-        return super.dispatchTouchEvent(ev)
-    }*/
+    private fun closeKeyboard(view: View) {
+        val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken,0)
+    }
 
-    private fun View.showKeyboard() {
-        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+    private fun showSoftKeyboard(view: View) {
+        if (view.requestFocus()) {
+            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
