@@ -25,10 +25,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.omy.databinding.MainActivityBinding
-import com.example.omy.fragments.HomeFragment
-import com.example.omy.fragments.LocationsFragment
-import com.example.omy.fragments.PicturesFragment
-import com.example.omy.fragments.TripsFragment
+import com.example.omy.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import okhttp3.*
@@ -38,7 +35,7 @@ import java.io.IOException
 import java.util.concurrent.Executors
 
 
-class MainActivity : AppCompatActivity() {//, OnMapReadyCallback {
+class MainActivity : AppCompatActivity(), Communicator {//, OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var ntButton: Button
@@ -72,6 +69,18 @@ class MainActivity : AppCompatActivity() {//, OnMapReadyCallback {
             }
             true
         }
+    }
+
+    override fun passDataCom(editTextInput: String) {
+        val bundle = Bundle()
+        bundle.putString("message", editTextInput)
+
+        val transaction = this.supportFragmentManager.beginTransaction()
+        val tripsCreatedFragment = TripsCreatedFragment()
+        tripsCreatedFragment.arguments = bundle
+
+        transaction.replace(R.id.fragment_container, tripsCreatedFragment)
+        transaction.commit()
     }
 
     private fun replaceFragment(fragment: Fragment) {
