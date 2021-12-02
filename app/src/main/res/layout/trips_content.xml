@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="70dp"
+    tools:context=".TripsActivity"
+    tools:showIn="@layout/trips_filter_bar">
+
+    <include
+        android:id="@+id/filter_bar"
+        layout="@layout/trips_filter_bar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/trips_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/filter_bar"
+        app:layout_constraintTop_toTopOf="@id/filter_bar"
+        tools:ignore="MissingConstraints" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
