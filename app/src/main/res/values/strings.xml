@@ -7,7 +7,6 @@
     <string name="title_trips">Trips</string>
     <string name="title_pictures">Pictures</string>
     <string name="heading_past_trips">PAST TRIPS</string>
-    <string name="hello_blank_fragment">this is an activity</string>
     <string name="enter_trip_name_notification">Please enter the trip name</string>
     <string name="successfully_created_trip">Trip has been created successfully</string>
     <string name="hello_blank_fragment">Trip has been created successfully</string>
