@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/lightgreen"
-        android:fontFamily="@font/nunito_bold"
+        android:fontFamily="@font/raleway_bold"
         android:gravity="center"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
@@ -19,6 +19,7 @@
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold" />
+
 
     <View
         android:layout_width="wrap_content"
@@ -31,10 +32,6 @@
         android:layout_height="3dp"
         android:background="@drawable/shadow"
         android:translationY="65dp" />
-
-    <include
-
-        layout="@layout/trips_content" />
 
     <include
         android:id="@+id/navigation_bar"
