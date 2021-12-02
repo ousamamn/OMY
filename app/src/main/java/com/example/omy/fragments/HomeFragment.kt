@@ -21,7 +21,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.omy.BuildConfig
-import com.example.omy.trips.*
 import com.example.omy.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -65,7 +64,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         }
 
         goButton = view.findViewById(R.id.go_button)
-        goButton.setOnClickListener() {
+        goButton.setOnClickListener {
             if (TextUtils.isEmpty(tnEditText.text.toString())) {
                 Snackbar.make(view.findViewById(R.id.notification_view),
                     R.string.enter_trip_name_notification, Snackbar.LENGTH_SHORT).show()
@@ -157,6 +156,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         client.newCall(request).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body!!.string()
+                print(body)
                 try {
                     val json = JSONObject(body)
                     val responseObject: JSONObject = json.getJSONObject("current")
