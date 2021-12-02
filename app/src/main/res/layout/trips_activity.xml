@@ -33,6 +33,7 @@
         android:translationY="65dp" />
 
     <include
+
         layout="@layout/trips_content" />
 
     <include
