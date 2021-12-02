@@ -8,13 +8,14 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.example.omy"
+        applicationId "com.example.OMY"
         minSdk 30
         targetSdk 31
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "WEATHER_APIKEY", "\"${WEATHER_APIKEY}\""
     }
 
     buildTypes {
@@ -33,6 +34,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+    compileSdkVersion 31
 }
 
 dependencies {
@@ -42,6 +44,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'com.google.android.gms:play-services-maps:18.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    implementation "com.squareup.okhttp3:okhttp:4.9.0"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
