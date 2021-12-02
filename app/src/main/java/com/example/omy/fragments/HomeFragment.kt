@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.omy.BuildConfig
 import com.example.omy.R
+import com.example.omy.TripsActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -33,6 +34,9 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import java.util.concurrent.Executors
+import android.content.IntentSender
+import com.example.omy.Communicator
+import android.content.Intent as Intent
 
 class HomeFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
@@ -42,6 +46,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private lateinit var tnEditText: EditText
     private lateinit var weatherTemperatureText: TextView
     private lateinit var weatherIconView: ImageView
+    private lateinit var communicator: Communicator
 
     private val REQUEST_LOCATION_PERMISSION = 1
 
@@ -50,11 +55,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        communicator = activity as Communicator
         ntButton = view.findViewById(R.id.new_trip_button)
         ntButton.setOnClickListener() {
             ntButton.visibility = View.GONE
@@ -74,6 +80,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                     R.string.successfully_created_trip, Snackbar.LENGTH_SHORT
                 ).show()
                 closeKeyboard(tnEditText)
+                communicator.passDataCom(tnEditText.text.toString())
             }
         }
 

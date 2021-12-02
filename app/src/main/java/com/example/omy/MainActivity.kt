@@ -1,6 +1,16 @@
 package com.example.omy
 
+import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.text.TextUtils
+import android.view.MotionEvent
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -9,14 +19,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.example.omy.databinding.MainActivityBinding
-import com.example.omy.fragments.HomeFragment
-import com.example.omy.fragments.LocationsFragment
-import com.example.omy.fragments.PicturesFragment
-import com.example.omy.fragments.TripsFragment
+import com.example.omy.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
+import okhttp3.*
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.IOException
+import java.util.concurrent.Executors
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(), Communicator {//, OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var ntButton: Button
@@ -52,10 +70,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun replaceFragment(fragment: Fragment) {
-        val transaction =  supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, fragment)
+    override fun passDataCom(editTextInput: String) {
+        val bundle = Bundle()
+        bundle.putString("message", editTextInput)
+
+        val transaction = this.supportFragmentManager.beginTransaction()
+        val tripsCreatedFragment = TripsCreatedFragment()
+        tripsCreatedFragment.arguments = bundle
+
+        transaction.replace(R.id.fragment_container, tripsCreatedFragment)
         transaction.commit()
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        if (fragment !== null) {
+            val transaction =  supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_container, fragment)
+            transaction.commit()
+        }
     }
 
 }
