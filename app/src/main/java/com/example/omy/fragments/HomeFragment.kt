@@ -21,6 +21,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.omy.BuildConfig
+import com.example.omy.trips.*
 import com.example.omy.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -89,8 +90,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         tnEditText = view.findViewById(R.id.trip_name_edit_text)
 
         closeKeyboard(tnEditText)
-
-
         weatherTemperatureText = view.findViewById(R.id.weather_temperature)
         weatherIconView = view.findViewById(R.id.weather_icon)
         getCurrentWeather(weatherTemperatureText, weatherIconView)
@@ -108,6 +107,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    /* --- Set up the map --- */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         val sheffield = LatLng(53.38, -1.46)
@@ -137,10 +137,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         if (requestCode == REQUEST_LOCATION_PERMISSION) {
             if (grantResults.contains(PackageManager.PERMISSION_GRANTED)) {
                 enableMyLocation()
@@ -148,7 +145,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    //* --- Get weather and temperature --- *//*
+    /* --- Get weather and temperature --- */
     private fun getCurrentWeather(textView: TextView, imageView: ImageView) {
         // TODO: Replace lat&long with actual geolocation
         val lat = 53.38
@@ -160,18 +157,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         client.newCall(request).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body!!.string()
-                //runOnUiThread {
-                    try {
-                        val json = JSONObject(body)
-                        val responseObject: JSONObject = json.getJSONObject("current")
-                        val tempC = responseObject.get("temp_c")
-                        val weather = responseObject.getJSONObject("condition")
-                        val icon = weather.get("icon")
+                try {
+                    val json = JSONObject(body)
+                    val responseObject: JSONObject = json.getJSONObject("current")
+                    val tempC = responseObject.get("temp_c")
+                    val weather = responseObject.getJSONObject("condition")
+                    val icon = weather.get("icon")
 
-                        textView.setText("${tempC.toString()}°C")
-                        loadImage(imageView, "https:$icon")
-                    } catch (e: JSONException) { e.printStackTrace() }
-                //}
+                    textView.setText(context?.getString(R.string.weather_temperature, tempC.toString()))
+                    loadImage(imageView, "https:$icon")
+                } catch (e: JSONException) { e.printStackTrace() }
             }
             override fun onFailure(call: Call, e: IOException) { e.printStackTrace() }
         })
