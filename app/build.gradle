@@ -8,7 +8,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.exmple.omy"
+        applicationId "com.example.OMY"
         minSdk 30
         targetSdk 31
         versionCode 1
