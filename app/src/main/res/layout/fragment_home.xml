@@ -26,6 +26,7 @@
         android:id="@+id/new_trip_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
         android:layout_marginBottom="15dp"
         android:backgroundTint="#545454"
         android:drawableRight="@drawable/ic_outline_arrow_circle_right_24"
@@ -59,8 +60,8 @@
         android:textSize="25sp"
         android:fontFamily="@font/nunito_extrabold"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/new_trip_button"
-        app:layout_constraintEnd_toStartOf="parent"/>
+        app:layout_constraintBottom_toTopOf="@+id/trip_name_edit_text"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/cancel_button"
@@ -79,7 +80,7 @@
         android:textSize="25sp"
         android:fontFamily="@font/nunito_extrabold"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/new_trip_button"
+        app:layout_constraintBottom_toTopOf="@+id/trip_name_edit_text"
         app:layout_constraintRight_toLeftOf="@+id/go_button" />
 
     <View
@@ -111,7 +112,8 @@
         android:backgroundTint="@color/white"
         android:textColor="@color/darkgrey"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/new_trip_button"
+        android:inputType="textCapSentences|textAutoCorrect"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
