@@ -26,12 +26,12 @@ class TripsActivity : AppCompatActivity() {
         )
     )
 
-    private val spinner: Spinner = findViewById(R.id.trips_filters_spinner)
+    /*private val spinner: Spinner = findViewById(R.id.trips_filters_spinner)
     val array = ArrayAdapter.createFromResource(this, R.array.trips_filters_array,
         android.R.layout.simple_spinner_item).also { adapter ->
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
