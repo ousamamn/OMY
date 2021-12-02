@@ -8,4 +8,11 @@
     <string name="title_pictures">Pictures</string>
     <string name="heading_past_trips">PAST TRIPS</string>
     <string name="action_settings">Settings</string>
+    <string-array name="trips_filters_array">
+        <item>A to Z</item>
+        <item>Z to A</item>
+        <item>Newest</item>
+        <item>Oldest</item>
+    </string-array>
+
 </resources>
