@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(), Communicator {
     private val homeFragment = HomeFragment()
     private val locationsFragment = LocationsFragment()
     private val tripsFragment = TripsFragment()
-    private val picturesFragment = PicturesFragment()
+    private val photosFragment = PhotosFragment()
 
     private lateinit var binding: MainActivityBinding
 
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity(), Communicator {
                 R.id.navigation_home -> replaceFragment(homeFragment)
                 R.id.navigation_locations -> replaceFragment(locationsFragment)
                 R.id.navigation_trips -> replaceFragment(tripsFragment)
-                R.id.navigation_pictures -> replaceFragment(picturesFragment)
+                R.id.navigation_pictures -> replaceFragment(photosFragment)
             }
             true
         }

@@ -13,7 +13,7 @@ import com.example.omy.photos.*
 
 import java.util.ArrayList
 
-class PicturesFragment : Fragment() {
+class PhotosFragment : Fragment() {
     lateinit var mRecyclerView: RecyclerView
     lateinit var mAdapter: Adapter<RecyclerView.ViewHolder>
     private val photoDataset: MutableList<PhotoElement> = ArrayList<PhotoElement>()

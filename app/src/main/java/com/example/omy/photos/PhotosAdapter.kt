@@ -1,8 +1,6 @@
 package com.example.omy.photos
 
 import android.content.Context
-import android.content.Intent
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,21 +39,17 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
             holder.imageView.setImageResource(items[position].image)
         }
         // Todo: exclude for none - click
-
-        /**
-        holder.itemView.setOnClickListener(View.OnClickListener {
-            val intent = Intent(context, PhotoShowActivity::class.java)
-            intent.putExtra("position", position)
-            context.startActivity(intent)
-        })*/
-    }
-
-    override fun getItemCount(): Int {
-        return items.size
     }
 
     class ViewHolder constructor(itemView: View): RecyclerView.ViewHolder(itemView) {
         var imageView: ImageView = itemView.findViewById<View>(R.id.photo_item) as ImageView
+    }
+
+    override fun getItemCount(): Int {
+        //if (::items.isInitialized) {
+            return items.size
+        /*}
+        return 0*/
     }
 
     companion object {
