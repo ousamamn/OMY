@@ -18,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
+        android:paddingBottom="70dp"
         app:layout_constraintStart_toStartOf="@id/filter_bar"
         app:layout_constraintTop_toTopOf="@id/filter_bar"
         tools:ignore="MissingConstraints" />
