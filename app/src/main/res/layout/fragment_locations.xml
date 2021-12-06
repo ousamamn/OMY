@@ -1,14 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.LocationsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/textViewLocations"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Location" />
+        android:layout_height="wrap_content"
+        android:background="@color/lightgreen"
+        android:fontFamily="@font/nunito_bold"
+        android:gravity="center"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:text="@string/heading_locations"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-</FrameLayout>
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="5dp"
+        android:background="@color/darkgreen"
+        android:translationY="60dp"/>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="3dp"
+        android:background="@drawable/shadow"
+        android:translationY="65dp" />
+
+    <include layout="@layout/locations_content" />
+
+</RelativeLayout>
