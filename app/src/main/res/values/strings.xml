@@ -11,6 +11,10 @@
     <string name="successfully_created_trip">Trip has been created successfully</string>
     <string name="hello_blank_fragment">Trip has been created successfully</string>
     <string name="weather_temperature">%1$s°C</string>
+    <string name="trip_name_hint">TRIP NAME</string>
+    <string name="trip_name_cancel">Cancel</string>
+    <string name="trip_name_go">Go</string>
+    <string name="trip_name_new_trip">NEW TRIP</string>
     <string-array name="trips_filter_array">
         <item>A-Z</item>
         <item>Z-A</item>
