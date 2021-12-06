@@ -29,6 +29,10 @@ class LocationsFragment : Fragment() {
         LocationElement(
             "National Gallery", "33.91", "128.33",
             "2", "11"
+        ),
+        LocationElement(
+            "National Gallery", "33.91", "128.33",
+            "2", "11"
         )
     )
 
