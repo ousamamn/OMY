@@ -47,7 +47,7 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
         var longitude: TextView = itemView.findViewById<View>(R.id.longitude) as TextView
         var latitude: TextView = itemView.findViewById<View>(R.id.latitude) as TextView
         var numOfReviews: TextView = itemView.findViewById<View>(R.id.num_of_reviews) as TextView
-        var numOfPhotos: TextView = itemView.findViewById<View>(R.id.numOfLocations) as TextView
+        var numOfPhotos: TextView = itemView.findViewById<View>(R.id.num_of_photos) as TextView
 
     }
 }
