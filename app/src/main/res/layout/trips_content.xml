@@ -19,7 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
         app:layout_constraintStart_toStartOf="@id/filter_bar"
-        app:layout_constraintTop_toTopOf="@id/filter_bar"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="@id/filter_bar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
