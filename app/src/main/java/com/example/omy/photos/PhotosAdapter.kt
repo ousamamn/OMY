@@ -10,7 +10,6 @@ import com.example.omy.R
 
 class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
     private lateinit var context: Context
-    private lateinit var items: List<PhotoElement>
 
     constructor(items: List<PhotoElement>): super() {
         PhotosAdapter.items = items
@@ -38,18 +37,16 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
         if (items[position].image != -1) {
             holder.imageView.setImageResource(items[position].image)
         }
-        // Todo: exclude for none - click
+    }
+
+
+
+    override fun getItemCount(): Int {
+        return items.size
     }
 
     class ViewHolder constructor(itemView: View): RecyclerView.ViewHolder(itemView) {
         var imageView: ImageView = itemView.findViewById<View>(R.id.photo_item) as ImageView
-    }
-
-    override fun getItemCount(): Int {
-        //if (::items.isInitialized) {
-            return items.size
-        /*}
-        return 0*/
     }
 
     companion object {

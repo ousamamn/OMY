@@ -31,6 +31,6 @@
         android:background="@drawable/shadow"
         android:translationY="65dp" />
 
-    <include layout="@layout/photos_context" />
+    <include layout="@layout/photos_content" />
 
 </RelativeLayout>
