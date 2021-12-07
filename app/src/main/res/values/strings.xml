@@ -13,6 +13,12 @@
     <string name="successfully_created_trip">Trip has been created successfully</string>
     <string name="hello_blank_fragment">Trip has been created successfully</string>
     <string name="weather_temperature">%1$s°C</string>
+    <string name="general_information">General Information</string>
+    <string name="title">Title</string>
+    <string name="date">Date</string>
+    <string name="location">Location</string>
+    <string name="latitude">Latitude:</string>
+    <string name="longitude">Longitude:</string>
     <string-array name="trips_filter_array">
         <item>A-Z</item>
         <item>Z-A</item>

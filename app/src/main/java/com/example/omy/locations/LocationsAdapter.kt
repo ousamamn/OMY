@@ -1,23 +1,24 @@
 package com.example.omy.locations
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.view.menu.MenuView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
 
 class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
     private lateinit var context: Context
-    private var items: Array<LocationElement>
 
     constructor(items: Array<LocationElement>) {
-        this.items = items
+        LocationsAdapter.items = items
     }
 
     constructor(cont: Context, items: Array<LocationElement>) : super() {
-        this.items = items
+        LocationsAdapter.items = items
         context = cont
     }
 
@@ -27,7 +28,9 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
             R.layout.location_list_item,
             parent, false
         )
-        return ViewHolder(v)
+        val holder: ViewHolder = ViewHolder(v)
+        context = parent.context
+        return holder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -36,6 +39,11 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
         holder.latitude.text = items[position].latitude
         holder.numOfReviews.text = items[position].numOfReviews
         holder.numOfPhotos.text = items[position].numOfPhotos
+        holder.itemView.setOnClickListener(View.OnClickListener {
+            val intent = Intent(context, LocationShowActivity::class.java)
+            intent.putExtra("position", position)
+            context.startActivity(intent)
+        })
     }
 
     override fun getItemCount(): Int {
@@ -49,5 +57,9 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
         var numOfReviews: TextView = itemView.findViewById<View>(R.id.num_of_reviews) as TextView
         var numOfPhotos: TextView = itemView.findViewById<View>(R.id.num_of_photos) as TextView
 
+    }
+
+    companion object {
+        lateinit var items: Array<LocationElement>
     }
 }
