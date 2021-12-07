@@ -1,6 +1,7 @@
 package com.example.omy.trips
 
 import android.content.Context
+import android.content.Intent
 import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
@@ -12,14 +13,13 @@ import com.example.omy.R
 
 class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     private lateinit var context: Context
-    private var items: Array<TripElement>
 
     constructor(items: Array<TripElement>) {
-        this.items = items
+        TripsAdapter.items = items
     }
 
     constructor(cont: Context, items: Array<TripElement>) : super() {
-        this.items = items
+        TripsAdapter.items = items
         context = cont
     }
 
@@ -29,7 +29,9 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
             R.layout.trip_list_item,
             parent, false
         )
-        return ViewHolder(v)
+        val holder: ViewHolder = ViewHolder(v)
+        context = parent.context
+        return holder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -38,13 +40,16 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         holder.distance.text = items[position].distance
         holder.numOfLocations.text = items[position].numOfLocations
         holder.imageView.setImageResource(items[position].image)
+            val intent = Intent(context, TripShowActivity::class.java)
+            intent.putExtra("position", position)
+            context.startActivity(intent)
     }
 
     override fun getItemCount(): Int {
         return items.size
     }
 
-    public class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         lateinit var image: Image
         var title: TextView = itemView.findViewById<View>(R.id.title) as TextView
         var date: TextView = itemView.findViewById<View>(R.id.date) as TextView
@@ -52,5 +57,9 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         var numOfLocations: TextView = itemView.findViewById(R.id.numOfLocations) as TextView
         var imageView: ImageView = itemView.findViewById<View>(R.id.image_item) as ImageView
 
+    }
+
+    companion object {
+        lateinit var items: Array<TripElement>
     }
 }
