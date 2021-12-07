@@ -33,6 +33,7 @@ import java.io.IOException
 import java.util.concurrent.Executors
 import android.location.Location
 import android.util.Log
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.example.omy.Communicator
 import com.google.android.gms.location.*
@@ -44,10 +45,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
-    private lateinit var mCurrentLocation: Location
-    private lateinit var mLastUpdateTime: String
     private lateinit var supportFragmentManager: FragmentManager
-    private val mapView: MapView? = null
     private var mButtonStart: Button? = null
     private var mButtonEnd: Button? = null
 
@@ -59,27 +57,15 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private lateinit var weatherIconView: ImageView
     private lateinit var communicator: Communicator
 
-    private val REQUEST_LOCATION_PERMISSION = 1
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        communicator = activity as Communicator
-        ntButton = view.findViewById(R.id.new_trip_button)
-        ntButton.setOnClickListener() {
-            ntButton.visibility = View.GONE
-            goButton.visibility = View.VISIBLE
-            cancelButton.visibility = View.VISIBLE
-            tnEditText.visibility = View.VISIBLE
-        }
 
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment!!.getMapAsync(this)
         mButtonStart = view.findViewById<View>(R.id.button_start) as Button
         mButtonStart!!.setOnClickListener {
             startLocationUpdates()
@@ -95,11 +81,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         }
         mButtonEnd!!.isEnabled = false
 
-/*        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment!!.getMapAsync(this)
-        //startLocationUpdates()*/
+        /**/
 
+        communicator = activity as Communicator
+        ntButton = view.findViewById(R.id.new_trip_button)
+        ntButton.setOnClickListener() {
+            ntButton.visibility = View.GONE
+            goButton.visibility = View.VISIBLE
+            cancelButton.visibility = View.VISIBLE
+            tnEditText.visibility = View.VISIBLE
+        }
         goButton = view.findViewById(R.id.go_button)
         goButton.setOnClickListener {
             if (TextUtils.isEmpty(tnEditText.text.toString())) {
@@ -114,7 +105,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 communicator.passDataCom(tnEditText.text.toString())
             }
         }
-
         cancelButton = view.findViewById(R.id.cancel_button)
         cancelButton.setOnClickListener() {
             ntButton.visibility = View.VISIBLE
@@ -123,13 +113,112 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             tnEditText.visibility = View.GONE
             closeKeyboard(tnEditText)
         }
-
         tnEditText = view.findViewById(R.id.trip_name_edit_text)
 
         closeKeyboard(tnEditText)
         weatherTemperatureText = view.findViewById(R.id.weather_temperature)
         weatherIconView = view.findViewById(R.id.weather_icon)
         getCurrentWeather(weatherTemperatureText, weatherIconView)
+    }
+
+    private fun startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(requireContext() as Activity,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+            ) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                ActivityCompat.requestPermissions(
+                    requireContext() as Activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    ACCESS_FINE_LOCATION
+                )
+            }
+            return
+        }
+        mFusedLocationClient.requestLocationUpdates(
+            mLocationRequest,
+            mLocationCallback,
+            null  /*Looper*/
+        )
+    }
+
+    /**
+     * it stops the location updates
+     */
+    private fun stopLocationUpdates() {
+        mFusedLocationClient.removeLocationUpdates(mLocationCallback)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mLocationRequest = LocationRequest.create().apply {
+            interval = 1000
+            fastestInterval = 5000
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        startLocationUpdates()
+    }
+
+    private lateinit var mCurrentLocation: Location
+    private lateinit var mLastUpdateTime: String
+    private var mLocationCallback: LocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            super.onLocationResult(locationResult)
+            mCurrentLocation = locationResult.getLastLocation()
+            mLastUpdateTime = DateFormat.getTimeInstance().format(Date())
+            Log.i("MAP", "new location " + mCurrentLocation.toString())
+
+            mMap.addMarker(
+                MarkerOptions().position(
+                    LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude)
+                ).title(mLastUpdateTime)
+            )
+            mMap.moveCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude), 14.0f
+                )
+            )
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            ACCESS_FINE_LOCATION -> {
+
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.isNotEmpty()
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                ) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    mFusedLocationClient.requestLocationUpdates(
+                        mLocationRequest,
+                        mLocationCallback, null /* Looper */
+                    )
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return
+            }
+        }
     }
 
     /**
@@ -150,89 +239,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 14.0f))
     }
 
-    private fun startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    requireContext() as Activity,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                )
-            ) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-            } else {
-
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(
-                    requireContext() as Activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    ACCESS_FINE_LOCATION
-                )
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-            return
-        }
-        mFusedLocationClient.requestLocationUpdates(
-            mLocationRequest,
-            mLocationCallback,
-            null  /*Looper*/
-        )
+    companion object {
+        private const val ACCESS_FINE_LOCATION = 123
     }
 
-    override fun onResume() {
-        super.onResume()
-        mLocationRequest = LocationRequest.create().apply {
-            interval = 1000
-            fastestInterval = 5000
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        }
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-        startLocationUpdates()
-    }
-
-
-    private var mLocationCallback: LocationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult) {
-            super.onLocationResult(locationResult)
-            mCurrentLocation = locationResult.getLastLocation()
-            mLastUpdateTime = DateFormat.getTimeInstance().format(Date())
-            Log.i("MAP", "new location " + mCurrentLocation.toString())
-            if (mMap != null) mMap.addMarker(
-                MarkerOptions().position(
-                    LatLng(
-                        mCurrentLocation!!.latitude,
-                        mCurrentLocation!!.longitude
-                    )
-                ).title(mLastUpdateTime)
-            )
-            mMap.moveCamera(
-                CameraUpdateFactory.newLatLngZoom(
-                    LatLng(
-                        mCurrentLocation!!.latitude,
-                        mCurrentLocation!!.longitude
-                    ), 14.0f
-                )
-            )
-        }
-    }
-
-    /**
-     * it stops the location updates
-     */
-    private fun stopLocationUpdates() {
-        mFusedLocationClient.removeLocationUpdates(mLocationCallback)
-    }
 
     private fun closeKeyboard(view: View) {
         val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
