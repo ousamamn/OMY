@@ -1,3 +1,9 @@
 package com.example.omy.data
+import androidx.room.*
 
-data class ImageLocation()
+@Entity(tableName = "image_location")
+data class ImageLocation(
+    @PrimaryKey(autoGenerate = true) val id: Int,
+    val locationId: Int,
+    val imageId: Int
+)

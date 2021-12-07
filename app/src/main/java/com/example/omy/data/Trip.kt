@@ -1,3 +1,14 @@
 package com.example.omy.data
+import androidx.room.*
+import java.util.*
 
-data class Trip()
+@Entity(tableName = "trip")
+data class Trip(
+    @PrimaryKey(autoGenerate = true) val id: Int,
+    @ColumnInfo(name="title") val tripTitle: String?,
+    @ColumnInfo(name="description") val tripDescription: String?,
+    @ColumnInfo(name="distance") val tripDistance: Double,
+    @ColumnInfo(name="date") val tripDate: String?,
+    @ColumnInfo(name="weather") val tripWeather: Int
+
+)
