@@ -3,6 +3,7 @@ package com.example.omy.trips
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import androidx.slidingpanelayout.widget.SlidingPaneLayout
 import com.example.omy.R
 
 class TripShowActivity : AppCompatActivity() {
@@ -33,5 +34,7 @@ class TripShowActivity : AppCompatActivity() {
                 }
             }
         }
+
+        val mPane = findViewById<SlidingPaneLayout>(R.id.sliding_location_detail)
     }
 }
