@@ -23,7 +23,7 @@ class TripShowActivity : AppCompatActivity() {
                 if (element != null) {
                     textView.text = element.title
                     textViewDate.text = element.date
-                    textViewDistance.text = element.distance
+                    textViewDistance.text = element.distance + " km"
                     textViewLocation.text = element.numOfLocations
                 } else if (element == null) {
                     textView.text = "Error"
