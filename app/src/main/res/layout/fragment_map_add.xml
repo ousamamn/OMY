@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.MapAddFragment">
+
+    <TextView
+        android:id="@+id/display_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:fontFamily="@font/nunito_bold"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="Title"
+        android:textAlignment="textStart"
+        android:textColor="@color/darkgrey"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+    <View
+        android:id="@+id/shadow"
+        android:layout_width="wrap_content"
+        android:layout_height="3dp"
+        android:background="@drawable/shadow"
+        android:layout_marginTop="42dp"/>
+
+    <TextView
+        android:id="@+id/add_a_new_location_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Add a new location"
+        android:textColor="@color/darkgrey"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_marginTop="15dp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/title_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="40dp"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Title"
+        android:textColor="@color/darkgrey"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/add_a_new_location_name"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <EditText
+        android:id="@+id/title_name_edit_text"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="5dp"
+        android:paddingTop="10dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="15dp"
+        app:cornerRadius="10dp"
+        android:hint="TITLE NAME"
+        android:textSize="20sp"
+        android:visibility="gone"
+        android:fontFamily="@font/nunito_medium"
+        android:background="@drawable/add_new_location_edit_text_border"
+        android:textColor="@color/black"
+        android:inputType="textCapSentences|textAutoCorrect"
+        app:layout_constraintTop_toBottomOf="@id/title_name"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/description_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="40dp"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Description"
+        android:textColor="@color/darkgrey"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/title_name_edit_text"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <EditText
+        android:id="@+id/description_name_edit_text"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="145dp"
+        android:paddingTop="10dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="15dp"
+        app:cornerRadius="10dp"
+        android:hint="DESCRIPTION"
+        android:textSize="20sp"
+        android:lines="4"
+        android:maxLines="5"
+        android:minLines="1"
+        android:scrollbars="vertical"
+        android:fontFamily="@font/nunito_medium"
+        android:background="@drawable/add_new_location_edit_text_border"
+        android:textColor="@color/black"
+        android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
+        app:layout_constraintTop_toBottomOf="@id/description_name"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+</RelativeLayout>
