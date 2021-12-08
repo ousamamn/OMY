@@ -9,17 +9,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
+import com.example.omy.data.Trip
 
 class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     private lateinit var context: Context
-    private var items: Array<TripElement>
+    private lateinit var items: MutableList<Trip>
 
-    constructor(items: Array<TripElement>) {
-        this.items = items
+    constructor(items: MutableList<Trip>): super() {
+        TripsAdapter.items = items
     }
 
     constructor(cont: Context, items: Array<TripElement>) : super() {
-        this.items = items
+        TripsAdapter.items = items as MutableList<*>
         context = cont
     }
 
