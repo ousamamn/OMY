@@ -11,7 +11,7 @@ class PhotoShowActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.photo_show)
-        /**
+
         val b: Bundle? = intent.extras
         var position = -1
 
@@ -28,6 +28,6 @@ class PhotoShowActivity : FragmentActivity() {
                     imageView.setImageBitmap(myBitmap)
                 }
             }
-        }*/
+        }
     }
 }

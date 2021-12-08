@@ -1,6 +1,7 @@
 package com.example.omy.photos
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +38,11 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
         if (items[position].image != -1) {
             holder.imageView.setImageResource(items[position].image)
         }
+        holder.imageView.setOnClickListener(View.OnClickListener {
+            val intent = Intent(context, PhotoShowActivity::class.java)
+            intent.putExtra("position", position)
+            context.startActivity(intent)
+        })
     }
 
 
