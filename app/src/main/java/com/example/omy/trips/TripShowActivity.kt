@@ -34,7 +34,5 @@ class TripShowActivity : AppCompatActivity() {
                 }
             }
         }
-
-        val mPane = findViewById<SlidingPaneLayout>(R.id.sliding_location_detail)
     }
 }
