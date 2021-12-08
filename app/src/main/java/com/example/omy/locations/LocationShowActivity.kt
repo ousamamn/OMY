@@ -2,19 +2,16 @@ package com.example.omy.locations
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isGone
 import com.example.omy.R
-import com.example.omy.locations.LocationsAdapter.Companion.items
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class LocationShowActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.location_show_activity)
+        setContentView(R.layout.locations_activity)
         val b: Bundle? = intent.extras
 
         var position = -1
