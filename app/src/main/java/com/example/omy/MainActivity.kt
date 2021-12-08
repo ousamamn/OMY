@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity(), Communicator {
     private lateinit var weatherTemperatureText: TextView
     private lateinit var weatherIconView: ImageView
 
+    private val simpleFragment = TripsCreatedFragment()
     private val homeFragment = HomeFragment()
     private val locationsFragment = LocationsFragment()
     private val tripsFragment = TripsFragment()
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity(), Communicator {
         binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        replaceFragment(homeFragment)
+        replaceFragment(simpleFragment)
         val bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
@@ -66,6 +67,18 @@ class MainActivity : AppCompatActivity(), Communicator {
             transaction.replace(R.id.fragment_container, fragment)
             transaction.commit()
         }
+    }
+
+    override fun passLatitudeLongitude(textView: String) {
+        val bundle = Bundle()
+        bundle.putString("message", textView.toString())
+
+        val transaction = this.supportFragmentManager.beginTransaction()
+        val mapAddFragment = MapAddFragment()
+        mapAddFragment.arguments = bundle
+
+        transaction.replace(R.id.fragment_container, mapAddFragment)
+        transaction.commit()
     }
 
 }
