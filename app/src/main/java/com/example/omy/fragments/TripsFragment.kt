@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +25,7 @@ class TripsFragment : Fragment() {
     lateinit var mRecyclerView: RecyclerView
     lateinit var mAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
     lateinit var mLayoutManager: RecyclerView.LayoutManager
-    /*private val tripDataset: Array<TripElement> = arrayOf<TripElement>(
+    /*private val tripDataset: Array<TripElement> = arrayOf<TripElement>
         TripElement(
             "Me at the Zoo", "3 Oct 2021", "3.2",
             "4", R.drawable.joe1
@@ -57,6 +58,9 @@ class TripsFragment : Fragment() {
         scope.launch(Dispatchers.IO) {
             async {  }
         }
+        //mRecyclerView.adapter = mAdapter
+        mAdapter = TripsAdapter(tripsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+        //recyclerView.adapter = adapter
 
         //scope.launch(Dispatchers.IO) {
             //async { databaseObj.LocationDao().insert(location) }
@@ -76,7 +80,7 @@ class TripsFragment : Fragment() {
         mLayoutManager = LinearLayoutManager(requireContext())
         mRecyclerView.layoutManager = mLayoutManager
 
-        mAdapter = TripsAdapter(tripsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+        //mAdapter = TripsAdapter(tripsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
         mRecyclerView.adapter = mAdapter
 
     }

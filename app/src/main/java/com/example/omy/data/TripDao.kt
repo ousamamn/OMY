@@ -1,21 +1,23 @@
 package com.example.omy.data
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 
 @Dao
-interface TripDao : MutableList<TripDao> {
+interface TripDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(trip:Trip)
+    fun insert(trip:Trip)
 
     @Update
-    suspend fun update(tripData:Trip)
+    fun update(tripData:Trip)
 
     @Delete
-    suspend fun delete(trip: Trip)
+    fun delete(trip: Trip)
 
     @Query("SELECT * from trip")
-    suspend fun getAll():MutableList<Trip>
+    fun getAll(): LiveData<Trip>
 
     @Query("SELECT * from trip WHERE id=:id")
     fun getTrip(id:Int):Trip

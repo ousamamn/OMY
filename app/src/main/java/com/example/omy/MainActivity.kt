@@ -71,9 +71,6 @@ class MainActivity : AppCompatActivity(), Communicator {
     }
 
     private fun initData() {
-        GlobalScope.launch {
-            tripDaoObj = (this@MainActivity.application as MainApplication).databaseObj.TripDao()
-            tripsDataset.addAll(tripsDaoObj.getAll())
-        }
+
     }
 }

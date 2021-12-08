@@ -7,7 +7,7 @@ import androidx.room.*
         childColumns = arrayOf("trip_id"),
         onDelete = ForeignKey.CASCADE))])
 data class Location(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int=0,
     @ColumnInfo(name="title") val locationTitle: String?,
     @ColumnInfo(name="description") val locationDescription: String?,
     @ColumnInfo(name="longitude") val locationLongitude: Double,

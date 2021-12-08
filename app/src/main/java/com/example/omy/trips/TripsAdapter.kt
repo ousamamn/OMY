@@ -1,11 +1,10 @@
 package com.example.omy.trips
 
+
 import android.content.Context
-import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
@@ -13,14 +12,14 @@ import com.example.omy.data.Trip
 
 class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     private lateinit var context: Context
-    private lateinit var items: MutableList<Trip>
+    //private lateinit var items: MutableList<Trip>
 
-    constructor(items: MutableList<Trip>): super() {
+    constructor(items: List<Trip>): super() {
         TripsAdapter.items = items
     }
 
-    constructor(cont: Context, items: Array<TripElement>) : super() {
-        TripsAdapter.items = items as MutableList<*>
+    constructor(cont: Context, items: List<Trip>) : super() {
+        TripsAdapter.items = items
         context = cont
     }
 
@@ -52,5 +51,8 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         var distance: TextView = itemView.findViewById<View>(R.id.distance) as TextView
         var numOfLocations: TextView = itemView.findViewById(R.id.numOfLocations) as TextView
         //var imageView: ImageView = itemView.findViewById<View>(R.id.image_item) as ImageView
+    }
+    companion object {
+        lateinit var items: List<Trip>
     }
 }
