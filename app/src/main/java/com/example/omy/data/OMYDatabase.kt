@@ -19,7 +19,7 @@ abstract class OMYDatabase: RoomDatabase(), TripDao {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     OMYDatabase::class.java,
-                    "lab5_database"
+                    "omy_database"
                 )
                     .fallbackToDestructiveMigration()
                     .build()

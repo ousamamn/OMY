@@ -7,10 +7,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.omy.data.OMYDatabase
 import com.google.android.gms.maps.GoogleMap
 import com.example.omy.databinding.MainActivityBinding
 import com.example.omy.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity(), Communicator {
 
@@ -68,4 +70,10 @@ class MainActivity : AppCompatActivity(), Communicator {
         }
     }
 
+    private fun initData() {
+        GlobalScope.launch {
+            tripDaoObj = (this@MainActivity.application as MainApplication).databaseObj.TripDao()
+            tripsDataset.addAll(tripsDaoObj.getAll())
+        }
+    }
 }

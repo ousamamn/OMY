@@ -34,11 +34,11 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.title.text = items[position].title
-        holder.date.text = items[position].date
-        holder.distance.text = items[position].distance
-        holder.numOfLocations.text = items[position].numOfLocations
-        holder.imageView.setImageResource(items[position].image)
+        holder.title.text = items[position].tripTitle
+        holder.date.text = items[position].tripDate
+        holder.distance.text = items[position].tripDistance.toString()
+        holder.numOfLocations.text = items[position].tripLocations.toString()
+        //holder.imageView.setImageResource(items[position].trip)
     }
 
     override fun getItemCount(): Int {
@@ -46,12 +46,11 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     }
 
     public class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        lateinit var image: Image
+        //lateinit var image: Image
         var title: TextView = itemView.findViewById<View>(R.id.title) as TextView
         var date: TextView = itemView.findViewById<View>(R.id.date) as TextView
         var distance: TextView = itemView.findViewById<View>(R.id.distance) as TextView
         var numOfLocations: TextView = itemView.findViewById(R.id.numOfLocations) as TextView
-        var imageView: ImageView = itemView.findViewById<View>(R.id.image_item) as ImageView
-
+        //var imageView: ImageView = itemView.findViewById<View>(R.id.image_item) as ImageView
     }
 }

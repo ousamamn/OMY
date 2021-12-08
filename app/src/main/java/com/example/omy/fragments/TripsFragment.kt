@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
 import com.example.omy.trips.*
-import com.example.omy.data.OMYDatabase
 import com.example.omy.data.Trip
 import com.example.omy.data.TripDao
 import kotlinx.coroutines.*
@@ -19,9 +18,8 @@ import kotlinx.coroutines.*
 class TripsFragment : Fragment() {
     lateinit var tripsFilterSpinner: Spinner
     lateinit var tripsDaoObj: TripDao
+    private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     var tripsDataset: MutableList<Trip> = ArrayList()
-    val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-    val databaseObj: OMYDatabase by lazy { OMYDatabase.getDatabase(requireContext()) }
 
     lateinit var mRecyclerView: RecyclerView
     lateinit var mAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
@@ -57,10 +55,9 @@ class TripsFragment : Fragment() {
         //val location = Location(id=55,locationTitle = "title",locationDescription = "description",locationLatitude = 1.2,locationLongitude = 1.1,locationTripId = 34)
 
         scope.launch(Dispatchers.IO) {
-            async { databaseObj.TripDao().insert(trip1) }
+            async {  }
         }
 
-        initData()
         //scope.launch(Dispatchers.IO) {
             //async { databaseObj.LocationDao().insert(location) }
         //}
@@ -82,12 +79,5 @@ class TripsFragment : Fragment() {
         mAdapter = TripsAdapter(tripsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
         mRecyclerView.adapter = mAdapter
 
-    }
-
-    private fun initData() {
-        GlobalScope.launch {
-            tripsDaoObj = (this@TripsFragment).databaseObj.TripDao()
-            tripsDataset.addAll(tripsDaoObj.getAll())
-        }
     }
 }
