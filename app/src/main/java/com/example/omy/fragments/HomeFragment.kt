@@ -34,7 +34,9 @@ import org.json.JSONObject
 import java.io.IOException
 import java.util.concurrent.Executors
 import android.content.IntentSender
+import android.util.Log
 import com.example.omy.Communicator
+import kotlin.concurrent.fixedRateTimer
 import android.content.Intent as Intent
 
 class HomeFragment : Fragment(), OnMapReadyCallback {
@@ -99,6 +101,14 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         weatherTemperatureText = view.findViewById(R.id.weather_temperature)
         weatherIconView = view.findViewById(R.id.weather_icon)
         getCurrentWeather(weatherTemperatureText, weatherIconView)
+
+        val handler = Handler()
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                Log.e("msg", "a")
+                handler.postDelayed(this, 1000)//1 sec delay
+            }
+        }, 0)
     }
 
     private fun closeKeyboard(view: View) {
