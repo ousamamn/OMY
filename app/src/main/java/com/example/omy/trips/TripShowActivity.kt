@@ -3,13 +3,12 @@ package com.example.omy.trips
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
-import androidx.slidingpanelayout.widget.SlidingPaneLayout
 import com.example.omy.R
 
 class TripShowActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.trip_show_activity)
+        setContentView(R.layout.trip_activity)
         val b: Bundle? = intent.extras
 
         var position = -1
