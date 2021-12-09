@@ -7,25 +7,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.omy.data.OMYDatabase
 import com.google.android.gms.maps.GoogleMap
 import com.example.omy.databinding.MainActivityBinding
 import com.example.omy.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity(), Communicator {
-
-    private lateinit var mMap: GoogleMap
-    private lateinit var ntButton: Button
-    private lateinit var goButton: Button
-    private lateinit var cancelButton: Button
-    private lateinit var tnEditText: EditText
-    private lateinit var weatherTemperatureText: TextView
-    private lateinit var weatherIconView: ImageView
-
     private val homeFragment = HomeFragment()
     private val locationsFragment = LocationsFragment()
     private val tripsFragment = TripsFragment()
-    private val picturesFragment = PicturesFragment()
+    private val photosFragment = PhotosFragment()
 
     private lateinit var binding: MainActivityBinding
 
@@ -42,7 +35,7 @@ class MainActivity : AppCompatActivity(), Communicator {
                 R.id.navigation_home -> replaceFragment(homeFragment)
                 R.id.navigation_locations -> replaceFragment(locationsFragment)
                 R.id.navigation_trips -> replaceFragment(tripsFragment)
-                R.id.navigation_pictures -> replaceFragment(picturesFragment)
+                R.id.navigation_pictures -> replaceFragment(photosFragment)
             }
             true
         }
@@ -68,4 +61,7 @@ class MainActivity : AppCompatActivity(), Communicator {
         }
     }
 
+    private fun initData() {
+
+    }
 }

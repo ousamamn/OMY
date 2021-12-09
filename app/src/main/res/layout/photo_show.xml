@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lightgreen"
+        android:fontFamily="@font/nunito_bold"
+        android:gravity="center"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:text="@string/heading_photo"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="5dp"
+        android:background="@color/darkgreen"
+        android:translationY="60dp"/>
+
+    <View
+        android:id="@+id/photo_shadow"
+        android:layout_width="wrap_content"
+        android:layout_height="3dp"
+        android:background="@drawable/shadow"
+        android:translationY="65dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="68dp"
+        android:paddingBottom="10dp">
+        <include
+            layout="@layout/photo_detail"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" />
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
