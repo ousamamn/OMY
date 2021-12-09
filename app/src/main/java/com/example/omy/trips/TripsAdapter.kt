@@ -2,6 +2,8 @@ package com.example.omy.trips
 
 
 import android.content.Context
+import android.content.Intent
+import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,15 +14,9 @@ import com.example.omy.data.Trip
 
 class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     private lateinit var context: Context
-    //private lateinit var items: MutableList<Trip>
-
-    constructor(items: List<Trip>): super() {
+  
+    constructor(items: Array<TripElement>) {
         TripsAdapter.items = items
-    }
-
-    constructor(cont: Context, items: List<Trip>) : super() {
-        TripsAdapter.items = items
-        context = cont
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,30 +25,38 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
             R.layout.trip_list_item,
             parent, false
         )
-        return ViewHolder(v)
+        val holder: ViewHolder = ViewHolder(v)
+        context = parent.context
+        return holder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.title.text = items[position].tripTitle
-        holder.date.text = items[position].tripDate
-        holder.distance.text = items[position].tripDistance.toString()
-        holder.numOfLocations.text = items[position].tripLocations.toString()
-        //holder.imageView.setImageResource(items[position].trip)
+        holder.title.text = items[position].title
+        holder.date.text = items[position].date
+        holder.distance.text = items[position].distance
+        holder.numOfLocations.text = items[position].numOfLocations
+        holder.imageView.setImageResource(items[position].image)
+        holder.itemView.setOnClickListener(View.OnClickListener {
+            val intent = Intent(context, TripShowActivity::class.java)
+            intent.putExtra("position", position)
+            context.startActivity(intent)
+        })
     }
 
     override fun getItemCount(): Int {
         return items.size
     }
 
-    public class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         //lateinit var image: Image
         var title: TextView = itemView.findViewById<View>(R.id.title) as TextView
         var date: TextView = itemView.findViewById<View>(R.id.date) as TextView
         var distance: TextView = itemView.findViewById<View>(R.id.distance) as TextView
         var numOfLocations: TextView = itemView.findViewById(R.id.numOfLocations) as TextView
-        //var imageView: ImageView = itemView.findViewById<View>(R.id.image_item) as ImageView
+        var imageView: ImageView = itemView.findViewById<View>(R.id.image_item) as ImageView
     }
+
     companion object {
-        lateinit var items: List<Trip>
+        lateinit var items: Array<TripElement>
     }
 }

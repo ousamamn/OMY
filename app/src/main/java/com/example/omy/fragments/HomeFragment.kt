@@ -66,6 +66,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             goButton.visibility = View.VISIBLE
             cancelButton.visibility = View.VISIBLE
             tnEditText.visibility = View.VISIBLE
+            tnEditText.text.clear()
         }
 
         goButton = view.findViewById(R.id.go_button)
