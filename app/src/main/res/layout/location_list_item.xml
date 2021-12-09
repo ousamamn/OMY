@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/location_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="15dp"
@@ -147,22 +148,12 @@
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"/>
 
-    <LinearLayout
-        android:id="@+id/show_trip_button"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:layout_width="40dp"
         android:layout_height="match_parent"
-        android:gravity="end"
-        android:orientation="horizontal">
-
-        <ImageView
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|end"
-            android:background="@null"
-            android:src="@drawable/ic_baseline_arrow_forward_ios_24" />
-    </LinearLayout>
+        android:layout_gravity="center|end"
+        android:src="@drawable/ic_baseline_arrow_forward_ios_24" />
 
 </LinearLayout>
