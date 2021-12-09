@@ -7,6 +7,7 @@ import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
@@ -53,7 +54,7 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         var date: TextView = itemView.findViewById<View>(R.id.date) as TextView
         var distance: TextView = itemView.findViewById<View>(R.id.distance) as TextView
         var numOfLocations: TextView = itemView.findViewById(R.id.numOfLocations) as TextView
-        //var imageView: ImageView = itemView.findViewById<View>(R.id.image_item) as ImageView
+        var imageView: ImageView = itemView.findViewById<View>(R.id.image_item) as ImageView
     }
 
     companion object {
