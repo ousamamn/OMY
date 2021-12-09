@@ -32,7 +32,7 @@ class TripsRepository(application: Application) {
         }
     }
 
-    fun getTrips(): LiveData<Trip>? {
+    fun getTrips(): LiveData<List<Trip>>? {
         return tripsDBDao?.getAll()
     }
 

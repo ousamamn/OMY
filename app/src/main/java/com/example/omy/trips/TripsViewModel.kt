@@ -8,23 +8,25 @@ import com.example.omy.data.Trip
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import androidx.lifecycle.viewModelScope
+
 
 class TripsViewModel(application: Application): AndroidViewModel(application) {
     private var tripsRepository: TripsRepository = TripsRepository(application)
-    private var tripsToDisplay: LiveData<Trip>? = null
+    private var tripsToDisplay: LiveData<List<Trip>>? = null
 
     init {
         this.tripsToDisplay = this.tripsRepository.getTrips()
     }
 
-    fun getTripsToDisplay(): LiveData<Trip>? {
+    fun getTripsToDisplay(): LiveData<List<Trip>>? {
         if (this.tripsToDisplay == null) {
-            this.tripsToDisplay = MutableLiveData<Trip>()
+            this.tripsToDisplay = MutableLiveData()
         }
         return this.tripsToDisplay
     }
 
-    fun createNewTrip() {
-
+    fun createNewTrip(trip : Trip) {
+        viewModelScope.launch(Dispatchers.IO) { tripsRepository.createNewTrip(trip) }
         }
     }

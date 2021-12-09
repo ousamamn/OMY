@@ -14,6 +14,6 @@ interface LocationDao {
     @Query("SELECT * from location")
     fun getAll():List<Location>
 
-    @Query("SELECT * from location WHERE id=:id")
-    fun getLocation(id:Int):Location
+    @Query("SELECT * from location WHERE id= :locid")
+    fun getLocation(locid:Int):Location
 }
