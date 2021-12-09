@@ -35,7 +35,7 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         holder.date.text = items[position].date
         holder.distance.text = items[position].distance
         holder.numOfLocations.text = items[position].numOfLocations
-        holder.imageView.setImageResource(items[position].image)
+        //holder.imageView.setImageResource(items[position].image)
         holder.itemView.setOnClickListener(View.OnClickListener {
             val intent = Intent(context, TripShowActivity::class.java)
             intent.putExtra("position", position)
@@ -53,7 +53,7 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         var date: TextView = itemView.findViewById<View>(R.id.date) as TextView
         var distance: TextView = itemView.findViewById<View>(R.id.distance) as TextView
         var numOfLocations: TextView = itemView.findViewById(R.id.numOfLocations) as TextView
-        var imageView: ImageView = itemView.findViewById<View>(R.id.image_item) as ImageView
+        //var imageView: ImageView = itemView.findViewById<View>(R.id.image_item) as ImageView
     }
 
     companion object {
