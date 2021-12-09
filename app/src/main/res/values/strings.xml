@@ -7,10 +7,15 @@
     <string name="title_trips">Trips</string>
     <string name="title_pictures">Pictures</string>
     <string name="heading_past_trips">PAST TRIPS</string>
+    <string name="heading_locations">LOCATIONS</string>
+    <string name="heading_photos">PHOTOS</string>
     <string name="enter_trip_name_notification">Please enter the trip name</string>
     <string name="successfully_created_trip">Trip has been created successfully</string>
     <string name="hello_blank_fragment">Trip has been created successfully</string>
     <string name="weather_temperature">%1$s°C</string>
+    <string name="trips_filter_bar">Filters:</string>
+    <string name="photos_search_bar">Search Photos</string>
+    <string name="heading_photo">PHOTO</string>
     <string-array name="trips_filter_array">
         <item>A-Z</item>
         <item>Z-A</item>
