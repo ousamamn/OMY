@@ -1,37 +1,39 @@
 package com.example.omy.fragments
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
 import com.example.omy.trips.*
+import com.example.omy.data.Trip
+import com.example.omy.data.TripDao
+import com.example.omy.databinding.FragmentTripsBinding
+import com.example.omy.databinding.TripsActivityBinding
+import kotlinx.coroutines.*
 
 class TripsFragment : Fragment() {
     lateinit var tripsFilterSpinner: Spinner
+    lateinit var tripsDaoObj: TripDao
+    private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+    //private var tripsDataset: LiveData<List<Trip>>
+    private var tripsViewModel: TripsViewModel? = null
+    //private var tripsAdapter : TripsAdapter()
     lateinit var mRecyclerView: RecyclerView
     lateinit var mAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
     lateinit var mLayoutManager: RecyclerView.LayoutManager
-    private val tripDataset: Array<TripElement> = arrayOf<TripElement>(
-        TripElement(
-            "Me at the Zoo", "3 Oct 2021", "3.2",
-            "4", R.drawable.joe1
-        ),
-        TripElement(
-            "Morning Hike", "12 Sep 2021", "7",
-            "3", R.drawable.joe2
-        ),
-        TripElement(
-            "Picnic in a Park", "31 Aug 2021", "0.4",
-            "11", R.drawable.joe3
-        )
-    )
-
+    private var myViewModel: TripsViewModel? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,26 +45,34 @@ class TripsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val trip1 = Trip(id = 0, tripTitle = "Me at the Zoo new", tripDate = "12 Dec 2021",
+            tripDistance = 3.2, tripWeather = 19, tripDescription = "description", tripLocations = 3)
+        //val location = Location(id=55,locationTitle = "title",locationDescription = "description",locationLatitude = 1.2,locationLongitude = 1.1,locationTripId = 34)
+        this.tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
         /*  Trips Filter Functionality */
         tripsFilterSpinner = view.findViewById(R.id.trips_filters_spinner)
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.trips_filter_array,
+        ArrayAdapter.createFromResource(requireContext(), R.array.trips_filter_array,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
             tripsFilterSpinner.adapter = adapter
         }
+        //tripsViewModel?.createNewTrip(trip1)
+        val tripsDataSet = tripsViewModel!!.getTripsToDisplay()?.observe(viewLifecycleOwner, { newValue ->
+            mAdapter = TripsAdapter(newValue) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+            mRecyclerView.adapter = mAdapter
+            }
+
+        )
 
         /*  Get list of trips */
+
         mRecyclerView = view.findViewById<RecyclerView>(R.id.trips_list)
         mLayoutManager = LinearLayoutManager(requireContext())
         mRecyclerView.layoutManager = mLayoutManager
+        //mAdapter = TripsAdapter() as RecyclerView.Adapter<RecyclerView.ViewHolder>
 
-        mAdapter = TripsAdapter(tripDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
-        mRecyclerView.adapter = mAdapter
+
 
     }
 }

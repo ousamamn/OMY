@@ -15,6 +15,7 @@
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/activity_maps.xml" value="0.19649122807017544" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/activity_trips.xml" value="0.2" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/bottom_navigation.xml" value="0.14764492753623187" />
+        <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/bottom_trip_detail_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/content_trips.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/fragment_first.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/fragment_home.xml" value="0.12142857142857143" />
@@ -30,6 +31,15 @@
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/photo_list_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/photos_content.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/photos_search_bar.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/location_list_item.xml" value="0.15353260869565216" />
+        <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/locations_content.xml" value="0.15353260869565216" />
+        <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/main_activity.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/main_weather_widget.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/map_widget.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/navigation_bar.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/trip_activity.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/trip_activity_text_detail.xml" value="0.2" />
+        <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/trip_images.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/trip_list_item.xml" value="0.264" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/trips_activity.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/HP/Desktop/COMP3258/com31007/OMY/app/src/main/res/layout/trips_content.xml" value="0.1503623188405797" />
