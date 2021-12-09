@@ -41,27 +41,11 @@ class MainActivity : AppCompatActivity(), Communicator {
         }
     }
 
-    override fun passDataCom(editTextInput: String) {
-        val bundle = Bundle()
-        bundle.putString("message", editTextInput)
-
-        val transaction = this.supportFragmentManager.beginTransaction()
-        val tripsCreatedFragment = TripsCreatedFragment()
-        tripsCreatedFragment.arguments = bundle
-
-        transaction.replace(R.id.fragment_container, tripsCreatedFragment)
-        transaction.commit()
-    }
-
     private fun replaceFragment(fragment: Fragment) {
         if (fragment !== null) {
             val transaction =  supportFragmentManager.beginTransaction()
             transaction.replace(R.id.fragment_container, fragment)
             transaction.commit()
         }
-    }
-
-    private fun initData() {
-
     }
 }

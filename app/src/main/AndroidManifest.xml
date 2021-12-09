@@ -28,8 +28,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".locations.LocationShowActivity"
-            android:exported="true"/>
+            android:name=".maps.MapAddActivity"
+            android:exported="true" />
+        <activity
+            android:name=".maps.MapsCreatedActivity"
+            android:exported="true" />
+        <activity
+            android:name=".trips.TripShowActivity"
+            android:exported="true" />
+        <activity
+            android:name=".photos.PhotoShowActivity"
+            android:exported="true">
+        </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -54,10 +64,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-        android:name=".photos.PhotoShowActivity"
-        android:exported="true">
         </activity>
     </application>
 
