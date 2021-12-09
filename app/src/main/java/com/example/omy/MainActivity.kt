@@ -12,7 +12,7 @@ import com.example.omy.databinding.MainActivityBinding
 import com.example.omy.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity(), Communicator {
+class MainActivity : AppCompatActivity(){
 
     private lateinit var mMap: GoogleMap
     private lateinit var ntButton: Button
@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity(), Communicator {
     private lateinit var weatherTemperatureText: TextView
     private lateinit var weatherIconView: ImageView
 
-    private val simpleFragment = TripsCreatedFragment()
     private val homeFragment = HomeFragment()
     private val locationsFragment = LocationsFragment()
     private val tripsFragment = TripsFragment()
@@ -36,7 +35,7 @@ class MainActivity : AppCompatActivity(), Communicator {
         binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        replaceFragment(simpleFragment)
+        replaceFragment(homeFragment)
         val bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
@@ -49,18 +48,6 @@ class MainActivity : AppCompatActivity(), Communicator {
         }
     }
 
-    override fun passDataCom(editTextInput: String) {
-        val bundle = Bundle()
-        bundle.putString("message", editTextInput)
-
-        val transaction = this.supportFragmentManager.beginTransaction()
-        val tripsCreatedFragment = TripsCreatedFragment()
-        tripsCreatedFragment.arguments = bundle
-
-        transaction.replace(R.id.fragment_container, tripsCreatedFragment)
-        transaction.commit()
-    }
-
     private fun replaceFragment(fragment: Fragment) {
         if (fragment !== null) {
             val transaction =  supportFragmentManager.beginTransaction()
@@ -69,16 +56,5 @@ class MainActivity : AppCompatActivity(), Communicator {
         }
     }
 
-    override fun passLatitudeLongitude(textView: String) {
-        val bundle = Bundle()
-        bundle.putString("message", textView.toString())
-
-        val transaction = this.supportFragmentManager.beginTransaction()
-        val mapAddFragment = MapAddFragment()
-        mapAddFragment.arguments = bundle
-
-        transaction.replace(R.id.fragment_container, mapAddFragment)
-        transaction.commit()
-    }
 
 }

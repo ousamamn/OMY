@@ -33,11 +33,10 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import java.util.concurrent.Executors
-import android.content.IntentSender
 import android.util.Log
-import com.example.omy.Communicator
-import kotlin.concurrent.fixedRateTimer
-import android.content.Intent as Intent
+import android.content.Intent
+import com.example.omy.maps.MapsCreatedActivity
+
 
 class HomeFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
@@ -47,7 +46,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private lateinit var tnEditText: EditText
     private lateinit var weatherTemperatureText: TextView
     private lateinit var weatherIconView: ImageView
-    private lateinit var communicator: Communicator
 
     private val REQUEST_LOCATION_PERMISSION = 1
 
@@ -61,7 +59,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        communicator = activity as Communicator
         ntButton = view.findViewById(R.id.new_trip_button)
         ntButton.setOnClickListener() {
             ntButton.visibility = View.GONE
@@ -82,7 +79,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                     R.string.successfully_created_trip, Snackbar.LENGTH_SHORT
                 ).show()
                 closeKeyboard(tnEditText)
-                communicator.passDataCom(tnEditText.text.toString())
+                val intent = Intent(context, MapsCreatedActivity::class.java)
+                val msg = tnEditText.text.toString()
+                intent.putExtra("msg", msg)
+                context?.startActivity(intent)
             }
         }
 
