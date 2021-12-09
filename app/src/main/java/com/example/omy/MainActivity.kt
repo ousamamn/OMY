@@ -14,7 +14,7 @@ import com.example.omy.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.*
 
-class MainActivity : AppCompatActivity(), Communicator {
+class MainActivity : AppCompatActivity() {
     private val homeFragment = HomeFragment()
     private val locationsFragment = LocationsFragment()
     private val tripsFragment = TripsFragment()
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), Communicator {
                 R.id.navigation_home -> replaceFragment(homeFragment)
                 R.id.navigation_locations -> replaceFragment(locationsFragment)
                 R.id.navigation_trips -> replaceFragment(tripsFragment)
-                R.id.navigation_pictures -> replaceFragment(photosFragment)
+                R.id.navigation_photos -> replaceFragment(photosFragment)
             }
             true
         }
