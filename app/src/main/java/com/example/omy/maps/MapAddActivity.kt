@@ -27,9 +27,11 @@ class MapAddActivity : AppCompatActivity() {
         saveButton = findViewById(R.id.save_button)
         cancelButton.setOnClickListener {
             onBackPressed()
+            finish()
         }
         saveButton.setOnClickListener {
             onBackPressed()
+            finish()
         }
     }
 }
