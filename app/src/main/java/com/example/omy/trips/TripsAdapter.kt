@@ -7,15 +7,17 @@ import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
 import com.example.omy.data.Trip
+import org.w3c.dom.Text
 
 class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     private lateinit var context: Context
   
-    constructor(items: Array<TripElement>) {
+    constructor(items: List<Trip>) {
         TripsAdapter.items = items
     }
 
@@ -31,11 +33,11 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.title.text = items[position].title
-        holder.date.text = items[position].date
-        holder.distance.text = items[position].distance
-        holder.numOfLocations.text = items[position].numOfLocations
-        holder.imageView.setImageResource(items[position].image)
+        holder.title.text = items[position].tripTitle
+        holder.date.text = items[position].tripDate
+        holder.distance.text = items[position].tripDistance.toString()
+        holder.numOfLocations.text = items[position].tripLocations.toString()
+        //holder.imageView.setImageResource(items[position].image)
         holder.itemView.setOnClickListener(View.OnClickListener {
             val intent = Intent(context, TripShowActivity::class.java)
             intent.putExtra("position", position)
@@ -57,6 +59,6 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     }
 
     companion object {
-        lateinit var items: Array<TripElement>
+        lateinit var items: List<Trip>
     }
 }

@@ -9,12 +9,10 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.omy.Communicator
 import com.example.omy.R
 import com.example.omy.locations.*
 
 class LocationsFragment : Fragment() {
-    private lateinit var communicator: Communicator
     lateinit var locationsFilterSpinner: Spinner
     lateinit var mRecyclerView: RecyclerView
     lateinit var mAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>

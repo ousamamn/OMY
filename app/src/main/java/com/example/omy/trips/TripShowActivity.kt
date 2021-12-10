@@ -20,10 +20,10 @@ class TripShowActivity : AppCompatActivity() {
                 val tripDistance = findViewById<TextView>(R.id.distance_info)
                 val tripLocation = findViewById<TextView>(R.id.numOfLocations_info)
                 val element = TripsAdapter.items[position]
-                tripTitle.text = element.title
-                tripDate.text = element.date
-                tripDistance.text = element.distance + " km"
-                tripLocation.text = element.numOfLocations
+                tripTitle.text = element.tripTitle
+                tripDate.text = element.tripDate
+                tripDistance.text = element.tripDistance.toString() + " km"
+                tripLocation.text = element.tripLocations.toString()
             }
         }
     }
