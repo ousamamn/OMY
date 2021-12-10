@@ -238,7 +238,7 @@
                 android:fontFamily="@font/nunito_bold"
                 android:text="@string/reviews"
                 android:textColor="@color/darkgrey"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -253,7 +253,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:src="@drawable/ic_baseline_add_24"
             app:rippleColor="@color/white"
@@ -264,7 +263,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/white"
             android:src="@drawable/icon_multiply_48"
@@ -278,7 +276,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginEnd="16dp"
             android:layout_marginBottom="85dp"
             android:src="@drawable/icon_camera_96"
             android:visibility="gone"
@@ -291,7 +288,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginEnd="16dp"
             android:layout_marginBottom="155dp"
             android:src="@drawable/icon_pencil_96"
             android:visibility="gone"
