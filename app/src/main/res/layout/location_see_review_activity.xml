@@ -83,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito_bold"
-                android:text="Reviews"
+                android:text="@string/reviews"
                 android:textColor="@color/darkgrey"
                 android:textSize="22sp"
                 android:textStyle="bold" />
