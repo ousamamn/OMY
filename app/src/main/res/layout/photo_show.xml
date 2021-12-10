@@ -37,7 +37,7 @@
         android:layout_marginTop="68dp"
         android:paddingBottom="10dp">
         <include
-            layout="@layout/photo_detail"
+            layout="@layout/photo_activity"
             android:layout_height="wrap_content"
             android:layout_width="match_parent" />
     </ScrollView>

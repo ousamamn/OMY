@@ -11,7 +11,7 @@ class LocationShowActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.locations_activity)
+        setContentView(R.layout.location_activity)
         val b: Bundle? = intent.extras
 
         var position = -1
