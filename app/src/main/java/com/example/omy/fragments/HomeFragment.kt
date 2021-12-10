@@ -45,7 +45,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
-    private lateinit var supportFragmentManager: FragmentManager
     private var mButtonStart: Button? = null
     private var mButtonEnd: Button? = null
 
