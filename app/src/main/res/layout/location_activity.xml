@@ -29,7 +29,8 @@
         android:background="@drawable/ic_baseline_keyboard_arrow_left_48"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/location_big_label"
-        app:layout_constraintStart_toStartOf="@id/location_big_label"/>
+        app:layout_constraintStart_toStartOf="@id/location_big_label"
+        android:clickable="true"/>
 
     <View
         android:id="@+id/location_sub_label"

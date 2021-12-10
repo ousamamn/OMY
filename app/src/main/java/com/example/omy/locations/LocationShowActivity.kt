@@ -2,12 +2,14 @@ package com.example.omy.locations
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.omy.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class LocationShowActivity : AppCompatActivity() {
+    private lateinit var backButton: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +43,7 @@ class LocationShowActivity : AppCompatActivity() {
         val openOptionsButton = findViewById<FloatingActionButton>(R.id.options_open_button)
         val editReviewButton = findViewById<FloatingActionButton>(R.id.edit_review_button)
         val addPhotoButton = findViewById<FloatingActionButton>(R.id.add_photo_button)
+        backButton = findViewById(R.id.back_to_previous)
         openOptionsButton.setOnClickListener {
             closeOptionsButton.visibility = View.VISIBLE
             editReviewButton.visibility = View.VISIBLE
@@ -52,6 +55,10 @@ class LocationShowActivity : AppCompatActivity() {
             editReviewButton.visibility = View.GONE
             addPhotoButton.visibility = View.GONE
             openOptionsButton.visibility = View.VISIBLE
+        }
+        backButton.setOnClickListener {
+            onBackPressed()
+            finish()
         }
     }
 }
