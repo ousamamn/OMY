@@ -22,6 +22,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <ImageView
+        android:id="@+id/back_to_previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_baseline_keyboard_arrow_left_48"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/location_big_label"
+        app:layout_constraintStart_toStartOf="@id/location_big_label"/>
+
     <View
         android:id="@+id/location_sub_label"
         android:layout_width="wrap_content"

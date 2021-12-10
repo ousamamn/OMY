@@ -18,6 +18,14 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
+    <ImageView
+        android:id="@+id/back_to_previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_baseline_keyboard_arrow_left_48"
+        android:layout_gravity="start|top"
+        android:layout_marginTop="10dp"/>
+
     <View
         android:layout_width="wrap_content"
         android:layout_height="5dp"
