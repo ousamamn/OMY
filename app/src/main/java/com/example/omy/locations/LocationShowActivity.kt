@@ -74,6 +74,9 @@ class LocationShowActivity : AppCompatActivity() {
         }
         editReviewButton.setOnClickListener {
             val intentForEditReview = Intent(this, LocationEditReviewAcitivity::class.java)
+            val textView = findViewById<TextView>(R.id.title_name)
+            val reviewActivityTitle = textView.text.toString()
+            intentForEditReview.putExtra("msg", reviewActivityTitle)
             startActivity(intentForEditReview)
         }
     }

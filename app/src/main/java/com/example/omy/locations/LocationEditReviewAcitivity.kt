@@ -25,10 +25,21 @@ class LocationEditReviewAcitivity : AppCompatActivity() {
 
     private lateinit var cancelButton: Button
     private lateinit var sendButton: Button
+    private lateinit var displayHeading: TextView
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.location_edit_review_acitivity_activity)
+        val b: Bundle? = intent.extras
+
+        var msg: String? = "Title"
+        if (b != null) {
+            msg = b.getString("msg")
+            displayHeading = findViewById(R.id.review_heading)
+            displayHeading.text = "REVIEWS - $msg"
+        }
+
         val ratingEditText = findViewById<EditText>(R.id.rating_edit_text)
         val titleEditText = findViewById<EditText>(R.id.title_edit_text)
         val descriptionEditText = findViewById<EditText>(R.id.description_name_edit_text)
