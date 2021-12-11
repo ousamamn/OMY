@@ -278,12 +278,50 @@
 
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginRight="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/edit_review_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:src="@drawable/icon_pencil_96"
+            android:visibility="gone"
+            app:backgroundTint="@color/lightgreen"
+            app:rippleColor="@color/white"
+            app:tint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_photo_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="15dp"
+            android:src="@drawable/icon_camera_96"
+            android:visibility="gone"
+            app:backgroundTint="@color/lightgreen"
+            app:rippleColor="@color/white"
+            app:tint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/options_open_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="@color/darkgreen"
             android:src="@drawable/ic_baseline_add_24"
             app:rippleColor="@color/white"
             app:tint="@color/white" />
@@ -293,37 +331,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="15dp"
             android:backgroundTint="@color/white"
             android:src="@drawable/icon_multiply_48"
             android:visibility="gone"
             app:backgroundTint="@color/white"
             app:rippleColor="@color/white"
-            app:tint="@color/darkgreen" />
+            app:tint="@color/darkgreen"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add_photo_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginBottom="85dp"
-            android:src="@drawable/icon_camera_96"
-            android:visibility="gone"
-            app:backgroundTint="@color/lightgreen"
-            app:rippleColor="@color/white"
-            app:tint="@color/white" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/edit_review_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginBottom="155dp"
-            android:src="@drawable/icon_pencil_96"
-            android:visibility="gone"
-            app:backgroundTint="@color/lightgreen"
-            app:rippleColor="@color/white"
-            app:tint="@color/white" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

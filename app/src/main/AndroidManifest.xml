@@ -11,6 +11,9 @@
         android:theme="@style/Theme.OMY"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".locations.LocationEditReviewAcitivity"
+            android:exported="true" />
+        <activity
             android:name=".locations.LocationSeeReviewActivity"
             android:exported="true" />
 
