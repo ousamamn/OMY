@@ -1,7 +1,6 @@
 package com.example.omy.locations
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputFilter
@@ -15,11 +14,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.example.omy.R
-import com.example.omy.maps.MapAddActivity
-import com.example.omy.maps.MapsCreatedActivity
-import com.google.android.material.snackbar.Snackbar
 import java.lang.NumberFormatException
-import kotlin.math.max
 
 class LocationEditReviewAcitivity : AppCompatActivity() {
 
@@ -30,7 +25,7 @@ class LocationEditReviewAcitivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.location_edit_review_acitivity_activity)
+        setContentView(R.layout.location_edit_review_acitivity)
         val b: Bundle? = intent.extras
 
         var msg: String? = "Title"
