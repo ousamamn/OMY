@@ -28,12 +28,14 @@ class TripsFragment : Fragment() {
     lateinit var tripsDaoObj: TripDao
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     //private var tripsDataset: LiveData<List<Trip>>
+    private var myDataset: List<Trip> = ArrayList<Trip>()
     private var tripsViewModel: TripsViewModel? = null
     //private var tripsAdapter : TripsAdapter()
     lateinit var mRecyclerView: RecyclerView
     lateinit var mAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
     lateinit var mLayoutManager: RecyclerView.LayoutManager
     private var myViewModel: TripsViewModel? = null
+    private val newDataSet : ArrayList<Trip> = ArrayList<Trip>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,19 +60,31 @@ class TripsFragment : Fragment() {
             tripsFilterSpinner.adapter = adapter
         }
         //tripsViewModel?.createNewTrip(trip1)
-        val tripsDataSet = tripsViewModel!!.getTripsToDisplay()?.observe(viewLifecycleOwner, { newValue ->
-            mAdapter = TripsAdapter(newValue) as RecyclerView.Adapter<RecyclerView.ViewHolder>
-            mRecyclerView.adapter = mAdapter
-            }
 
-        )
 
         /*  Get list of trips */
+
 
         mRecyclerView = view.findViewById<RecyclerView>(R.id.trips_list)
         mLayoutManager = LinearLayoutManager(requireContext())
         mRecyclerView.layoutManager = mLayoutManager
+        tripsViewModel!!.getTripsToDisplay()?.observe(viewLifecycleOwner, { newValue ->
+            myDataset = newValue
+            mAdapter = TripsAdapter(myDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+            mRecyclerView.adapter = mAdapter
+            //newDataSet.addAll(myDataset)
+
+        }
+        )
+        if (myDataset.isNotEmpty()){
+            newDataSet.add((myDataset[1]))
+        }
+
+
+
         //mAdapter = TripsAdapter() as RecyclerView.Adapter<RecyclerView.ViewHolder>
+        //mAdapter = TripsAdapter(myDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+       // mRecyclerView.adapter = mAdapter
 
 
 
