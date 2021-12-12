@@ -8,15 +8,21 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
+import com.example.omy.data.Image
+import com.example.omy.data.Trip
+import com.example.omy.trips.TripsAdapter
 
 class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
     private lateinit var context: Context
 
-    constructor(items: List<PhotoElement>): super() {
+    constructor(items: List<Image>): super() {
         PhotosAdapter.items = items
     }
+    constructor() {
+        PhotosAdapter.items = ArrayList<Image>()
+    }
 
-    constructor(cont: Context, items: List<PhotoElement>) : super() {
+    constructor(cont: Context, items: List<Image>) : super() {
         PhotosAdapter.items = items
         context = cont
     }
@@ -32,11 +38,17 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
         return holder
     }
 
+    fun updatePhotoList(photoList: List<Image>) {
+        //this.tripList
+        PhotosAdapter.items = photoList
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //Use the provided View Holder on the onCreateViewHolder method to populate the
         // current row on the RecyclerView
-        if (items[position].image != -1) {
-            holder.imageView.setImageResource(items[position].image)
+        if (items[position].fileValid != -1) {
+            holder.imageView.setImageResource(items[position].fileValid)
         }
         holder.imageView.setOnClickListener(View.OnClickListener {
             val intent = Intent(context, PhotoShowActivity::class.java)
@@ -56,6 +68,6 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
     }
 
     companion object {
-        lateinit var items: List<PhotoElement>
+        lateinit var items: List<Image>
     }
 }

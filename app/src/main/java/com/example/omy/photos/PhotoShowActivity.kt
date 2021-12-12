@@ -21,10 +21,10 @@ class PhotoShowActivity : FragmentActivity() {
             if (position != -1) {
                 val imageView = findViewById<ImageView>(R.id.image)
                 val element = PhotosAdapter.items[position]
-                if (element.image != -1) {
-                    imageView.setImageResource(element.image)
-                } else if (element.file != null) {
-                    val myBitmap = BitmapFactory.decodeFile(element.file!!.file.absolutePath)
+                if (element.fileValid != -1) {
+                    imageView.setImageResource(element.fileValid)
+                } else if (element.imagePath != null) {
+                    val myBitmap = BitmapFactory.decodeFile(element.imagePath)
                     imageView.setImageBitmap(myBitmap)
                 }
             }
