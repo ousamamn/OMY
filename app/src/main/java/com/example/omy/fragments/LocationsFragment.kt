@@ -11,13 +11,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
 import com.example.omy.locations.*
+import com.example.omy.photos.PhotosViewModel
 
 class LocationsFragment : Fragment() {
     lateinit var locationsFilterSpinner: Spinner
     lateinit var mRecyclerView: RecyclerView
-    lateinit var mAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
+    private var mAdapter: LocationsAdapter = LocationsAdapter()
     lateinit var mLayoutManager: RecyclerView.LayoutManager
-    private val locationDataset: Array<LocationElement> = arrayOf<LocationElement>(
+    private var locationsViewModel: LocationsViewModel? = null
+    /*private val locationDataset: Array<LocationElement> = arrayOf<LocationElement>(
         LocationElement(
             "Big monument", "-0.14", "86.67",
             "2", "11"
@@ -34,7 +36,7 @@ class LocationsFragment : Fragment() {
             "National Gallery", "33.91", "128.33",
             "2", "11"
         )
-    )
+    )*/
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,7 +67,13 @@ class LocationsFragment : Fragment() {
         mLayoutManager = LinearLayoutManager(requireContext())
         mRecyclerView.layoutManager = mLayoutManager
 
-        mAdapter = LocationsAdapter(locationDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+        //mAdapter = LocationsAdapter(locationDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
         mRecyclerView.adapter = mAdapter
+    }
+
+    private fun initData() {
+        this.locationsViewModel!!.getLocationsToDisplay()?.observe(viewLifecycleOwner, {newValue ->
+            mAdapter.updateLocationList(newValue)
+        })
     }
 }
