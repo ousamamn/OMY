@@ -55,7 +55,7 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         var date: TextView = itemView.findViewById<View>(R.id.date) as TextView
         var distance: TextView = itemView.findViewById<View>(R.id.distance) as TextView
         var numOfLocations: TextView = itemView.findViewById(R.id.numOfLocations) as TextView
-        //var imageView: ImageView = itemView.findViewById<View>(R.id.image_item) as ImageView
+        var imageView: ImageView = itemView.findViewById<View>(R.id.image_item) as ImageView
     }
 
     companion object {
