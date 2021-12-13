@@ -2,11 +2,13 @@ package com.example.omy.photos
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.FragmentActivity
 import com.example.omy.R
 
 class PhotoShowActivity : FragmentActivity() {
+    private lateinit var backButton: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +30,11 @@ class PhotoShowActivity : FragmentActivity() {
                     imageView.setImageBitmap(myBitmap)
                 }
             }
+        }
+        backButton = findViewById(R.id.back_to_previous)
+        backButton.setOnClickListener {
+            onBackPressed()
+            finish()
         }
     }
 }

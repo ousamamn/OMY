@@ -4,8 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import com.example.omy.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.omy.fragments.TripsFragment
+import com.google.android.material.internal.ContextUtils.getActivity
+
 
 class TripShowActivity : AppCompatActivity() {
+    private lateinit var backButton: FloatingActionButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.trip_activity)
@@ -25,6 +30,11 @@ class TripShowActivity : AppCompatActivity() {
                 tripDistance.text = element.distance + " km"
                 tripLocation.text = element.numOfLocations
             }
+        }
+        backButton = findViewById(R.id.back_to_previous_button)
+        backButton.setOnClickListener {
+            onBackPressed()
+            finish()
         }
     }
 }
