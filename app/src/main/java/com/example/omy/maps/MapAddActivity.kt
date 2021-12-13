@@ -1,37 +1,29 @@
 package com.example.omy.maps
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import android.text.TextUtils
-import com.example.omy.R
-import android.view.inputmethod.InputMethodManager
-import android.widget.*
-import android.view.ViewGroup
-
 import android.view.View
-
-import android.view.View.OnTouchListener
-
+import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
-
-
-
-
+import android.widget.TextView
+import android.widget.Toast
+import com.example.omy.R
 
 class MapAddActivity : AppCompatActivity() {
     private lateinit var displayTitle: TextView
     private lateinit var cancelButton: Button
     private lateinit var saveButton: Button
     private lateinit var addFun: View
+    val intentPhoto = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.map_add_activity)
-        val intentPhoto = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         val b: Bundle? = intent.extras
 
         var msg: String? = "Title"
@@ -93,7 +85,7 @@ class MapAddActivity : AppCompatActivity() {
 
         // Set up touch listener for non-text box views to hide keyboard.
         if (view !is EditText) {
-            view.setOnTouchListener(OnTouchListener { v, event ->
+            view.setOnTouchListener(View.OnTouchListener { v, event ->
                 hideSoftKeyboard(this)
                 false
             })
