@@ -14,14 +14,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), Communicator {
 
-    private lateinit var mMap: GoogleMap
-    private lateinit var ntButton: Button
-    private lateinit var goButton: Button
-    private lateinit var cancelButton: Button
-    private lateinit var tnEditText: EditText
-    private lateinit var weatherTemperatureText: TextView
-    private lateinit var weatherIconView: ImageView
-
     private val homeFragment = HomeFragment()
     private val locationsFragment = LocationsFragment()
     private val tripsFragment = TripsFragment()
@@ -53,7 +45,7 @@ class MainActivity : AppCompatActivity(), Communicator {
         bundle.putString("message", editTextInput)
 
         val transaction = this.supportFragmentManager.beginTransaction()
-        val tripsCreatedFragment = TripsCreatedFragment()
+        val tripsCreatedFragment = MapFragmentActivity()
         tripsCreatedFragment.arguments = bundle
 
         transaction.replace(R.id.fragment_container, tripsCreatedFragment)
