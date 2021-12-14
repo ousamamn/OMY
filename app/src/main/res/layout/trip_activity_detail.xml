@@ -49,7 +49,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/general_information"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"
@@ -59,7 +58,7 @@
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/title_name"
+                    android:id="@+id/trip_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/raleway_bold"
@@ -77,7 +76,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"
@@ -87,7 +85,7 @@
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/date_info"
+                    android:id="@+id/trip_date"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/raleway_bold"
@@ -112,7 +110,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/distance_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"
@@ -122,7 +119,7 @@
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/distance_info"
+                    android:id="@+id/trip_distance"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/raleway_bold"
@@ -140,7 +137,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/weather"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"
@@ -150,7 +146,7 @@
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/weather_info"
+                    android:id="@+id/trip_weather"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/raleway_bold"
@@ -175,7 +171,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/description_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"
@@ -185,7 +180,7 @@
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/description_info"
+                    android:id="@+id/trip_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/raleway_bold"
@@ -202,7 +197,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"
@@ -212,7 +206,7 @@
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/numOfLocations_info"
+                    android:id="@+id/trip_num_of_locations"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/raleway_bold"

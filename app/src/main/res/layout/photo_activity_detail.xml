@@ -6,20 +6,18 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/image_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
 
         <ImageView
-            android:id="@+id/image"
+            android:id="@+id/photo_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"/>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/text_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"

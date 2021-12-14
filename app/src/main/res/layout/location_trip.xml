@@ -16,7 +16,7 @@
         android:background="@color/white">
 
         <ImageView
-            android:id="@+id/image_detail_item"
+            android:id="@+id/location_image"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_gravity="start"/>
@@ -30,7 +30,7 @@
         android:layout_gravity="center">
 
         <TextView
-            android:id="@+id/location_name"
+            android:id="@+id/location_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/raleway_medium"

@@ -8,7 +8,6 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:id="@+id/location_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -27,7 +26,7 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/title_of_review"
+                    android:id="@+id/review_title"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -57,7 +56,7 @@
                         android:textSize="18sp"/>
 
                     <TextView
-                        android:id="@+id/rating"
+                        android:id="@+id/review_rating"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginStart="5dp"
