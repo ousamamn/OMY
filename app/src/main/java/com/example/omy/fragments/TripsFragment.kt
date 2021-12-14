@@ -79,8 +79,8 @@ class TripsFragment : Fragment() {
         mLayoutManager = LinearLayoutManager(requireContext())
         mRecyclerView.layoutManager = mLayoutManager
 
-        mAdapter = TripsAdapter(tripsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
-        mRecyclerView.adapter = mAdapter
+        //mAdapter = TripsAdapter(tripsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+        //mRecyclerView.adapter = mAdapter
 
     }
 }

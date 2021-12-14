@@ -49,19 +49,19 @@ class LocationEditReviewAcitivity : AppCompatActivity() {
             if (TextUtils.isEmpty(titleEditText.text.toString())) {
                 Toast.makeText(
                     applicationContext,
-                    "Please Insert The Title",
+                    "Please insert the title",
                     Toast.LENGTH_SHORT)
                     .show();
             } else if (TextUtils.isEmpty(ratingEditText.text.toString())) {
                 Toast.makeText(
                     applicationContext,
-                    "Please Insert The Ratings",
+                    "Please insert the ratings",
                     Toast.LENGTH_SHORT)
                     .show();
             } else if (TextUtils.isEmpty(descriptionEditText.text.toString())) {
                 Toast.makeText(
                     applicationContext,
-                    "Please Insert The Description",
+                    "Please insert the description",
                     Toast.LENGTH_SHORT)
                     .show();
             } else {

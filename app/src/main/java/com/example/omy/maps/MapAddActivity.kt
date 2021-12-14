@@ -23,7 +23,7 @@ class MapAddActivity : AppCompatActivity() {
     val intentPhoto = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.map_add_activity)
+        setContentView(R.layout.map_created_location)
         val b: Bundle? = intent.extras
 
         var msg: String? = "Title"
@@ -45,14 +45,14 @@ class MapAddActivity : AppCompatActivity() {
             if (TextUtils.isEmpty(titleNameEditText.text.toString())) {
                 Toast.makeText(
                     applicationContext,
-                    "Please Insert The Title",
+                    "Please insert the title",
                     Toast.LENGTH_SHORT
                 )
                     .show();
             } else if (TextUtils.isEmpty(descriptionEditText.text.toString())) {
                 Toast.makeText(
                     applicationContext,
-                    "Please Insert The Description",
+                    "Please insert the description",
                     Toast.LENGTH_SHORT
                 )
                     .show();

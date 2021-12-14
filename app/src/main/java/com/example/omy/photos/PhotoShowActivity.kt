@@ -2,7 +2,6 @@ package com.example.omy.photos
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.FragmentActivity
 import com.example.omy.R
@@ -12,7 +11,7 @@ class PhotoShowActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.photo_show)
+        setContentView(R.layout.photo_activity)
 
         val b: Bundle? = intent.extras
         var position = -1

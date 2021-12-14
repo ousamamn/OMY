@@ -2,7 +2,6 @@ package com.example.omy.locations
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.omy.R
@@ -12,7 +11,7 @@ class LocationSeeReviewActivity : AppCompatActivity() {
     private lateinit var backToPrevious: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.location_see_review_activity)
+        setContentView(R.layout.reviews_activity)
         val b: Bundle? = intent.extras
 
         var msg: String? = "Title"
