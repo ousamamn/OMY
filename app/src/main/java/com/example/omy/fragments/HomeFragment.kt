@@ -63,7 +63,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
         mButtonStart = view.findViewById<View>(R.id.button_start) as Button
         mButtonStart!!.setOnClickListener {
