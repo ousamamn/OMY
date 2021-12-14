@@ -1,18 +1,13 @@
 package com.example.omy
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.google.android.gms.maps.GoogleMap
 import com.example.omy.databinding.MainActivityBinding
 import com.example.omy.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity(), Communicator {
+class MainActivity : AppCompatActivity() {
 
     private val homeFragment = HomeFragment()
     private val locationsFragment = LocationsFragment()
@@ -40,17 +35,17 @@ class MainActivity : AppCompatActivity(), Communicator {
         }
     }
 
-    override fun passDataCom(editTextInput: String) {
-        val bundle = Bundle()
-        bundle.putString("message", editTextInput)
-
-        val transaction = this.supportFragmentManager.beginTransaction()
-        val tripsCreatedFragment = MapFragmentActivity()
-        tripsCreatedFragment.arguments = bundle
-
-        transaction.replace(R.id.fragment_container, tripsCreatedFragment)
-        transaction.commit()
-    }
+//    override fun passDataCom(editTextInput: String) {
+//        val bundle = Bundle()
+//        bundle.putString("message", editTextInput)
+//
+//        val transaction = this.supportFragmentManager.beginTransaction()
+//        val mapFragment = MapFragmentActivity()
+//        mapFragment.arguments = bundle
+//
+//        transaction.replace(R.id.fragment_container, tripsCreatedFragment)
+//        transaction.commit()
+//    }
 
     private fun replaceFragment(fragment: Fragment) {
         if (fragment !== null) {
