@@ -27,15 +27,15 @@ class TripsFragment : Fragment() {
     private val tripsDataset: Array<TripElement> = arrayOf<TripElement>(
         TripElement(
             "Me at the Zoo", "3 Oct 2021", "3.2",
-            "4", R.drawable.joe1
+            "4"
         ),
         TripElement(
             "Morning Hike", "12 Sep 2021", "7",
-            "3", R.drawable.joe2
+            "3"
         ),
         TripElement(
             "Picnic in a Park", "31 Aug 2021", "0.4",
-            "11", R.drawable.joe3
+            "11"
         )
     )
 

@@ -4,8 +4,7 @@ class TripElement(
     var title: String,
     var date: String,
     var distance: String,
-    var numOfLocations: String,
-    var image: Int) {
+    var numOfLocations: String) {
 
     init {
     }
