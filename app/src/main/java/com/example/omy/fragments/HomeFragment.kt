@@ -31,13 +31,17 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import java.util.concurrent.Executors
-import android.location.*
 import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import android.content.Intent
+import android.location.*
+import com.example.omy.maps.MapsCreatedActivity
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
+import com.google.android.gms.location.LocationRequest.create
 import java.text.DateFormat
 import java.util.*
 
@@ -123,15 +127,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         weatherIconView = view.findViewById(R.id.weather_icon)
         getCurrentWeather(weatherTemperatureText, weatherIconView)
 
-        val handler = Handler()
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                //Log.e("msg", "a")
-                handler.postDelayed(this, 1000)//1 sec delay
-            }
-        }, 0)
+//        val handler = Handler()
+//        handler.postDelayed(object : Runnable {
+//            override fun run() {
+//                //Log.e("msg", "a")
+//                handler.postDelayed(this, 1000)//1 sec delay
+//            }
+//        }, 0)
     }
 
+    @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -171,11 +176,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     override fun onResume() {
         super.onResume()
-        mLocationRequest = LocationRequest.create().apply {
-            interval = 1000
-            fastestInterval = 5000
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        }
+        mLocationRequest = LocationRequest.create()
+
+            //LocationRequest.create().apply {
+                //            interval = 1000
+                //            fastestInterval = 5000
+                //            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+                //        }
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         startLocationUpdates()
     }
@@ -196,7 +203,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             )
             mMap.moveCamera(
                 CameraUpdateFactory.newLatLngZoom(
-                    LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude), 14.0f
+                    LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude), 25.0f
                 )
             )
         }
@@ -264,30 +271,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         if (view.requestFocus()) {
             val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
-        }
-    }
-
-    /* --- Set up the map --- */
-
-
-    private fun enableMyLocation() {
-        if (isPermissionGranted()) {
-            mMap.isMyLocationEnabled = true
-        }
-        else {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
-                REQUEST_LOCATION_PERMISSION
-            )
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        if (requestCode == REQUEST_LOCATION_PERMISSION) {
-            if (grantResults.contains(PackageManager.PERMISSION_GRANTED)) {
-                enableMyLocation()
-            }
         }
     }
 

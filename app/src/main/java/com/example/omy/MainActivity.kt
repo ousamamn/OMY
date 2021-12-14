@@ -10,10 +10,6 @@ import com.example.omy.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
-
-//import kotlinx.coroutines.*
-
-class MainActivity : AppCompatActivity() {
     private val homeFragment = HomeFragment()
     private val locationsFragment = LocationsFragment()
     private val tripsFragment = TripsFragment()

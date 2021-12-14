@@ -35,11 +35,11 @@ class LocationEditReviewAcitivity : AppCompatActivity() {
             displayHeading.text = "REVIEWS - $msg"
         }
 
-        val ratingEditText = findViewById<EditText>(R.id.rating_edit_text)
-        val titleEditText = findViewById<EditText>(R.id.title_edit_text)
-        val descriptionEditText = findViewById<EditText>(R.id.description_name_edit_text)
+        val titleEditText = findViewById<EditText>(R.id.review_title)
+        val ratingEditText = findViewById<EditText>(R.id.review_rating)
+        val descriptionEditText = findViewById<EditText>(R.id.review_description)
         cancelButton = findViewById(R.id.cancel_button)
-        sendButton = findViewById(R.id.send_button)
+        sendButton = findViewById(R.id.review_send_button)
         ratingEditText.filters = arrayOf<InputFilter>(MinMaxFilter(1,5))
         cancelButton.setOnClickListener {
             onBackPressed()

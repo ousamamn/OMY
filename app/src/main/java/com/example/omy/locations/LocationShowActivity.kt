@@ -14,6 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class LocationShowActivity : AppCompatActivity() {
     private lateinit var backButton: ImageView
     private lateinit var seeAllReviewsButton: TextView
+    private lateinit var seeAllPhotosButton: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,9 +26,9 @@ class LocationShowActivity : AppCompatActivity() {
             position = b.getInt("position")
             if (position != -1) {
                 val textView = findViewById<TextView>(R.id.title_name)
-                val textViewTitleInfo = findViewById<TextView>(R.id.name_title_info)
-                val textViewLongitudeInfo = findViewById<TextView>(R.id.longitude_info)
-                val textViewLatitudeInfo = findViewById<TextView>(R.id.latitude_info)
+                val textViewTitleInfo = findViewById<TextView>(R.id.location_title)
+                val textViewLongitudeInfo = findViewById<TextView>(R.id.location_longitude)
+                val textViewLatitudeInfo = findViewById<TextView>(R.id.location_latitude)
                 val element = LocationsAdapter.items[position]
                 if (element != null) {
                     textView.text = element.titleLocation
@@ -43,12 +44,14 @@ class LocationShowActivity : AppCompatActivity() {
             }
         }
 
-        val closeOptionsButton = findViewById<FloatingActionButton>(R.id.options_close_button)
         val openOptionsButton = findViewById<FloatingActionButton>(R.id.options_open_button)
+        val closeOptionsButton = findViewById<FloatingActionButton>(R.id.options_close_button)
         val editReviewButton = findViewById<FloatingActionButton>(R.id.edit_review_button)
         val addPhotoButton = findViewById<FloatingActionButton>(R.id.add_photo_button)
         backButton = findViewById(R.id.back_to_previous)
-        seeAllReviewsButton = findViewById(R.id.see_all_reviews)
+        seeAllReviewsButton = findViewById(R.id.location_reviews_see_all)
+        seeAllPhotosButton = findViewById(R.id.location_photos_see_all)
+
         openOptionsButton.setOnClickListener {
             closeOptionsButton.visibility = View.VISIBLE
             editReviewButton.visibility = View.VISIBLE
@@ -65,13 +68,6 @@ class LocationShowActivity : AppCompatActivity() {
             onBackPressed()
             finish()
         }
-        seeAllReviewsButton.setOnClickListener {
-            val intentForTitle = Intent(this, LocationSeeReviewActivity::class.java)
-            val textView = findViewById<TextView>(R.id.title_name)
-            val reviewActivityTitle = textView.text.toString()
-            intentForTitle.putExtra("msg", reviewActivityTitle)
-            startActivity(intentForTitle)
-        }
         editReviewButton.setOnClickListener {
             val intentForEditReview = Intent(this, LocationEditReviewAcitivity::class.java)
             val textView = findViewById<TextView>(R.id.title_name)
@@ -79,5 +75,19 @@ class LocationShowActivity : AppCompatActivity() {
             intentForEditReview.putExtra("msg", reviewActivityTitle)
             startActivity(intentForEditReview)
         }
+        seeAllReviewsButton.setOnClickListener {
+            val intentForTitle = Intent(this, LocationSeeReviewActivity::class.java)
+            val textView = findViewById<TextView>(R.id.title_name)
+            val reviewActivityTitle = textView.text.toString()
+            intentForTitle.putExtra("msg", reviewActivityTitle)
+            startActivity(intentForTitle)
+        }
+//        seeAllReviewsButton.setOnClickListener {
+//            val intentForTitle = Intent(this, LocationSeeReviewActivity::class.java)
+//            val textView = findViewById<TextView>(R.id.title_name)
+//            val reviewActivityTitle = textView.text.toString()
+//            intentForTitle.putExtra("msg", reviewActivityTitle)
+//            startActivity(intentForTitle)
+//        }
     }
 }
