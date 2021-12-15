@@ -9,7 +9,7 @@ import android.content.Intent
 import android.widget.Button
 
 
-class MapsCreatedActivity : AppCompatActivity() {
+class MapCreatedActivity : AppCompatActivity() {
 
 
     private lateinit var displayTitle: TextView
@@ -32,7 +32,7 @@ class MapsCreatedActivity : AppCompatActivity() {
         addButton.setOnClickListener() {
             val intent = Intent(this, MapAddActivity::class.java)
             val msg = displayTitle.text.toString()
-            intent.putExtra("msg", msg)
+            intent.putExtra("map_created", msg)
             startActivity(intent)
         }
     }

@@ -41,7 +41,7 @@
             android:name=".maps.MapAddActivity"
             android:exported="true" />
         <activity
-            android:name=".maps.MapsCreatedActivity"
+            android:name=".maps.MapCreatedActivity"
             android:exported="true" />
         <activity
             android:name=".trips.TripShowActivity"
