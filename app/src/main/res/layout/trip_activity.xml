@@ -6,14 +6,26 @@
     android:layout_width="match_parent">
 
     <include
-        android:id="@+id/include"
         layout="@layout/map_widget"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <include
         android:id="@+id/bottom_trip_detail"
-        layout="@layout/trip_activity_text_detail"
+        layout="@layout/trip_activity_detail"
         />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/back_to_previous_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|left"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/outline_arrow_back_black_48"
+        app:tint="@color/white"
+        app:rippleColor="@color/white">
+
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

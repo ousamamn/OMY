@@ -61,12 +61,10 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     }
 
     class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        //lateinit var image: Image
-        var title: TextView = itemView.findViewById<View>(R.id.title) as TextView
-        var date: TextView = itemView.findViewById<View>(R.id.date) as TextView
-        var distance: TextView = itemView.findViewById<View>(R.id.distance) as TextView
-        var numOfLocations: TextView = itemView.findViewById(R.id.numOfLocations) as TextView
-        //var imageView: ImageView = itemView.findViewById<View>(R.id.image_item) as ImageView
+        var title: TextView = itemView.findViewById<View>(R.id.trip_title) as TextView
+        var date: TextView = itemView.findViewById<View>(R.id.trip_date) as TextView
+        var distance: TextView = itemView.findViewById<View>(R.id.trip_distance) as TextView
+        var numOfLocations: TextView = itemView.findViewById(R.id.trip_num_of_locations) as TextView
     }
 
     companion object {

@@ -6,12 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="70dp"
-    tools:context=".MainActivity"
-    tools:showIn="@layout/trips_filter_bar">
+    tools:context=".fragments.TripsFragment"
+    tools:showIn="@layout/trips_bar_filter">
 
     <include
         android:id="@+id/filter_bar"
-        layout="@layout/trips_filter_bar" />
+        layout="@layout/trips_bar_filter" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/trips_list"

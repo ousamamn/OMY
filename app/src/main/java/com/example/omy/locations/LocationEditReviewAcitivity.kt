@@ -1,10 +1,10 @@
-package com.example.omy.maps
+package com.example.omy.locations
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
+import android.text.InputFilter
+import android.text.Spanned
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
@@ -14,47 +14,55 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.example.omy.R
+import java.lang.NumberFormatException
 
-class MapAddActivity : AppCompatActivity() {
-    private lateinit var displayTitle: TextView
+class LocationEditReviewActivity : AppCompatActivity() {
+
     private lateinit var cancelButton: Button
-    private lateinit var saveButton: Button
-    private lateinit var addFun: View
-    val intentPhoto = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+    private lateinit var sendButton: Button
+    private lateinit var displayHeading: TextView
+
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.map_created_location)
+        setContentView(R.layout.location_edit_review_acitivity)
         val b: Bundle? = intent.extras
 
         var msg: String? = "Title"
         if (b != null) {
             msg = b.getString("msg")
-            displayTitle = findViewById(R.id.trip_title)
-            displayTitle.text = msg
+            displayHeading = findViewById(R.id.review_heading)
+            displayHeading.text = "REVIEWS - $msg"
         }
-        val titleNameEditText = findViewById<EditText>(R.id.location_title)
-        val descriptionEditText = findViewById<EditText>(R.id.location_description)
+
+        val ratingEditText = findViewById<EditText>(R.id.review_rating)
+        val titleEditText = findViewById<EditText>(R.id.review_title)
+        val descriptionEditText = findViewById<EditText>(R.id.review_description)
         cancelButton = findViewById(R.id.cancel_button)
-        saveButton = findViewById(R.id.location_add_button)
-        addFun = findViewById(R.id.location_add_photo)
+        sendButton = findViewById(R.id.review_send_button)
+        ratingEditText.filters = arrayOf<InputFilter>(MinMaxFilter(1,5))
         cancelButton.setOnClickListener {
             onBackPressed()
             finish()
         }
-        saveButton.setOnClickListener {
-            if (TextUtils.isEmpty(titleNameEditText.text.toString())) {
+        sendButton.setOnClickListener {
+            if (TextUtils.isEmpty(titleEditText.text.toString())) {
                 Toast.makeText(
                     applicationContext,
                     "Please insert the title",
-                    Toast.LENGTH_SHORT
-                )
+                    Toast.LENGTH_SHORT)
+                    .show();
+            } else if (TextUtils.isEmpty(ratingEditText.text.toString())) {
+                Toast.makeText(
+                    applicationContext,
+                    "Please insert the ratings",
+                    Toast.LENGTH_SHORT)
                     .show();
             } else if (TextUtils.isEmpty(descriptionEditText.text.toString())) {
                 Toast.makeText(
                     applicationContext,
                     "Please insert the description",
-                    Toast.LENGTH_SHORT
-                )
+                    Toast.LENGTH_SHORT)
                     .show();
             } else {
                 onBackPressed()
@@ -66,9 +74,43 @@ class MapAddActivity : AppCompatActivity() {
                 //context?.startActivity(intent)
             }
         }
-        setupUI(findViewById(R.id.on_touch))
+        setupUI(findViewById(R.id.on_touch_review))
     }
-    private fun hideSoftKeyboard(mapAddActivity: MapAddActivity) {
+
+    inner class MinMaxFilter() : InputFilter {
+        private var intMin: Int = 0
+        private var intMax: Int = 0
+
+        constructor(minValue: Int, maxValue: Int) : this() {
+            this.intMin = minValue
+            this.intMax = maxValue
+        }
+
+        override fun filter(
+            source: CharSequence?,
+            start: Int,
+            end: Int,
+            dest: Spanned?,
+            dstart: Int,
+            dend: Int
+        ): CharSequence? {
+            try {
+                val input = Integer.parseInt(dest.toString() + source.toString())
+                if (isInRange(intMin, intMax, input)){
+                    return null
+                }
+            } catch (e: NumberFormatException){
+                e.printStackTrace()
+            }
+            return ""
+        }
+
+        private fun isInRange(a: Int, b: Int, c: Int): Boolean {
+            return if (b > a) c in a..b else c in b..a
+        }
+    }
+
+    private fun hideSoftKeyboard(locationEditReviewActivity: LocationEditReviewActivity) {
         val inputMethodManager: InputMethodManager = getSystemService(
             INPUT_METHOD_SERVICE
         ) as InputMethodManager
@@ -98,8 +140,8 @@ class MapAddActivity : AppCompatActivity() {
                 setupUI(innerView)
             }
         }
-        addFun.setOnClickListener {
-            startActivityForResult(intentPhoto, 1)
-        }
     }
 }
+
+
+
