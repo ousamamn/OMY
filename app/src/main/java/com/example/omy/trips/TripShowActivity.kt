@@ -20,7 +20,7 @@ class TripShowActivity : AppCompatActivity() {
         if (b != null) {
             position = b.getInt("position")
             if (position != -1) {
-                val tripTitle = findViewById<TextView>(R.id.trip_title)
+                val tripTitle = findViewById<TextView>(R.id.title_name)
                 val tripDate = findViewById<TextView>(R.id.trip_date)
                 val tripDistance = findViewById<TextView>(R.id.trip_distance)
                 val tripLocation = findViewById<TextView>(R.id.trip_num_of_locations)

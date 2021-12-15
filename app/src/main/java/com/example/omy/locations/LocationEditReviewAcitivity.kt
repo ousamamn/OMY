@@ -16,7 +16,7 @@ import android.widget.Toast
 import com.example.omy.R
 import java.lang.NumberFormatException
 
-class LocationEditReviewAcitivity : AppCompatActivity() {
+class LocationEditReviewActivity : AppCompatActivity() {
 
     private lateinit var cancelButton: Button
     private lateinit var sendButton: Button
@@ -34,7 +34,7 @@ class LocationEditReviewAcitivity : AppCompatActivity() {
             displayHeading = findViewById(R.id.review_heading)
             displayHeading.text = getString(R.string.heading_reviews) + " - " + msg
         }
-
+        
         val titleEditText = findViewById<EditText>(R.id.review_title)
         val ratingEditText = findViewById<EditText>(R.id.review_rating)
         val descriptionEditText = findViewById<EditText>(R.id.review_description)
@@ -110,7 +110,7 @@ class LocationEditReviewAcitivity : AppCompatActivity() {
         }
     }
 
-    private fun hideSoftKeyboard(locationEditReviewAcitivity: LocationEditReviewAcitivity) {
+    private fun hideSoftKeyboard(locationEditReviewActivity: LocationEditReviewActivity) {
         val inputMethodManager: InputMethodManager = getSystemService(
             INPUT_METHOD_SERVICE
         ) as InputMethodManager

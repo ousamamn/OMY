@@ -1,4 +1,5 @@
 package com.example.omy.data
+import androidx.lifecycle.LiveData
 import androidx.room.*
 @Dao
 interface LocationDao {
@@ -12,8 +13,8 @@ interface LocationDao {
     fun delete(location: Location)
 
     @Query("SELECT * from location")
-    fun getAll():List<Location>
+    fun getAll():LiveData<List<Location>>?
 
     @Query("SELECT * from location WHERE id= :locid")
-    fun getLocation(locid:Int):Location
+    fun getLocation(locid:Int):LiveData<Location>?
 }
