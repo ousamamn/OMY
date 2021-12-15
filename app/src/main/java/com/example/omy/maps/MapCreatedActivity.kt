@@ -42,7 +42,7 @@ import java.util.concurrent.Executors
 
 class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
-    private var defaultLocation: Array<Double> = arrayOf(53.38, -1.46)
+    private var defaultLocation: Array<Double> = arrayOf(53.38, -1.48)
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
@@ -63,28 +63,26 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         startLocatingButton.setOnClickListener {
             startLocationUpdates()
             startLocatingButton.text = getString(R.string.map_resume_location)
-            stopLocatingButton.isEnabled = true
-            startLocatingButton.isEnabled = false
+            startLocatingButton.visibility = View.GONE
+            stopLocatingButton.visibility = View.VISIBLE
         }
-        startLocatingButton.isEnabled = true
+        //startLocatingButton.isEnabled = true
         stopLocatingButton = findViewById<View>(R.id.map_pause_location) as Button
         stopLocatingButton.setOnClickListener {
             stopLocationUpdates()
-            startLocatingButton.isEnabled = true
-            stopLocatingButton.isEnabled = false
+            stopLocatingButton.visibility = View.GONE
+            startLocatingButton.visibility = View.VISIBLE
         }
-        stopLocatingButton.isEnabled = false
 
         endTripButton = findViewById<Button>(R.id.map_end_trip)
         endTripButton.setOnClickListener {
             stopLocationUpdates()
-            saveToDB()
+            saveTripToDB()
             val intent = Intent(this, MapAddActivity::class.java)
             val title = displayTitle.text.toString()
             intent.putExtra("map_created", title)
             startActivity(intent)
         }
-
 
         /* Receive information from HomeFragment */
         val b: Bundle? = intent.extras
@@ -110,8 +108,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this as Activity,
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.ACCESS_FINE_LOCATION
                 )
             ) {
@@ -129,7 +126,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         mFusedLocationClient.requestLocationUpdates(
             mLocationRequest,
             mLocationCallback,
-            null  /*Looper*/
+            null /* Looper */
         )
     }
 
@@ -139,9 +136,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onResume() {
         super.onResume()
-        mLocationRequest = LocationRequest.create()
-        Log.e("Z", "ZUK")
-        LocationRequest.create().apply {
+        mLocationRequest = LocationRequest.create().apply {
             interval = 1000
             fastestInterval = 5000
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -150,15 +145,14 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         startLocationUpdates()
     }
 
-    private lateinit var mCurrentLocation: Location
-    private lateinit var mLastUpdateTime: String
+    private var mCurrentLocation: Location? = null
+    private var mLastUpdateTime: String? = null
     private var mLocationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             super.onLocationResult(locationResult)
             mCurrentLocation = locationResult.getLastLocation()
             mLastUpdateTime = DateFormat.getTimeInstance().format(Date())
             Log.i("MAP", "new location " + mCurrentLocation.toString())
-
             if (mMap != null) mMap.addMarker(
                 MarkerOptions().position(
                     LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude)
@@ -180,14 +174,9 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             ACCESS_FINE_LOCATION -> {
-
-                // If request is cancelled, the result arrays are empty.
                 if (grantResults.isNotEmpty()
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED
                 ) {
-
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
                     mFusedLocationClient.requestLocationUpdates(
                         mLocationRequest,
                         mLocationCallback, null /* Looper */
@@ -200,17 +189,15 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        //mMap.uiSettings.isZoomControlsEnabled = true
-        val location = LatLng(defaultLocation[0], defaultLocation[1])
-        //mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f))
+        val sheffield = LatLng(defaultLocation[0], defaultLocation[1])
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sheffield, 14.0f))
     }
 
     companion object {
         private const val ACCESS_FINE_LOCATION = 123
     }
 
-    private fun saveToDB() {
+    private fun saveTripToDB() {
         TODO("Connect to DAO and save the trip")
     }
 }
