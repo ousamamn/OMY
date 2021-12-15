@@ -21,9 +21,9 @@ class TripShowActivity : AppCompatActivity() {
             position = b.getInt("position")
             if (position != -1) {
                 val tripTitle = findViewById<TextView>(R.id.title_name)
-                val tripDate = findViewById<TextView>(R.id.date_info)
-                val tripDistance = findViewById<TextView>(R.id.distance_info)
-                val tripLocation = findViewById<TextView>(R.id.numOfLocations_info)
+                val tripDate = findViewById<TextView>(R.id.trip_date)
+                val tripDistance = findViewById<TextView>(R.id.trip_distance)
+                val tripLocation = findViewById<TextView>(R.id.trip_num_of_locations)
                 val element = TripsAdapter.items[position]
                 tripTitle.text = element.tripTitle
                 tripDate.text = element.tripDate

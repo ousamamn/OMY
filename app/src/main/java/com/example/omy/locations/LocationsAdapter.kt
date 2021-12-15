@@ -52,10 +52,10 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
 
     class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var titleLocation: TextView = itemView.findViewById<View>(R.id.location_title) as TextView
-        var longitude: TextView = itemView.findViewById<View>(R.id.longitude) as TextView
-        var latitude: TextView = itemView.findViewById<View>(R.id.latitude) as TextView
-        var numOfReviews: TextView = itemView.findViewById<View>(R.id.num_of_reviews) as TextView
-        var numOfPhotos: TextView = itemView.findViewById<View>(R.id.num_of_photos) as TextView
+        var longitude: TextView = itemView.findViewById<View>(R.id.location_longitude) as TextView
+        var latitude: TextView = itemView.findViewById<View>(R.id.location_latitude) as TextView
+        var numOfReviews: TextView = itemView.findViewById<View>(R.id.location_num_of_reviews) as TextView
+        var numOfPhotos: TextView = itemView.findViewById<View>(R.id.location_num_of_photos) as TextView
 
     }
 

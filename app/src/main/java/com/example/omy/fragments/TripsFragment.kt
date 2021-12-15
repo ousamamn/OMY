@@ -72,7 +72,7 @@ class TripsFragment : Fragment() {
         mRecyclerView = view.findViewById<RecyclerView>(R.id.trips_list)
         mLayoutManager = LinearLayoutManager(requireContext())
         mRecyclerView.layoutManager = mLayoutManager
-        tripsViewModel!!.getTripsToDisplay()?.observe(viewLifecycleOwner, { newValue ->
+        /*tripsViewModel!!.getTripsToDisplay()?.observe(viewLifecycleOwner, { newValue ->
             myDataset = newValue
             mAdapter = TripsAdapter(myDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
             mRecyclerView.adapter = mAdapter
@@ -82,7 +82,7 @@ class TripsFragment : Fragment() {
         )
         if (myDataset.isNotEmpty()){
             newDataSet.add((myDataset[1]))
-        }
+        }*/
 
 
 

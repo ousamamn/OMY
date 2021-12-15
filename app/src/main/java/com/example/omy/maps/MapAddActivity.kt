@@ -29,14 +29,14 @@ class MapAddActivity : AppCompatActivity() {
         var msg: String? = "Title"
         if (b != null) {
             msg = b.getString("msg")
-            displayTitle = findViewById(R.id.display_title_map_add)
+            displayTitle = findViewById(R.id.trip_title)
             displayTitle.text = msg
         }
-        val titleNameEditText = findViewById<EditText>(R.id.title_name_edit_text)
-        val descriptionEditText = findViewById<EditText>(R.id.description_name_edit_text)
+        val titleNameEditText = findViewById<EditText>(R.id.location_title)
+        val descriptionEditText = findViewById<EditText>(R.id.location_description)
         cancelButton = findViewById(R.id.cancel_button)
-        saveButton = findViewById(R.id.save_button)
-        addFun = findViewById(R.id.add_photo_view)
+        saveButton = findViewById(R.id.location_add_button)
+        addFun = findViewById(R.id.location_add_photo)
         cancelButton.setOnClickListener {
             onBackPressed()
             finish()
