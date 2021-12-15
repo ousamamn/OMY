@@ -44,8 +44,8 @@ class LocationShowActivity : AppCompatActivity() {
             }
         }
 
-        val closeOptionsButton = findViewById<FloatingActionButton>(R.id.options_close_button)
         val openOptionsButton = findViewById<FloatingActionButton>(R.id.options_open_button)
+        val closeOptionsButton = findViewById<FloatingActionButton>(R.id.options_close_button)
         val editReviewButton = findViewById<FloatingActionButton>(R.id.edit_review_button)
         val addPhotoButton = findViewById<FloatingActionButton>(R.id.add_photo_button)
         backButton = findViewById(R.id.back_to_previous)
@@ -68,13 +68,6 @@ class LocationShowActivity : AppCompatActivity() {
             onBackPressed()
             finish()
         }
-        seeAllReviewsButton.setOnClickListener {
-            val intentForTitle = Intent(this, LocationSeeReviewActivity::class.java)
-            val textView = findViewById<TextView>(R.id.title_name)
-            val reviewActivityTitle = textView.text.toString()
-            intentForTitle.putExtra("msg", reviewActivityTitle)
-            startActivity(intentForTitle)
-        }
         editReviewButton.setOnClickListener {
             val intentForEditReview = Intent(this, LocationEditReviewActivity::class.java)
             val textView = findViewById<TextView>(R.id.title_name)
@@ -82,5 +75,19 @@ class LocationShowActivity : AppCompatActivity() {
             intentForEditReview.putExtra("msg", reviewActivityTitle)
             startActivity(intentForEditReview)
         }
+        seeAllReviewsButton.setOnClickListener {
+            val intentForTitle = Intent(this, LocationSeeReviewActivity::class.java)
+            val textView = findViewById<TextView>(R.id.title_name)
+            val reviewActivityTitle = textView.text.toString()
+            intentForTitle.putExtra("msg", reviewActivityTitle)
+            startActivity(intentForTitle)
+        }
+//        seeAllReviewsButton.setOnClickListener {
+//            val intentForTitle = Intent(this, LocationSeeReviewActivity::class.java)
+//            val textView = findViewById<TextView>(R.id.title_name)
+//            val reviewActivityTitle = textView.text.toString()
+//            intentForTitle.putExtra("msg", reviewActivityTitle)
+//            startActivity(intentForTitle)
+//        }
     }
 }

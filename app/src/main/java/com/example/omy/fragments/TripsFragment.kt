@@ -26,6 +26,20 @@ class TripsFragment : Fragment() {
     lateinit var mRecyclerView: RecyclerView
     lateinit var mAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
     lateinit var mLayoutManager: RecyclerView.LayoutManager
+    /*private val tripsDataset: Array<TripElement> = arrayOf<TripElement>(
+        TripElement(
+            "Me at the Zoo", "3 Oct 2021", "3.2",
+            "4"
+        ),
+        TripElement(
+            "Morning Hike", "12 Sep 2021", "7",
+            "3"
+        ),
+        TripElement(
+            "Picnic in a Park", "31 Aug 2021", "0.4",
+            "11"
+        )
+    )*/
     private var myViewModel: TripsViewModel? = null
     private val newDataSet : ArrayList<Trip> = ArrayList<Trip>()
     var adapter = TripsAdapter()

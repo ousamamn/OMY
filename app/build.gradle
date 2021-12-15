@@ -6,15 +6,25 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    signingConfigs {
+        debug {
+            storeFile file('keyStore.jks')
+            storePassword 'com4510iscool'
+            keyAlias 'com4510'
+            keyPassword 'com4510iscool'
+        }
+    }
+
+    compileSdkVersion 30
+    buildToolsVersion '30.0.3'
 
     defaultConfig {
         configurations.all {
             resolutionStrategy { force 'androidx.core:core-ktx:1.6.0' }
         }
         applicationId "com.example.OMY"
-        minSdk 30
-        targetSdk 31
+        minSdk 27
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
@@ -56,6 +66,7 @@ dependencies {
     implementation 'com.github.jkwiecien:EasyImage:3.2.0'
     implementation "androidx.room:room-runtime:2.3.0"
     implementation "androidx.room:room-ktx:2.3.0"
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
     testImplementation 'junit:junit:'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

@@ -182,7 +182,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/location_reviews_see_all"
+                    android:id="@+id/location_photos_see_all"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -223,7 +223,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/location_photos_see_all"
+                    android:id="@+id/location_reviews_see_all"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

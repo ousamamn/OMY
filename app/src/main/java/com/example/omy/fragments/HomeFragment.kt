@@ -1,6 +1,8 @@
 package com.example.omy.fragments
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -13,18 +15,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.omy.BuildConfig
 import com.example.omy.R
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
@@ -34,39 +28,40 @@ import org.json.JSONObject
 import java.io.IOException
 import java.util.concurrent.Executors
 import android.util.Log
+import com.google.android.gms.location.*
+import com.google.android.gms.maps.*
 import android.content.Intent
-import com.example.omy.maps.MapsCreatedActivity
+import android.location.*
+import android.widget.*
+import com.example.omy.maps.MapCreatedActivity
+import com.google.android.gms.location.LocationRequest
+import java.text.DateFormat
+import java.util.*
 
+class HomeFragment : Fragment() {
+    private lateinit var mLocationRequest: LocationRequest
+    private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
-class HomeFragment : Fragment(), OnMapReadyCallback {
-    private lateinit var mMap: GoogleMap
-    private lateinit var ntButton: Button
     private lateinit var goButton: Button
-    private lateinit var cancelButton: Button
     private lateinit var tnEditText: EditText
+    private lateinit var weatherWidget: LinearLayout
     private lateinit var weatherTemperatureText: TextView
     private lateinit var weatherIconView: ImageView
 
-    private val REQUEST_LOCATION_PERMISSION = 1
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ntButton = view.findViewById(R.id.new_trip_button)
-        ntButton.setOnClickListener() {
-            ntButton.visibility = View.GONE
-            goButton.visibility = View.VISIBLE
-            cancelButton.visibility = View.VISIBLE
-            tnEditText.visibility = View.VISIBLE
-            tnEditText.text.clear()
-        }
+
+        mLocationRequest = LocationRequest.create()
+        LocationRequest.create().apply {
+            interval = 1000
+            fastestInterval = 5000
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY }
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        startLocationUpdates()
 
         goButton = view.findViewById(R.id.go_button)
         goButton.setOnClickListener {
@@ -79,36 +74,83 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                     R.string.successfully_created_trip, Snackbar.LENGTH_SHORT
                 ).show()
                 closeKeyboard(tnEditText)
-                val intent = Intent(context, MapsCreatedActivity::class.java)
-                val msg = tnEditText.text.toString()
-                intent.putExtra("msg", msg)
+                val intent = Intent(context, MapCreatedActivity::class.java)
+                val extras = Bundle()
+                extras.putString("trip_title", tnEditText.text.toString())
+                extras.putString("trip_temperature", weatherTemperatureText.text.toString())
+                intent.putExtras(extras)
                 context?.startActivity(intent)
             }
         }
 
-        cancelButton = view.findViewById(R.id.cancel_button)
-        cancelButton.setOnClickListener() {
-            ntButton.visibility = View.VISIBLE
-            goButton.visibility = View.GONE
-            cancelButton.visibility = View.GONE
-            tnEditText.visibility = View.GONE
-            closeKeyboard(tnEditText)
-        }
-
         tnEditText = view.findViewById(R.id.trip_name_edit_text)
+        weatherWidget = view.findViewById(R.id.weather_widget)
 
         closeKeyboard(tnEditText)
         weatherTemperatureText = view.findViewById(R.id.weather_temperature)
         weatherIconView = view.findViewById(R.id.weather_icon)
-        getCurrentWeather(weatherTemperatureText, weatherIconView)
+    }
 
-        val handler = Handler()
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                //Log.e("msg", "a")
-                handler.postDelayed(this, 1000)//1 sec delay
+    @SuppressLint("MissingPermission")
+    private fun startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(requireContext() as Activity,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+            ) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                ActivityCompat.requestPermissions(
+                    requireContext() as Activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    ACCESS_FINE_LOCATION
+                )
             }
-        }, 0)
+            return
+        }
+        mFusedLocationClient.requestLocationUpdates(
+            mLocationRequest,
+            mLocationCallback,
+            null  /*Looper*/
+        )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mLocationRequest = LocationRequest.create()
+
+        LocationRequest.create().apply {
+            interval = 1000
+            fastestInterval = 5000
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        startLocationUpdates()
+    }
+
+    private lateinit var mCurrentLocation: Location
+    private lateinit var mLastUpdateTime: String
+    private var mLocationCallback: LocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            super.onLocationResult(locationResult)
+            mCurrentLocation = locationResult.getLastLocation()
+            mLastUpdateTime = DateFormat.getTimeInstance().format(Date())
+            Log.i("MAP", "new location " + mCurrentLocation.toString())
+
+            getCurrentWeather(weatherTemperatureText, weatherIconView, mCurrentLocation.longitude, mCurrentLocation.latitude)
+            weatherWidget.visibility = View.VISIBLE
+        }
+    }
+
+    companion object {
+        private const val ACCESS_FINE_LOCATION = 123
     }
 
     private fun closeKeyboard(view: View) {
@@ -123,69 +165,36 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    /* --- Set up the map --- */
-    override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
-        val sheffield = LatLng(53.38, -1.46)
-        enableMyLocation()
-
-        // Tried zooming in, but no luck
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sheffield, 15f))
-        mMap.addMarker(MarkerOptions().position(sheffield).title("Marker in Sydney"))
-    }
-
-    private fun isPermissionGranted() : Boolean {
-        return ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun enableMyLocation() {
-        if (isPermissionGranted()) {
-            mMap.isMyLocationEnabled = true
-        }
-        else {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
-                REQUEST_LOCATION_PERMISSION
-            )
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        if (requestCode == REQUEST_LOCATION_PERMISSION) {
-            if (grantResults.contains(PackageManager.PERMISSION_GRANTED)) {
-                enableMyLocation()
-            }
-        }
-    }
-
     /* --- Get weather and temperature --- */
-    private fun getCurrentWeather(textView: TextView, imageView: ImageView) {
-        // TODO: Replace lat&long with actual geolocation
-        val lat = 53.38
-        val lon = -1.46
+    private fun getCurrentWeather(textView: TextView, imageView: ImageView, longitude: Double, latitude: Double) {
 
-        val url = "http://api.weatherapi.com/v1/current.json?key=" + BuildConfig.WEATHER_APIKEY + "&q=" + lat + "," + lon
+        val url =
+            "http://api.weatherapi.com/v1/current.json?key=" +
+                    BuildConfig.WEATHER_APIKEY + "&q=" + latitude + "," + longitude
         val client = OkHttpClient()
         val request = Request.Builder().url(url).build()
         client.newCall(request).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body!!.string()
-                print(body)
-                try {
-                    val json = JSONObject(body)
-                    val responseObject: JSONObject = json.getJSONObject("current")
-                    val tempC = responseObject.get("temp_c")
-                    val weather = responseObject.getJSONObject("condition")
-                    val icon = weather.get("icon")
+                activity?.runOnUiThread {
+                    try {
+                        val json = JSONObject(body)
+                        val responseObject: JSONObject = json.getJSONObject("current")
+                        val tempC = responseObject.get("temp_c")
+                        val weather = responseObject.getJSONObject("condition")
+                        val icon = weather.get("icon")
 
-                    textView.setText(context?.getString(R.string.weather_temperature, tempC.toString()))
-                    loadImage(imageView, "https:$icon")
-                } catch (e: JSONException) { e.printStackTrace() }
+                        textView.text = context?.getString(R.string.weather_temperature, tempC.toString())
+                        loadImage(imageView, "https:$icon")
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                }
             }
-            override fun onFailure(call: Call, e: IOException) { e.printStackTrace() }
+
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
         })
     }
 

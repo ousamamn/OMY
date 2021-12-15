@@ -32,11 +32,11 @@ class LocationEditReviewActivity : AppCompatActivity() {
         if (b != null) {
             msg = b.getString("msg")
             displayHeading = findViewById(R.id.review_heading)
-            displayHeading.text = "REVIEWS - $msg"
+            displayHeading.text = getString(R.string.heading_reviews) + " - " + msg
         }
-
-        val ratingEditText = findViewById<EditText>(R.id.review_rating)
+        
         val titleEditText = findViewById<EditText>(R.id.review_title)
+        val ratingEditText = findViewById<EditText>(R.id.review_rating)
         val descriptionEditText = findViewById<EditText>(R.id.review_description)
         cancelButton = findViewById(R.id.cancel_button)
         sendButton = findViewById(R.id.review_send_button)
