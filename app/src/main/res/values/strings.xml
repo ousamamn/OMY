@@ -31,6 +31,7 @@
     <string name="photos_search_bar">Search Photos</string>
     <string name="heading_photo">PHOTO</string>
     <string name="heading_reviews">REVIEWS</string>
+    <string name="heading_home">CREATE A NEW TRIP</string>
     <string-array name="trips_filter_array">
         <item>A-Z</item>
         <item>Z-A</item>
