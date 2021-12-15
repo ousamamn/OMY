@@ -32,6 +32,8 @@
     <string name="heading_photo">PHOTO</string>
     <string name="heading_reviews">REVIEWS</string>
     <string name="heading_home">CREATE A NEW TRIP</string>
+    <string name="map_resume_location">RESUME</string>
+    <string name="temperature">"Temperature: %1$s"</string>
     <string-array name="trips_filter_array">
         <item>A-Z</item>
         <item>Z-A</item>

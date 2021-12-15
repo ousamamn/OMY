@@ -75,8 +75,10 @@ class HomeFragment : Fragment() {
                 ).show()
                 closeKeyboard(tnEditText)
                 val intent = Intent(context, MapCreatedActivity::class.java)
-                val msg = tnEditText.text.toString()
-                intent.putExtra("map_created", msg)
+                val extras = Bundle()
+                extras.putString("trip_title", tnEditText.text.toString())
+                extras.putString("trip_temperature", weatherTemperatureText.text.toString())
+                intent.putExtras(extras)
                 context?.startActivity(intent)
             }
         }
@@ -174,23 +176,19 @@ class HomeFragment : Fragment() {
         client.newCall(request).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body!!.string()
-                print(body)
-                try {
-                    val json = JSONObject(body)
-                    val responseObject: JSONObject = json.getJSONObject("current")
-                    val tempC = responseObject.get("temp_c")
-                    val weather = responseObject.getJSONObject("condition")
-                    val icon = weather.get("icon")
+                activity?.runOnUiThread {
+                    try {
+                        val json = JSONObject(body)
+                        val responseObject: JSONObject = json.getJSONObject("current")
+                        val tempC = responseObject.get("temp_c")
+                        val weather = responseObject.getJSONObject("condition")
+                        val icon = weather.get("icon")
 
-                    textView.setText(
-                        context?.getString(
-                            R.string.weather_temperature,
-                            tempC.toString()
-                        )
-                    )
-                    loadImage(imageView, "https:$icon")
-                } catch (e: JSONException) {
-                    e.printStackTrace()
+                        textView.text = context?.getString(R.string.weather_temperature, tempC.toString())
+                        loadImage(imageView, "https:$icon")
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
                 }
             }
 

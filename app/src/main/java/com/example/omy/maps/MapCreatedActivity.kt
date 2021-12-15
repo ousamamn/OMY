@@ -92,7 +92,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             displayTitle = findViewById(R.id.display_title)
             displayTitle.text = b.getString("trip_title")
             displayTemperature = findViewById(R.id.display_temperature)
-            displayTemperature.text = b.getString("trip_temperature")
+            displayTemperature.text = getString(R.string.temperature, b.getString("trip_temperature"))
         }
         addButton = findViewById(R.id.add_picture)
         addButton.setOnClickListener() {
@@ -140,7 +140,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onResume() {
         super.onResume()
         mLocationRequest = LocationRequest.create()
-
+        Log.e("Z", "ZUK")
         LocationRequest.create().apply {
             interval = 1000
             fastestInterval = 5000
@@ -159,7 +159,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             mLastUpdateTime = DateFormat.getTimeInstance().format(Date())
             Log.i("MAP", "new location " + mCurrentLocation.toString())
 
-            mMap.addMarker(
+            if (mMap != null) mMap.addMarker(
                 MarkerOptions().position(
                     LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude)
                 ).title(mLastUpdateTime)
@@ -169,6 +169,32 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
                     LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude), 16.0f
                 )
             )
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            ACCESS_FINE_LOCATION -> {
+
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.isNotEmpty()
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                ) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    mFusedLocationClient.requestLocationUpdates(
+                        mLocationRequest,
+                        mLocationCallback, null /* Looper */
+                    )
+                }
+                return
+            }
         }
     }
 

@@ -36,12 +36,12 @@
                 android:textStyle="bold" />
             <TextView
                 android:id="@+id/display_temperature"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:fontFamily="@font/nunito_bold"
                 android:gravity="end"
-                android:text="Temperature"
+                android:layout_gravity="end"
+                android:text="@string/temperature"
                 android:textAlignment="textStart"
                 android:textColor="@color/darkgrey"
                 android:textSize="20sp"
