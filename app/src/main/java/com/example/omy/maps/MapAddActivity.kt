@@ -24,13 +24,11 @@ class MapAddActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.map_created_location)
-        val b: Bundle? = intent.extras
 
-        var msg: String? = "Title"
+        val b: Bundle? = intent.extras
         if (b != null) {
-            msg = b.getString("msg")
             displayTitle = findViewById(R.id.trip_title)
-            displayTitle.text = msg
+            displayTitle.text = b.getString("trip_title")
         }
         val titleNameEditText = findViewById<EditText>(R.id.location_title)
         val descriptionEditText = findViewById<EditText>(R.id.location_description)
