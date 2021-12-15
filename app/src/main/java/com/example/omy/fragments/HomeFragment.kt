@@ -15,10 +15,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.omy.BuildConfig
@@ -36,6 +32,7 @@ import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import android.content.Intent
 import android.location.*
+import android.widget.*
 import com.example.omy.maps.MapCreatedActivity
 import com.google.android.gms.location.LocationRequest
 import java.text.DateFormat
@@ -53,6 +50,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private lateinit var goButton: Button
     private lateinit var cancelButton: Button
     private lateinit var tnEditText: EditText
+    private lateinit var weatherWidget: LinearLayout
     private lateinit var weatherTemperatureText: TextView
     private lateinit var weatherIconView: ImageView
 
@@ -116,6 +114,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             closeKeyboard(tnEditText)
         }
         tnEditText = view.findViewById(R.id.trip_name_edit_text)
+        weatherWidget = view.findViewById(R.id.weather_widget)
 
         closeKeyboard(tnEditText)
         weatherTemperatureText = view.findViewById(R.id.weather_temperature)
@@ -192,6 +191,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
             getCurrentWeather(weatherTemperatureText, weatherIconView,
                 mCurrentLocation.longitude, mCurrentLocation.latitude)
+            weatherWidget.visibility = View.VISIBLE
 
             mMap.addMarker(
                 MarkerOptions().position(
@@ -248,7 +248,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.uiSettings.isZoomControlsEnabled = true
-        // Add a marker in Sydney and move the camera
         val location = LatLng(defaultLocation[0], defaultLocation[1])
         //mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f))
