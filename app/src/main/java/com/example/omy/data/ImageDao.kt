@@ -1,4 +1,5 @@
 package com.example.omy.data
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
@@ -13,8 +14,8 @@ interface ImageDao {
     fun delete(image: Image)
 
     @Query("SELECT * from image")
-    fun getAll():List<Image>
+    fun getAll(): LiveData<List<Image>>?
 
     @Query("SELECT * from image WHERE id=:id")
-    fun getImage(id:Int):Image
+    fun getImage(id:Int):LiveData<Image>?
 }

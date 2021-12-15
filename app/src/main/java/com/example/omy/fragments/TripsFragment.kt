@@ -19,7 +19,7 @@ class TripsFragment : Fragment() {
     lateinit var tripsFilterSpinner: Spinner
     lateinit var tripsDaoObj: TripDao
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-    //private var tripsDataset: LiveData<List<Trip>>
+    private var tripsDataset: List<Trip> = ArrayList<Trip>()
     private var myDataset: List<Trip> = ArrayList<Trip>()
     private var tripsViewModel: TripsViewModel? = null
     //private var tripsAdapter : TripsAdapter()
@@ -28,6 +28,7 @@ class TripsFragment : Fragment() {
     lateinit var mLayoutManager: RecyclerView.LayoutManager
     private var myViewModel: TripsViewModel? = null
     private val newDataSet : ArrayList<Trip> = ArrayList<Trip>()
+    var adapter = TripsAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,18 +43,10 @@ class TripsFragment : Fragment() {
 
         val trip1 = Trip(id = 1, tripTitle = "Me at the Zoo", tripDate = "12 Dec 2021",
             tripDistance = 3.2, tripWeather = 19, tripDescription = "description", tripLocations = 3)
+        this.tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
+        mAdapter= TripsAdapter() as RecyclerView.Adapter<RecyclerView.ViewHolder>
+        initData()
         //val location = Location(id=55,locationTitle = "title",locationDescription = "description",locationLatitude = 1.2,locationLongitude = 1.1,locationTripId = 34)
-
-        scope.launch(Dispatchers.IO) {
-            async {  }
-        }
-        //mRecyclerView.adapter = mAdapter
-        //mAdapter = TripsAdapter(tripsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
-        //recyclerView.adapter = adapter
-
-        //scope.launch(Dispatchers.IO) {
-        //async { databaseObj.LocationDao().insert(location) }
-        //}
 
         /*  Trips Filter Functionality */
         tripsFilterSpinner = view.findViewById(R.id.trips_filters_spinner)
@@ -85,14 +78,25 @@ class TripsFragment : Fragment() {
         }*/
 
 
-
-        //mAdapter = TripsAdapter() as RecyclerView.Adapter<RecyclerView.ViewHolder>
-        //mAdapter = TripsAdapter(myDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
-       // mRecyclerView.adapter = mAdapter
+        //mAdapter = TripsAdapter(tripsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+        mRecyclerView.adapter = adapter
 
 
         //mAdapter = TripsAdapter(tripsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
         //mRecyclerView.adapter = mAdapter
 
     }
-}
+
+    private fun initData() {
+        this.tripsViewModel!!.getTripsToDisplay()?.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                tripsDataset = it
+                //mAdapter = TripsAdapter(tripsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+                //mAdapter.notifyDataSetChanged()
+
+
+                adapter.updateTripList(tripsDataset)
+            }
+            })
+        }
+    }

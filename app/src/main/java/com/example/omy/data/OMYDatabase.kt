@@ -18,6 +18,7 @@ abstract class OMYDatabase: RoomDatabase() {
     abstract fun ImageLocationDao(): ImageLocationDao
     abstract fun LocationDao(): LocationDao
     abstract fun ReviewDao(): ReviewDao
+    abstract fun ImageDao(): ImageDao
 
     companion object {
         private var INSTANCE: OMYDatabase? = null

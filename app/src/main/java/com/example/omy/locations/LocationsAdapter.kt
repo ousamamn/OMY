@@ -9,17 +9,33 @@ import android.widget.TextView
 import androidx.appcompat.view.menu.MenuView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
+import com.example.omy.data.Image
+import com.example.omy.data.Location
+import com.example.omy.photos.PhotosAdapter
 
 class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
     private lateinit var context: Context
+    private var numOfReviews: Int = 0
+    private var numOfPhotos: Int = 0
 
-    constructor(items: Array<LocationElement>) {
+
+    constructor(items: List<Location>) {
         LocationsAdapter.items = items
     }
 
-    constructor(cont: Context, items: Array<LocationElement>) : super() {
+    constructor() {
+        LocationsAdapter.items = ArrayList<Location>()
+    }
+
+    constructor(cont: Context, items: List<Location>) : super() {
         LocationsAdapter.items = items
         context = cont
+    }
+
+    fun updateLocationList(locationList: List<Location>) {
+        //this.tripList
+        LocationsAdapter.items = locationList
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -34,16 +50,21 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.titleLocation.text = items[position].titleLocation
-        holder.longitude.text = items[position].longitude
-        holder.latitude.text = items[position].latitude
-        holder.numOfReviews.text = items[position].numOfReviews
-        holder.numOfPhotos.text = items[position].numOfPhotos
+        holder.titleLocation.text = items[position].locationTitle
+        holder.longitude.text = items[position].locationLongitude.toString()
+        holder.latitude.text = items[position].locationLatitude.toString()
+        holder.numOfReviews.text = numOfReviews.toString()
+        holder.numOfPhotos.text = numOfPhotos.toString()
         holder.itemView.setOnClickListener(View.OnClickListener {
             val intent = Intent(context, LocationShowActivity::class.java)
             intent.putExtra("position", position)
             context.startActivity(intent)
         })
+    }
+
+    fun updateChildTables(numOfReviews : Int,numOfPhotos : Int) {
+        this.numOfPhotos = numOfPhotos
+        this.numOfReviews = numOfReviews
     }
 
     override fun getItemCount(): Int {
@@ -60,6 +81,6 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
     }
 
     companion object {
-        lateinit var items: Array<LocationElement>
+        lateinit var items: List<Location>
     }
 }

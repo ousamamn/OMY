@@ -31,10 +31,10 @@ class LocationShowActivity : AppCompatActivity() {
                 val textViewLatitudeInfo = findViewById<TextView>(R.id.location_latitude)
                 val element = LocationsAdapter.items[position]
                 if (element != null) {
-                    textView.text = element.titleLocation
-                    textViewTitleInfo.text = element.titleLocation
-                    textViewLongitudeInfo.text = element.longitude
-                    textViewLatitudeInfo.text = element.latitude
+                    textView.text = element.locationTitle
+                    textViewTitleInfo.text = element.locationTitle
+                    textViewLongitudeInfo.text = element.locationLongitude.toString()
+                    textViewLatitudeInfo.text = element.locationLatitude.toString()
                 } else if (element == null) {
                     textView.text = "Error"
                     textViewTitleInfo.text = "Error"
