@@ -7,10 +7,11 @@ import androidx.fragment.app.FragmentActivity
 import com.example.omy.R
 
 class PhotoShowActivity : FragmentActivity() {
+    private lateinit var backButton: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.photo_show)
+        setContentView(R.layout.photo_activity)
 
         val b: Bundle? = intent.extras
         var position = -1
@@ -28,6 +29,11 @@ class PhotoShowActivity : FragmentActivity() {
                     imageView.setImageBitmap(myBitmap)
                 }
             }
+        }
+        backButton = findViewById(R.id.back_to_previous)
+        backButton.setOnClickListener {
+            onBackPressed()
+            finish()
         }
     }
 }

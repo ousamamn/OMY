@@ -1,26 +1,18 @@
 package com.example.omy.fragments
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
 import com.example.omy.trips.*
 import com.example.omy.data.Trip
 import com.example.omy.data.TripDao
-import com.example.omy.databinding.FragmentTripsBinding
-import com.example.omy.databinding.TripsActivityBinding
 import kotlinx.coroutines.*
 
 class TripsFragment : Fragment() {
@@ -36,6 +28,7 @@ class TripsFragment : Fragment() {
     lateinit var mLayoutManager: RecyclerView.LayoutManager
     private var myViewModel: TripsViewModel? = null
     private val newDataSet : ArrayList<Trip> = ArrayList<Trip>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,10 +40,21 @@ class TripsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val trip1 = Trip(id = 0, tripTitle = "Me at the Zoo new", tripDate = "12 Dec 2021",
+        val trip1 = Trip(id = 1, tripTitle = "Me at the Zoo", tripDate = "12 Dec 2021",
             tripDistance = 3.2, tripWeather = 19, tripDescription = "description", tripLocations = 3)
         //val location = Location(id=55,locationTitle = "title",locationDescription = "description",locationLatitude = 1.2,locationLongitude = 1.1,locationTripId = 34)
-        this.tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
+
+        scope.launch(Dispatchers.IO) {
+            async {  }
+        }
+        //mRecyclerView.adapter = mAdapter
+        //mAdapter = TripsAdapter(tripsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+        //recyclerView.adapter = adapter
+
+        //scope.launch(Dispatchers.IO) {
+        //async { databaseObj.LocationDao().insert(location) }
+        //}
+
         /*  Trips Filter Functionality */
         tripsFilterSpinner = view.findViewById(R.id.trips_filters_spinner)
         ArrayAdapter.createFromResource(requireContext(), R.array.trips_filter_array,
@@ -87,6 +91,8 @@ class TripsFragment : Fragment() {
        // mRecyclerView.adapter = mAdapter
 
 
+        //mAdapter = TripsAdapter(tripsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+        //mRecyclerView.adapter = mAdapter
 
     }
 }

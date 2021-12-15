@@ -18,7 +18,7 @@ class MapsCreatedActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.maps_created_activity)
+        setContentView(R.layout.map_created_trip)
         val b: Bundle? = intent.extras
 
         var msg: String? = "Title"

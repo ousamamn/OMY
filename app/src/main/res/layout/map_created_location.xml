@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/on_touch"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".maps.MapAddActivity"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/display_title_map_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -24,7 +24,6 @@
         android:textStyle="bold" />
 
     <View
-        android:id="@+id/shadow"
         android:layout_width="wrap_content"
         android:layout_height="3dp"
         android:background="@drawable/shadow"/>
@@ -37,13 +36,11 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/upper_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/add_a_new_location_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
@@ -55,7 +52,6 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/title_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
@@ -66,7 +62,7 @@
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/title_name_edit_text"
+                    android:id="@+id/location_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -83,7 +79,6 @@
                     android:inputType="textCapSentences|textAutoCorrect"/>
 
                 <TextView
-                    android:id="@+id/description_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
@@ -94,7 +89,7 @@
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/description_name_edit_text"
+                    android:id="@+id/location_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -126,7 +121,6 @@
                     android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/longitude_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"
@@ -137,29 +131,24 @@
                             android:textStyle="bold" />
 
                         <EditText
-                            android:id="@+id/longitude_edit_text"
+                            android:id="@+id/location_longitude"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:background="@drawable/add_new_location_edit_text_border"
                             android:fontFamily="@font/nunito_medium"
                             android:hint="LONGITUDE"
-                            android:inputType="textCapSentences|textAutoCorrect"
+                            android:inputType="numberDecimal"
                             android:paddingLeft="15dp"
                             android:paddingTop="10dp"
                             android:paddingRight="15dp"
                             android:paddingBottom="10dp"
+                            android:layout_marginRight="10dp"
                             android:textColor="@color/black"
                             android:textSize="20sp"
                             app:cornerRadius="10dp" />
 
                 </LinearLayout>
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.4"/>
-
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -168,7 +157,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/latitude_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
@@ -179,18 +167,19 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/latitude_edit_text"
+                        android:id="@+id/location_latitude"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:background="@drawable/add_new_location_edit_text_border"
                         android:fontFamily="@font/nunito_medium"
                         android:hint="LATITUDE"
-                        android:inputType="textCapSentences|textAutoCorrect"
+                        android:inputType="numberDecimal"
                         android:paddingLeft="15dp"
                         android:paddingTop="10dp"
                         android:paddingRight="15dp"
                         android:paddingBottom="10dp"
+                        android:layout_marginLeft="10dp"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         app:cornerRadius="10dp" />
@@ -213,7 +202,6 @@
                 android:layout_gravity="bottom">
 
                 <TextView
-                    android:id="@+id/added_photos_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
@@ -224,7 +212,7 @@
                     android:textStyle="bold" />
 
                 <View
-                    android:id="@+id/add_photo_view"
+                    android:id="@+id/location_add_photo"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_marginTop="15dp"
@@ -234,7 +222,8 @@
                     android:paddingLeft="20dp"
                     android:paddingTop="20dp"
                     android:paddingRight="20dp"
-                    android:paddingBottom="20dp" />
+                    android:paddingBottom="20dp"
+                    android:clickable="true"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -243,7 +232,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/cancel_button"
+                        android:id="@+id/location_cancel_button"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -266,7 +255,7 @@
                         android:layout_weight="0.1"/>
 
                     <Button
-                        android:id="@+id/save_button"
+                        android:id="@+id/location_add_button"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

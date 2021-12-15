@@ -105,7 +105,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         val handler = Handler()
         handler.postDelayed(object : Runnable {
             override fun run() {
-                Log.e("msg", "a")
+                //Log.e("msg", "a")
                 handler.postDelayed(this, 1000)//1 sec delay
             }
         }, 0)
