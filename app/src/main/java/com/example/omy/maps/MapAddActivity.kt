@@ -35,6 +35,7 @@ class MapAddActivity : AppCompatActivity() {
         cancelButton = findViewById(R.id.location_cancel_button)
         saveButton = findViewById(R.id.location_add_button)
         addPhotoFun = findViewById(R.id.location_add_photo)
+        
         cancelButton.setOnClickListener {
             onBackPressed()
             finish()

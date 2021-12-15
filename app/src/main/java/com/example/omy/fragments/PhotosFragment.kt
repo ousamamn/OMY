@@ -6,19 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.example.omy.R
+import com.example.omy.data.Image
 import com.example.omy.photos.*
+import com.example.omy.trips.TripsViewModel
 
 import java.util.ArrayList
 
 class PhotosFragment : Fragment() {
     lateinit var searchView: SearchView
     lateinit var mRecyclerView: RecyclerView
-    lateinit var mAdapter: Adapter<RecyclerView.ViewHolder>
-    private val photoDataset: MutableList<PhotoElement> = ArrayList<PhotoElement>()
+    private  var mAdapter: PhotosAdapter = PhotosAdapter()
+    private val photoDataset: MutableList<Image> = ArrayList<Image>()
+    private var photosViewModel: PhotosViewModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,20 +35,20 @@ class PhotosFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        this.photosViewModel = ViewModelProvider(this)[PhotosViewModel::class.java]
+
         initData()
         mRecyclerView = view.findViewById(R.id.photos_list)
         val numberOfColumns = 4
         mRecyclerView.layoutManager = GridLayoutManager(requireContext(), numberOfColumns)
 
-        mAdapter = PhotosAdapter(photoDataset) as Adapter<RecyclerView.ViewHolder>
+        //mAdapter = PhotosAdapter(photoDataset) as Adapter<RecyclerView.ViewHolder>
         mRecyclerView.adapter = mAdapter
     }
 
     private fun initData() {
-        repeat(5){
-            photoDataset.add(PhotoElement(R.drawable.joe1))
-            photoDataset.add(PhotoElement(R.drawable.joe2))
-            photoDataset.add(PhotoElement(R.drawable.joe3))
-        }
+        this.photosViewModel!!.getPhotosToDisplay()?.observe(viewLifecycleOwner, {newValue ->
+            mAdapter.updatePhotoList(newValue)
+        })
     }
 }

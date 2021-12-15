@@ -12,13 +12,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
 import com.example.omy.data.Trip
+import com.example.omy.photos.PhotosAdapter
 import org.w3c.dom.Text
 
 class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     private lateinit var context: Context
   
-    constructor(items: List<Trip>) {
+    constructor() {
+        items = ArrayList<Trip>()
+    }
+    constructor(items: List<Trip>): super() {
         TripsAdapter.items = items
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,6 +35,12 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         val holder: ViewHolder = ViewHolder(v)
         context = parent.context
         return holder
+    }
+
+    fun updateTripList(tripList: List<Trip>) {
+        //this.tripList
+        items = tripList
+        notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
