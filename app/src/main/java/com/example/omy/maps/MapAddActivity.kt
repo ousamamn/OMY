@@ -29,10 +29,10 @@ class MapAddActivity : AppCompatActivity() {
         var msg: String? = "Title"
         if (b != null) {
             msg = b.getString("msg")
-            displayTitle = findViewById(R.id.location_title)
+            displayTitle = findViewById(R.id.trip_title)
             displayTitle.text = msg
         }
-        val titleNameEditText = findViewById<EditText>(R.id.location_name)
+        val titleNameEditText = findViewById<EditText>(R.id.location_title)
         val descriptionEditText = findViewById<EditText>(R.id.location_description)
         cancelButton = findViewById(R.id.location_cancel_button)
         saveButton = findViewById(R.id.location_add_button)
