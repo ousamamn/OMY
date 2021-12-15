@@ -32,21 +32,18 @@ import org.json.JSONObject
 import java.io.IOException
 import java.util.concurrent.Executors
 import android.util.Log
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import android.content.Intent
 import android.location.*
-import com.example.omy.maps.MapsCreatedActivity
+import com.example.omy.maps.MapCreatedActivity
 import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
-import com.google.android.gms.location.LocationRequest.create
 import java.text.DateFormat
 import java.util.*
 
 class HomeFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
+    private var defaultLocation: Array<Double> = arrayOf(53.38, -1.46)
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private var mButtonStart: Button? = null
@@ -58,8 +55,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private lateinit var tnEditText: EditText
     private lateinit var weatherTemperatureText: TextView
     private lateinit var weatherIconView: ImageView
-
-    private val REQUEST_LOCATION_PERMISSION = 1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -106,9 +101,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                     R.string.successfully_created_trip, Snackbar.LENGTH_SHORT
                 ).show()
                 closeKeyboard(tnEditText)
-                val intent = Intent(context, MapsCreatedActivity::class.java)
+                val intent = Intent(context, MapCreatedActivity::class.java)
                 val msg = tnEditText.text.toString()
-                intent.putExtra("msg", msg)
+                intent.putExtra("map_created", msg)
                 context?.startActivity(intent)
             }
         }
@@ -125,7 +120,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         closeKeyboard(tnEditText)
         weatherTemperatureText = view.findViewById(R.id.weather_temperature)
         weatherIconView = view.findViewById(R.id.weather_icon)
-        getCurrentWeather(weatherTemperatureText, weatherIconView)
 
 //        val handler = Handler()
 //        handler.postDelayed(object : Runnable {
@@ -178,11 +172,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         super.onResume()
         mLocationRequest = LocationRequest.create()
 
-            //LocationRequest.create().apply {
-                //            interval = 1000
-                //            fastestInterval = 5000
-                //            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-                //        }
+        LocationRequest.create().apply {
+            interval = 1000
+            fastestInterval = 5000
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         startLocationUpdates()
     }
@@ -196,6 +190,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             mLastUpdateTime = DateFormat.getTimeInstance().format(Date())
             Log.i("MAP", "new location " + mCurrentLocation.toString())
 
+            getCurrentWeather(weatherTemperatureText, weatherIconView,
+                mCurrentLocation.longitude, mCurrentLocation.latitude)
+
             mMap.addMarker(
                 MarkerOptions().position(
                     LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude)
@@ -203,7 +200,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             )
             mMap.moveCamera(
                 CameraUpdateFactory.newLatLngZoom(
-                    LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude), 25.0f
+                    LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude), 10.0f
                 )
             )
         }
@@ -252,9 +249,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         mMap = googleMap
         mMap.uiSettings.isZoomControlsEnabled = true
         // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 14.0f))
+        val location = LatLng(defaultLocation[0], defaultLocation[1])
+        //mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f))
     }
 
     companion object {
@@ -275,12 +272,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
 
     /* --- Get weather and temperature --- */
-    private fun getCurrentWeather(textView: TextView, imageView: ImageView) {
-        // TODO: Replace lat&long with actual geolocation
-        val lat = 53.38
-        val lon = -1.46
+    private fun getCurrentWeather(textView: TextView, imageView: ImageView, longitude: Double, latitude: Double) {
 
-        val url = "http://api.weatherapi.com/v1/current.json?key=" + BuildConfig.WEATHER_APIKEY + "&q=" + lat + "," + lon
+        val url =
+            "http://api.weatherapi.com/v1/current.json?key=" +
+                    BuildConfig.WEATHER_APIKEY + "&q=" + latitude + "," + longitude
         val client = OkHttpClient()
         val request = Request.Builder().url(url).build()
         client.newCall(request).enqueue(object : Callback {
@@ -294,11 +290,21 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                     val weather = responseObject.getJSONObject("condition")
                     val icon = weather.get("icon")
 
-                    textView.setText(context?.getString(R.string.weather_temperature, tempC.toString()))
+                    textView.setText(
+                        context?.getString(
+                            R.string.weather_temperature,
+                            tempC.toString()
+                        )
+                    )
                     loadImage(imageView, "https:$icon")
-                } catch (e: JSONException) { e.printStackTrace() }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
             }
-            override fun onFailure(call: Call, e: IOException) { e.printStackTrace() }
+
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
         })
     }
 
