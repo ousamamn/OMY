@@ -19,8 +19,8 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
     private var numOfPhotos: Int = 0
 
 
-    constructor(items: List<Location>) {
-        LocationsAdapter.items = items
+    constructor(items: List<Location>): super() {
+        LocationsAdapter.items = items as MutableList<Location>
     }
 
     constructor() {
@@ -28,15 +28,15 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
     }
 
     constructor(cont: Context, items: List<Location>) : super() {
-        LocationsAdapter.items = items
+        LocationsAdapter.items = items as MutableList<Location>
         context = cont
     }
 
-    fun updateLocationList(locationList: List<Location>) {
+    /*fun updateLocationList(locationList: List<Location>) {
         //this.tripList
         LocationsAdapter.items = locationList
         notifyDataSetChanged()
-    }
+    }*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         //Inflate the layout, initialize the View Holder
@@ -81,6 +81,6 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
     }
 
     companion object {
-        lateinit var items: List<Location>
+        lateinit var items: MutableList<Location>
     }
 }
