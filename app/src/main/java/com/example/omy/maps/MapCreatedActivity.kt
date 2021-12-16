@@ -24,6 +24,7 @@ import android.widget.LinearLayout
 import androidx.core.app.ActivityCompat
 import com.example.omy.BuildConfig
 import com.example.omy.fragments.HomeFragment
+import com.example.omy.trips.TripShowActivity
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -73,15 +74,17 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             stopLocatingButton.visibility = View.GONE
             startLocatingButton.visibility = View.VISIBLE
         }
-        //stopLocationUpdates()
 
         endTripButton = findViewById<Button>(R.id.map_end_trip)
         endTripButton.setOnClickListener {
             stopLocationUpdates()
             saveTripToDB()
-            val intent = Intent(this, MapAddActivity::class.java)
-            val title = displayTitle.text.toString()
-            intent.putExtra("map_created", title)
+
+            /* Pass parameters to the TripShowActivity */
+            val intent = Intent(this, TripShowActivity::class.java)
+            val extras = Bundle()
+            extras.putString("trip_title", displayTitle.text.toString())    // HOPEFULLY IT IS POSSIBLE TO FETCH A TRIP USING ITS TITLE
+            intent.putExtras(extras)
             startActivity(intent)
         }
 
@@ -95,8 +98,14 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         addButton = findViewById(R.id.add_picture)
         addButton.setOnClickListener() {
+            /* Pass parameters to the MapAddActivity */
             val intent = Intent(this, MapAddActivity::class.java)
-            intent.putExtra("trip_title", displayTitle.text.toString())
+            val extras = Bundle()
+            extras.putString("trip_title", displayTitle.text.toString())
+            val (tripLongitude, tripLatitude) = visitedLongLatLocations.last()
+            extras.putDouble("trip_longitude",tripLongitude)
+            extras.putDouble("trip_latitude", tripLatitude)
+            intent.putExtras(extras)
             startActivity(intent)
         }
     }

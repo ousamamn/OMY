@@ -16,20 +16,31 @@ import android.widget.Toast
 import com.example.omy.R
 
 class MapAddActivity : AppCompatActivity() {
-    private lateinit var displayTitle: TextView
     private lateinit var cancelButton: Button
     private lateinit var saveButton: Button
     private lateinit var addPhotoFun: View
+
+    private lateinit var displayTitle: TextView
+    private var tripLongitude: Double = 0.0
+    private var tripLatitude: Double = 0.0
+
     private val intentPhoto = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.map_created_location)
 
+        /* Receive information from MapCreatedActivity */
         val b: Bundle? = intent.extras
         if (b != null) {
             displayTitle = findViewById(R.id.trip_title)
             displayTitle.text = b.getString("trip_title")
+            tripLongitude = b.getDouble("trip_longitude")
+            tripLatitude = b.getDouble("trip_latitude")
         }
+
+
         val titleNameEditText = findViewById<EditText>(R.id.location_title)
         val descriptionEditText = findViewById<EditText>(R.id.location_description)
         cancelButton = findViewById(R.id.location_cancel_button)
@@ -58,11 +69,6 @@ class MapAddActivity : AppCompatActivity() {
             } else {
                 onBackPressed()
                 finish()
-                // the onBackPressed need to be change to be able to save the reviews
-                //val intent = Intent(context, MapsCreatedActivity::class.java)
-                //val msg = tnEditText.text.toString()
-                //intent.putExtra("msg", msg)
-                //context?.startActivity(intent)
             }
         }
         setupUI(findViewById(R.id.on_touch))
