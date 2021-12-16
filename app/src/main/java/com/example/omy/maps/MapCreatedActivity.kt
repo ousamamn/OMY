@@ -43,6 +43,7 @@ import java.util.concurrent.Executors
 class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private var defaultLocation: Array<Double> = arrayOf(53.38, -1.48)
+    private var visitedLongLatLocations = ArrayList<Pair<Double, Double>>()
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
@@ -66,13 +67,13 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             startLocatingButton.visibility = View.GONE
             stopLocatingButton.visibility = View.VISIBLE
         }
-        //startLocatingButton.isEnabled = true
         stopLocatingButton = findViewById<View>(R.id.map_pause_location) as Button
         stopLocatingButton.setOnClickListener {
             stopLocationUpdates()
             stopLocatingButton.visibility = View.GONE
             startLocatingButton.visibility = View.VISIBLE
         }
+        //stopLocationUpdates()
 
         endTripButton = findViewById<Button>(R.id.map_end_trip)
         endTripButton.setOnClickListener {
@@ -98,7 +99,6 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             intent.putExtra("trip_title", displayTitle.text.toString())
             startActivity(intent)
         }
-
     }
 
     private fun startLocationUpdates() {
@@ -153,16 +153,20 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             mCurrentLocation = locationResult.getLastLocation()
             mLastUpdateTime = DateFormat.getTimeInstance().format(Date())
             Log.i("MAP", "new location " + mCurrentLocation.toString())
-            if (mMap != null) mMap.addMarker(
-                MarkerOptions().position(
-                    LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude)
-                ).title(mLastUpdateTime)
+            val currentLongitude = mCurrentLocation!!.longitude
+            val currentLatitude = mCurrentLocation!!.latitude
+
+            mMap.addMarker(MarkerOptions()
+                    .position(LatLng(currentLatitude, currentLongitude)).title(mLastUpdateTime)
             )
-            mMap.moveCamera(
-                CameraUpdateFactory.newLatLngZoom(
-                    LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude), 16.0f
-                )
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                LatLng(currentLatitude, currentLongitude), 16.0f)
             )
+            /*if (visitedLongLatLocations.isEmpty()) {
+                visitedLongLatLocations
+            }*/
+            visitedLongLatLocations.add(Pair(currentLatitude, currentLongitude))
+            Log.i("Locations", visitedLongLatLocations.toString())
         }
     }
 
