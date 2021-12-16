@@ -17,7 +17,7 @@ interface TripDao {
     fun delete(trip: Trip)
 
     @Query("SELECT * from trip")
-    fun getAll(): LiveData<List<Trip>>?
+    fun getAll(): LiveData<List<Trip?>>?
 
     @Query("SELECT * from trip WHERE id=:id")
     fun getTrip(id:Int):LiveData<Trip>?

@@ -11,19 +11,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
+import com.example.omy.data.Location
 import com.example.omy.data.Trip
 import com.example.omy.photos.PhotosAdapter
 import org.w3c.dom.Text
 
 class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     private lateinit var context: Context
-  
-    constructor() {
+
+    /*constructor() {
         items = ArrayList<Trip>()
-    }
-    constructor(items: List<Trip>): super() {
-        TripsAdapter.items = items
-        notifyDataSetChanged()
+    }*/
+    constructor(items: List<Trip?>): super() {
+        TripsAdapter.items = items as MutableList<Trip?>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,17 +37,17 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         return holder
     }
 
-    fun updateTripList(tripList: List<Trip>) {
+    fun updateTripList(tripList: MutableList<Trip?>) {
         //this.tripList
         items = tripList
-        notifyDataSetChanged()
+        //notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.title.text = items[position].tripTitle
-        holder.date.text = items[position].tripDate
-        holder.distance.text = items[position].tripDistance.toString()
-        holder.numOfLocations.text = items[position].tripLocations.toString()
+        holder.title.text = items[position]?.tripTitle
+        holder.date.text = items[position]?.tripDate
+        holder.distance.text = items[position]?.tripDistance.toString()
+        holder.numOfLocations.text = items[position]?.tripLocations.toString()
         holder.itemView.setOnClickListener(View.OnClickListener {
             val intent = Intent(context, TripShowActivity::class.java)
             intent.putExtra("position", position)
@@ -67,6 +67,6 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     }
 
     companion object {
-        lateinit var items: List<Trip>
+        lateinit var items: MutableList<Trip?>
     }
 }

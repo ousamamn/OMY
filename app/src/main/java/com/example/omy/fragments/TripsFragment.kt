@@ -16,13 +16,15 @@ import com.example.omy.trips.*
 import com.example.omy.data.Trip
 import com.example.omy.data.TripDao
 import kotlinx.coroutines.*
+import androidx.lifecycle.ViewModelProvider
+import com.example.omy.MainRepository
+
 
 class TripsFragment : Fragment() {
     lateinit var tripsFilterSpinner: Spinner
     lateinit var tripsDaoObj: TripDao
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-    private var tripsDataset: List<Trip> = ArrayList<Trip>()
-    private var myDataset: List<Trip> = ArrayList<Trip>()
+    private var tripsDataset: List<Trip?> = ArrayList<Trip?>()
     private var tripsViewModel: TripsViewModel? = null
     //private var tripsAdapter : TripsAdapter()
     lateinit var mRecyclerView: RecyclerView
@@ -42,9 +44,6 @@ class TripsFragment : Fragment() {
             "11"
         )
     )*/
-    private var myViewModel: TripsViewModel? = null
-    private val newDataSet : ArrayList<Trip> = ArrayList<Trip>()
-    var adapter = TripsAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,9 +58,9 @@ class TripsFragment : Fragment() {
 
         val trip1 = Trip(id = 1, tripTitle = "Me at the Zoo", tripDate = "12 Dec 2021",
             tripDistance = 3.2, tripWeather = 19, tripDescription = "description", tripLocations = 3)
-        this.tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
-        mAdapter= TripsAdapter() as RecyclerView.Adapter<RecyclerView.ViewHolder>
-        initData()
+        tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
+        //tripsDataset.clear()
+
         //val location = Location(id=55,locationTitle = "title",locationDescription = "description",locationLatitude = 1.2,locationLongitude = 1.1,locationTripId = 34)
 
         /*  Trips Filter Functionality */
@@ -81,6 +80,8 @@ class TripsFragment : Fragment() {
         mRecyclerView = view.findViewById<RecyclerView>(R.id.trips_list)
         mLayoutManager = LinearLayoutManager(requireContext())
         mRecyclerView.layoutManager = mLayoutManager
+        mAdapter = TripsAdapter(tripsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+        initData()
         /*tripsViewModel!!.getTripsToDisplay()?.observe(viewLifecycleOwner, { newValue ->
             myDataset = newValue
             mAdapter = TripsAdapter(myDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
@@ -93,9 +94,12 @@ class TripsFragment : Fragment() {
             newDataSet.add((myDataset[1]))
         }*/
 
+        mRecyclerView.adapter = mAdapter
 
-        //mAdapter = TripsAdapter(tripsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
-        mRecyclerView.adapter = adapter
+
+
+
+        //mRecyclerView.adapter = mAdapter
 
 
         //mAdapter = TripsAdapter(tripsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
@@ -104,15 +108,12 @@ class TripsFragment : Fragment() {
     }
 
     private fun initData() {
-        this.tripsViewModel!!.getTripsToDisplay()?.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                tripsDataset = it
-                //mAdapter = TripsAdapter(tripsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
-                //mAdapter.notifyDataSetChanged()
+        this.tripsViewModel!!.getTripsToDisplay()!!.observe(viewLifecycleOwner, { newValue ->
+            tripsDataset = newValue
+            mAdapter.notifyDataSetChanged()
+            mAdapter = TripsAdapter(newValue) as RecyclerView.Adapter<RecyclerView.ViewHolder>
 
-
-                adapter.updateTripList(tripsDataset)
-            }
-            })
-        }
+            //mRecyclerView.adapter = mAdapter
+        })
+    }
     }

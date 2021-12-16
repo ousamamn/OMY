@@ -4,8 +4,8 @@ import androidx.room.*
 
 @Dao
 interface ImageDao {
-    @Insert
-    fun insert(image:Image)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(image:Image): Long
 
     @Update
     fun update(imageData:Image)
@@ -13,7 +13,7 @@ interface ImageDao {
     @Delete
     fun delete(image: Image)
 
-    @Query("SELECT * from image")
+    @Query("SELECT * from image ORDER by id ASC")
     fun getAll(): LiveData<List<Image>>?
 
     @Query("SELECT * from image WHERE id=:id")

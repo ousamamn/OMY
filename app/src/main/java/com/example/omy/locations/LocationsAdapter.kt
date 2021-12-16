@@ -19,24 +19,24 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
     private var numOfPhotos: Int = 0
 
 
-    constructor(items: List<Location>) {
-        LocationsAdapter.items = items
+    constructor(items: List<Location?>): super() {
+        LocationsAdapter.items = items as MutableList<Location?>
     }
 
     constructor() {
-        LocationsAdapter.items = ArrayList<Location>()
+        LocationsAdapter.items = ArrayList<Location?>()
     }
 
-    constructor(cont: Context, items: List<Location>) : super() {
-        LocationsAdapter.items = items
+    constructor(cont: Context, items: List<Location?>) : super() {
+        LocationsAdapter.items = items as MutableList<Location?>
         context = cont
     }
 
-    fun updateLocationList(locationList: List<Location>) {
+    /*fun updateLocationList(locationList: List<Location>) {
         //this.tripList
         LocationsAdapter.items = locationList
         notifyDataSetChanged()
-    }
+    }*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         //Inflate the layout, initialize the View Holder
@@ -50,9 +50,9 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.titleLocation.text = items[position].locationTitle
-        holder.longitude.text = items[position].locationLongitude.toString()
-        holder.latitude.text = items[position].locationLatitude.toString()
+        holder.titleLocation.text = items[position]?.locationTitle
+        holder.longitude.text = items[position]?.locationLongitude.toString()
+        holder.latitude.text = items[position]?.locationLatitude.toString()
         holder.numOfReviews.text = numOfReviews.toString()
         holder.numOfPhotos.text = numOfPhotos.toString()
         holder.itemView.setOnClickListener(View.OnClickListener {
@@ -81,6 +81,6 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
     }
 
     companion object {
-        lateinit var items: List<Location>
+        lateinit var items: MutableList<Location?>
     }
 }

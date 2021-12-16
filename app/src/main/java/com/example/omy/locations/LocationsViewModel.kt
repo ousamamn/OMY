@@ -15,13 +15,13 @@ import com.example.omy.data.Location
 
 class LocationsViewModel(application: Application): AndroidViewModel(application) {
     private var locationsRepository: LocationsRepository = LocationsRepository(application)
-    private var locationsToDisplay: LiveData<List<Location>>? = null
+    private var locationsToDisplay: LiveData<List<Location?>>? = null
 
     init {
         this.locationsToDisplay = this.locationsRepository.getLocations()
     }
 
-    fun getLocationsToDisplay(): LiveData<List<Location>>? {
+    fun getLocationsToDisplay(): LiveData<List<Location?>>? {
         if (this.locationsToDisplay == null) {
             this.locationsToDisplay = MutableLiveData()
         }

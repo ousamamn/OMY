@@ -25,10 +25,10 @@ class TripShowActivity : AppCompatActivity() {
                 val tripDistance = findViewById<TextView>(R.id.trip_distance)
                 val tripLocation = findViewById<TextView>(R.id.trip_num_of_locations)
                 val element = TripsAdapter.items[position]
-                tripTitle.text = element.tripTitle
-                tripDate.text = element.tripDate
-                tripDistance.text = element.tripDistance.toString() + " km"
-                tripLocation.text = element.tripLocations.toString()
+                tripTitle.text = element?.tripTitle
+                tripDate.text = element?.tripDate
+                tripDistance.text = element?.tripDistance.toString() + " km"
+                tripLocation.text = element?.tripLocations.toString()
             }
         }
         backButton = findViewById(R.id.back_to_previous_button)
