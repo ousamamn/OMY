@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.omy.MainRepository
 import com.example.omy.data.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -11,11 +12,14 @@ import kotlinx.coroutines.launch
 
 class PhotosRepository(application: Application) {
     private var photosDBDao: ImageDao? = null
-
+    private val databaseObj:OMYDatabase? = MainRepository(application).databaseObj
     init {
-        val db: OMYDatabase? = OMYDatabase.getDatabase(application)
-        if (db != null) { photosDBDao = db.ImageDao() }
+        if (databaseObj != null) {
+            photosDBDao = databaseObj.ImageDao()
+        }
     }
+
+
 
     companion object {
         private val scope = CoroutineScope(Dispatchers.IO)

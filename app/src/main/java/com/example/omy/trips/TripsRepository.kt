@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.omy.MainRepository
 import com.example.omy.data.OMYDatabase
 import com.example.omy.data.Trip
 import com.example.omy.data.TripDao
@@ -14,9 +15,11 @@ import kotlinx.coroutines.launch
 class TripsRepository(application: Application) {
     private var tripsDBDao: TripDao? = null
 
+    private val databaseObj:OMYDatabase? = MainRepository(application).databaseObj
     init {
-        val db: OMYDatabase? = OMYDatabase.getDatabase(application)
-        if (db != null) { tripsDBDao = db.TripDao() }
+        if (databaseObj != null) {
+            tripsDBDao = databaseObj.TripDao()
+        }
     }
 
     companion object {

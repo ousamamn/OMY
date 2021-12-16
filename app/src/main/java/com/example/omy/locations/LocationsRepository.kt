@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.omy.MainRepository
 import com.example.omy.data.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,9 +13,11 @@ import kotlinx.coroutines.launch
 class LocationsRepository(application: Application) {
     private var locationsDBDao: LocationDao? = null
 
+    private val databaseObj:OMYDatabase? = MainRepository(application).databaseObj
     init {
-        val db: OMYDatabase? = OMYDatabase.getDatabase(application)
-        if (db != null) { locationsDBDao = db.LocationDao() }
+        if (databaseObj != null) {
+            locationsDBDao = databaseObj.LocationDao()
+        }
     }
 
     companion object {

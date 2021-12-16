@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
@@ -14,6 +15,8 @@ import com.example.omy.trips.*
 import com.example.omy.data.Trip
 import com.example.omy.data.TripDao
 import kotlinx.coroutines.*
+import androidx.lifecycle.ViewModelProvider
+
 
 class TripsFragment : Fragment() {
     lateinit var tripsFilterSpinner: Spinner
