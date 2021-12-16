@@ -16,7 +16,6 @@ import com.example.omy.trips.*
 import com.example.omy.data.Trip
 import com.example.omy.data.TripDao
 import kotlinx.coroutines.*
-import androidx.lifecycle.ViewModelProvider
 import com.example.omy.MainRepository
 
 
