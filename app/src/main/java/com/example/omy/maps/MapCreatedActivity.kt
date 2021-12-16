@@ -1,7 +1,6 @@
 package com.example.omy.maps
 
 import android.Manifest
-import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
@@ -42,8 +41,6 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var displayTitle: TextView
     private lateinit var displayTemperature: TextView
-    private lateinit var currentLatitude: EditText
-    private lateinit var currentLongitude: EditText
     private lateinit var startLocatingButton: Button
     private lateinit var stopLocatingButton: Button
     private lateinit var addButton: FloatingActionButton
@@ -60,11 +57,6 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             displayTitle.text = b.getString("trip_title")
             displayTemperature = findViewById(R.id.display_temperature)
             displayTemperature.text = getString(R.string.temperature, b.getString("trip_temperature"))
-            /* --- */
-            //currentLatitude = findViewById(R.id.location_latitude)
-            //currentLatitude.hint = b.getDouble("base_latitude").toString()
-            //currentLongitude = findViewById(R.id.location_longitude)
-            //currentLongitude.hint = b.getDouble("base_longitude").toString()
             visitedLongLatLocations.add(Pair(b.getDouble("base_latitude"),b.getDouble("base_longitude")))
         }
 
@@ -88,7 +80,6 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         endTripButton.setOnClickListener {
             stopLocationUpdates()
             saveTripToDB()
-
             /* Pass parameters to the TripShowActivity */
             val intent = Intent(this, TripShowActivity::class.java)
             val extras = Bundle()
