@@ -47,6 +47,7 @@ class HomeFragment : Fragment() {
     private lateinit var weatherWidget: LinearLayout
     private lateinit var weatherTemperatureText: TextView
     private lateinit var weatherIconView: ImageView
+    private lateinit var baseLocation: Pair<Double, Double>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -78,6 +79,9 @@ class HomeFragment : Fragment() {
                 val extras = Bundle()
                 extras.putString("trip_title", tnEditText.text.toString())
                 extras.putString("trip_temperature", weatherTemperatureText.text.toString())
+                val (baseLatitude, baseLongitude) = baseLocation
+                extras.putDouble("base_latitude", baseLatitude)
+                extras.putDouble("base_longitude", baseLongitude)
                 intent.putExtras(extras)
                 context?.startActivity(intent)
             }
@@ -144,7 +148,8 @@ class HomeFragment : Fragment() {
             mLastUpdateTime = DateFormat.getTimeInstance().format(Date())
             Log.i("MAP", "new location " + mCurrentLocation.toString())
 
-            getCurrentWeather(weatherTemperatureText, weatherIconView, mCurrentLocation.longitude, mCurrentLocation.latitude)
+            baseLocation = Pair(mCurrentLocation.latitude, mCurrentLocation.longitude)
+            getCurrentWeather(weatherTemperatureText, weatherIconView, mCurrentLocation.latitude, mCurrentLocation.longitude)
             weatherWidget.visibility = View.VISIBLE
         }
     }
@@ -166,7 +171,7 @@ class HomeFragment : Fragment() {
     }
 
     /* --- Get weather and temperature --- */
-    private fun getCurrentWeather(textView: TextView, imageView: ImageView, longitude: Double, latitude: Double) {
+    private fun getCurrentWeather(textView: TextView, imageView: ImageView, latitude: Double, longitude: Double) {
 
         val url =
             "http://api.weatherapi.com/v1/current.json?key=" +
