@@ -33,7 +33,7 @@ class LocationsRepository(application: Application) {
         }
     }
 
-    fun getLocations(): LiveData<List<Location>>? {
+    fun getLocations(): LiveData<List<Location?>>? {
         return locationsDBDao?.getAll()
     }
 

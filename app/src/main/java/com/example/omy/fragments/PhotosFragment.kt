@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.example.omy.R
 import com.example.omy.data.Image
 import com.example.omy.photos.*
+import com.example.omy.trips.TripsAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.runBlocking
 import pl.aprilapps.easyphotopicker.ChooserType
@@ -64,12 +65,12 @@ class PhotosFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         this.photosViewModel = ViewModelProvider(this)[PhotosViewModel::class.java]
-
+        mAdapter = PhotosAdapter(photoDataset) as Adapter<RecyclerView.ViewHolder>
         initData()
         mRecyclerView = view.findViewById(R.id.photos_list)
         val numberOfColumns = 4
         mRecyclerView.layoutManager = GridLayoutManager(requireContext(), numberOfColumns)
-        mAdapter = PhotosAdapter(photoDataset) as Adapter<RecyclerView.ViewHolder>
+
 
         //mAdapter = PhotosAdapter(photoDataset) as Adapter<RecyclerView.ViewHolder>
         mRecyclerView.adapter = mAdapter
@@ -93,7 +94,8 @@ class PhotosFragment : Fragment() {
 
     private fun initData() {
         this.photosViewModel!!.getPhotosToDisplay()?.observe(viewLifecycleOwner, {newValue ->
-            photoDataset.addAll(newValue)
+            mAdapter.notifyDataSetChanged()
+            mAdapter = PhotosAdapter(newValue) as RecyclerView.Adapter<RecyclerView.ViewHolder>
         })
     }
 

@@ -19,16 +19,16 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
     private var numOfPhotos: Int = 0
 
 
-    constructor(items: List<Location>): super() {
-        LocationsAdapter.items = items as MutableList<Location>
+    constructor(items: List<Location?>): super() {
+        LocationsAdapter.items = items as MutableList<Location?>
     }
 
     constructor() {
-        LocationsAdapter.items = ArrayList<Location>()
+        LocationsAdapter.items = ArrayList<Location?>()
     }
 
-    constructor(cont: Context, items: List<Location>) : super() {
-        LocationsAdapter.items = items as MutableList<Location>
+    constructor(cont: Context, items: List<Location?>) : super() {
+        LocationsAdapter.items = items as MutableList<Location?>
         context = cont
     }
 
@@ -50,9 +50,9 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.titleLocation.text = items[position].locationTitle
-        holder.longitude.text = items[position].locationLongitude.toString()
-        holder.latitude.text = items[position].locationLatitude.toString()
+        holder.titleLocation.text = items[position]?.locationTitle
+        holder.longitude.text = items[position]?.locationLongitude.toString()
+        holder.latitude.text = items[position]?.locationLatitude.toString()
         holder.numOfReviews.text = numOfReviews.toString()
         holder.numOfPhotos.text = numOfPhotos.toString()
         holder.itemView.setOnClickListener(View.OnClickListener {
@@ -81,6 +81,6 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
     }
 
     companion object {
-        lateinit var items: MutableList<Location>
+        lateinit var items: MutableList<Location?>
     }
 }

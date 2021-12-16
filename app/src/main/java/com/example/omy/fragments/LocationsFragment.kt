@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
@@ -15,6 +16,8 @@ import com.example.omy.data.Location
 import com.example.omy.locations.*
 import com.example.omy.photos.PhotosAdapter
 import com.example.omy.photos.PhotosViewModel
+import com.example.omy.trips.TripsAdapter
+import com.example.omy.trips.TripsViewModel
 import java.util.ArrayList
 
 class LocationsFragment : Fragment() {
@@ -23,7 +26,7 @@ class LocationsFragment : Fragment() {
     private lateinit var mAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
     lateinit var mLayoutManager: RecyclerView.LayoutManager
     private var locationsViewModel: LocationsViewModel? = null
-    private val locationsDataset: MutableList<Location> = ArrayList<Location>()
+    private val locationsDataset: MutableList<Location?> = ArrayList<Location?>()
     /*private val locationDataset: Array<LocationElement> = arrayOf<LocationElement>(
         LocationElement(
             "Big monument", "-0.14", "86.67",
@@ -56,6 +59,7 @@ class LocationsFragment : Fragment() {
 
         /*  Locations Filter Functionality */
         locationsFilterSpinner = view.findViewById(R.id.locations_filters_spinner)
+        locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
         ArrayAdapter.createFromResource(
             requireContext(),
             R.array.locations_filter_array,
@@ -72,14 +76,19 @@ class LocationsFragment : Fragment() {
         mLayoutManager = LinearLayoutManager(requireContext())
         mRecyclerView.layoutManager = mLayoutManager
         mAdapter = LocationsAdapter(locationsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+        initData()
 
         //mAdapter = LocationsAdapter(locationDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
         mRecyclerView.adapter = mAdapter
     }
 
     private fun initData() {
-        this.locationsViewModel!!.getLocationsToDisplay()?.observe(viewLifecycleOwner, {newValue ->
-            locationsDataset.addAll(newValue)
+        this.locationsViewModel!!.getLocationsToDisplay()!!.observe(viewLifecycleOwner, { newValue ->
+            //tripsDataset = newValue
+            mAdapter.notifyDataSetChanged()
+            mAdapter = LocationsAdapter(newValue) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+
+            //mRecyclerView.adapter = mAdapter
         })
     }
 }
