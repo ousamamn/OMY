@@ -139,7 +139,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onResume()
         mLocationRequest = LocationRequest.create().apply {
             interval = 1000
-            fastestInterval = 5000
+            fastestInterval = 20000
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)

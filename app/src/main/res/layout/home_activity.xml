@@ -52,24 +52,46 @@
             app:layout_constraintRight_toRightOf="parent"/>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/go_button"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="15dp"
-        android:paddingRight="30dp"
-        android:paddingBottom="15dp"
-        android:paddingLeft="30dp"
-        app:cornerRadius="15dp"
-        android:elevation="30dp"
-        android:backgroundTint="#545454"
-        android:drawableRight="@drawable/ic_outline_arrow_circle_right_24"
-        android:text="@string/trip_name_go"
-        android:textSize="25sp"
-        android:fontFamily="@font/nunito_extrabold"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical"
+        android:gravity="center"
+
         app:layout_constraintTop_toBottomOf="@+id/trip_title_box"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
+        <Button
+            android:id="@+id/go_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="15dp"
+            android:paddingLeft="30dp"
+            app:cornerRadius="15dp"
+            android:elevation="30dp"
+            android:backgroundTint="#545454"
+            android:drawableRight="@drawable/ic_outline_arrow_circle_right_24"
+            android:text="@string/trip_name_go"
+            android:textSize="25sp"
+            android:fontFamily="@font/nunito_extrabold" />
 
+        <TextView
+            android:id="@+id/no_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corners_darkgrey_background"
+            android:fontFamily="@font/nunito_medium"
+            android:paddingLeft="30dp"
+            android:paddingTop="15dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="15dp"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:text="Please enable the location"
+            android:textSize="25sp" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
