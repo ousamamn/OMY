@@ -33,17 +33,16 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <View
-        android:id="@+id/location_sub_sub_label"
+        android:id="@+id/photo_sub_sub_label"
         android:layout_width="wrap_content"
         android:layout_height="3dp"
         android:background="@drawable/shadow"
-        android:translationY="65dp"
         app:layout_constraintTop_toBottomOf="@id/photo_sub_label"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <include layout="@layout/photos_activity"
-        app:layout_constraintTop_toBottomOf="@id/location_sub_sub_label"
+        app:layout_constraintTop_toBottomOf="@id/photo_sub_sub_label"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

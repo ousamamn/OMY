@@ -1,7 +1,6 @@
 package com.example.omy.locations
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.Spanned
@@ -13,11 +12,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.omy.R
 import java.lang.NumberFormatException
 
 class LocationEditReviewActivity : AppCompatActivity() {
-
     private lateinit var cancelButton: Button
     private lateinit var sendButton: Button
     private lateinit var displayHeading: TextView
@@ -34,7 +33,7 @@ class LocationEditReviewActivity : AppCompatActivity() {
             displayHeading = findViewById(R.id.review_heading)
             displayHeading.text = getString(R.string.heading_reviews) + " - " + msg
         }
-        
+
         val titleEditText = findViewById<EditText>(R.id.review_title)
         val ratingEditText = findViewById<EditText>(R.id.review_rating)
         val descriptionEditText = findViewById<EditText>(R.id.review_description)
@@ -142,6 +141,3 @@ class LocationEditReviewActivity : AppCompatActivity() {
         }
     }
 }
-
-
-
