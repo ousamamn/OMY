@@ -1,12 +1,10 @@
 package com.example.omy.maps
 
 import android.Manifest
-import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
 import com.example.omy.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.content.Intent
@@ -18,9 +16,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
+import android.widget.*
 import androidx.core.app.ActivityCompat
 import com.example.omy.BuildConfig
 import com.example.omy.fragments.HomeFragment
@@ -40,7 +36,6 @@ import java.io.IOException
 import java.net.URI.create
 import java.text.DateFormat
 import java.util.*
-import java.util.concurrent.Executors
 
 
 class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -60,6 +55,16 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.map_created_trip)
+
+        /* Receive information from HomeFragment */
+        val b: Bundle? = intent.extras
+        if (b != null) {
+            displayTitle = findViewById(R.id.display_title)
+            displayTitle.text = b.getString("trip_title")
+            displayTemperature = findViewById(R.id.display_temperature)
+            displayTemperature.text = getString(R.string.temperature, b.getString("trip_temperature"))
+            visitedLongLatLocations.add(Pair(b.getDouble("base_latitude"),b.getDouble("base_longitude")))
+        }
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
@@ -81,7 +86,6 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         endTripButton.setOnClickListener {
             stopLocationUpdates()
             saveTripToDB()
-
             /* Pass parameters to the TripShowActivity */
             val intent = Intent(this, TripShowActivity::class.java)
             val extras = Bundle()
@@ -90,14 +94,6 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             startActivity(intent)
         }
 
-        /* Receive information from HomeFragment */
-        val b: Bundle? = intent.extras
-        if (b != null) {
-            displayTitle = findViewById(R.id.display_title)
-            displayTitle.text = b.getString("trip_title")
-            displayTemperature = findViewById(R.id.display_temperature)
-            displayTemperature.text = getString(R.string.temperature, b.getString("trip_temperature"))
-        }
         addButton = findViewById(R.id.add_picture)
         addButton.setOnClickListener() {
             /* Pass parameters to the MapAddActivity */
@@ -150,7 +146,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onResume()
         mLocationRequest = LocationRequest.create().apply {
             interval = 1000
-            fastestInterval = 5000
+            fastestInterval = 20000
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -174,9 +170,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                 LatLng(currentLatitude, currentLongitude), 16.0f)
             )
-            /*if (visitedLongLatLocations.isEmpty()) {
-                visitedLongLatLocations
-            }*/
+
             visitedLongLatLocations.add(Pair(currentLatitude, currentLongitude))
             Log.i("Locations", visitedLongLatLocations.toString())
         }

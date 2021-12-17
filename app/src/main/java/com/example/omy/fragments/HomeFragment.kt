@@ -33,6 +33,7 @@ import com.google.android.gms.maps.*
 import android.content.Intent
 import android.location.*
 import android.widget.*
+import androidx.core.location.LocationManagerCompat
 import com.example.omy.maps.MapCreatedActivity
 import com.google.android.gms.location.LocationRequest
 import java.text.DateFormat
@@ -43,10 +44,12 @@ class HomeFragment : Fragment() {
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     private lateinit var goButton: Button
+    private lateinit var locationWarningView: View
     private lateinit var tnEditText: EditText
     private lateinit var weatherWidget: LinearLayout
     private lateinit var weatherTemperatureText: TextView
     private lateinit var weatherIconView: ImageView
+    private lateinit var baseLocation: Pair<Double, Double>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -64,6 +67,11 @@ class HomeFragment : Fragment() {
         startLocationUpdates()
 
         goButton = view.findViewById(R.id.go_button)
+        locationWarningView = view.findViewById(R.id.no_location)
+        if (!isLocationEnabled(requireContext())) {
+            goButton.visibility = View.GONE
+            locationWarningView.visibility = View.VISIBLE
+        }
         goButton.setOnClickListener {
             if (TextUtils.isEmpty(tnEditText.text.toString())) {
                 Snackbar.make(view.findViewById(R.id.notification_view),
@@ -78,6 +86,9 @@ class HomeFragment : Fragment() {
                 val extras = Bundle()
                 extras.putString("trip_title", tnEditText.text.toString())
                 extras.putString("trip_temperature", weatherTemperatureText.text.toString())
+                val (baseLatitude, baseLongitude) = baseLocation
+                extras.putDouble("base_latitude", baseLatitude)
+                extras.putDouble("base_longitude", baseLongitude)
                 intent.putExtras(extras)
                 context?.startActivity(intent)
             }
@@ -93,25 +104,18 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(requireContext() as Activity,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                )
-            ) {
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
             } else {
-                ActivityCompat.requestPermissions(
-                    requireContext() as Activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    ACCESS_FINE_LOCATION
-                )
+                ActivityCompat.requestPermissions(requireContext() as Activity,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), ACCESS_FINE_LOCATION)
             }
             return
         }
@@ -143,14 +147,22 @@ class HomeFragment : Fragment() {
             mCurrentLocation = locationResult.getLastLocation()
             mLastUpdateTime = DateFormat.getTimeInstance().format(Date())
             Log.i("MAP", "new location " + mCurrentLocation.toString())
+            goButton.visibility = View.VISIBLE
+            locationWarningView.visibility = View.GONE
 
-            getCurrentWeather(weatherTemperatureText, weatherIconView, mCurrentLocation.longitude, mCurrentLocation.latitude)
+            baseLocation = Pair(mCurrentLocation.latitude, mCurrentLocation.longitude)
+            getCurrentWeather(weatherTemperatureText, weatherIconView, mCurrentLocation.latitude, mCurrentLocation.longitude)
             weatherWidget.visibility = View.VISIBLE
         }
     }
 
     companion object {
         private const val ACCESS_FINE_LOCATION = 123
+    }
+
+    private fun isLocationEnabled(context: Context): Boolean {
+        return LocationManagerCompat.isLocationEnabled(
+            context.getSystemService(Context.LOCATION_SERVICE) as LocationManager)
     }
 
     private fun closeKeyboard(view: View) {
@@ -166,7 +178,7 @@ class HomeFragment : Fragment() {
     }
 
     /* --- Get weather and temperature --- */
-    private fun getCurrentWeather(textView: TextView, imageView: ImageView, longitude: Double, latitude: Double) {
+    private fun getCurrentWeather(textView: TextView, imageView: ImageView, latitude: Double, longitude: Double) {
 
         val url =
             "http://api.weatherapi.com/v1/current.json?key=" +

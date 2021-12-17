@@ -17,13 +17,15 @@ import com.example.omy.R
 import com.example.omy.data.Location
 
 class MapAddActivity : AppCompatActivity() {
+    private lateinit var displayTitle: TextView
+    private lateinit var latEditText: EditText
+    private lateinit var longEditText: EditText
     private lateinit var cancelButton: Button
     private lateinit var saveButton: Button
     private lateinit var addPhotoFun: View
 
-    private lateinit var displayTitle: TextView
-    private var tripLongitude: Double = 0.0
     private var tripLatitude: Double = 0.0
+    private var tripLongitude: Double = 0.0
 
     private val intentPhoto = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
@@ -32,18 +34,23 @@ class MapAddActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.map_created_location)
 
+
+
         /* Receive information from MapCreatedActivity */
         val b: Bundle? = intent.extras
         if (b != null) {
             displayTitle = findViewById(R.id.trip_title)
             displayTitle.text = b.getString("trip_title")
-            tripLongitude = b.getDouble("trip_longitude")
             tripLatitude = b.getDouble("trip_latitude")
+            tripLongitude = b.getDouble("trip_longitude")
         }
-
 
         val titleNameEditText = findViewById<EditText>(R.id.location_title)
         val descriptionEditText = findViewById<EditText>(R.id.location_description)
+        latEditText = findViewById(R.id.location_latitude)
+        latEditText.hint = tripLatitude.toString()
+        longEditText = findViewById(R.id.location_longitude)
+        longEditText.hint = tripLongitude.toString()
         cancelButton = findViewById(R.id.location_cancel_button)
         saveButton = findViewById(R.id.location_add_button)
         addPhotoFun = findViewById(R.id.location_add_photo)
