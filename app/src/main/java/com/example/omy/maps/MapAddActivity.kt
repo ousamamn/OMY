@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.example.omy.R
+import com.example.omy.data.Location
 
 class MapAddActivity : AppCompatActivity() {
     private lateinit var displayTitle: TextView
@@ -74,6 +75,7 @@ class MapAddActivity : AppCompatActivity() {
                 )
                     .show();
             } else {
+                //val location = Location(locationLongitude = tripLongitude, locationLatitude = tripLatitude, locationTitle = displayTitle.text.toString(),)
                 onBackPressed()
                 finish()
             }

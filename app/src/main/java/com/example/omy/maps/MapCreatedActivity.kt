@@ -22,12 +22,18 @@ import com.example.omy.BuildConfig
 import com.example.omy.fragments.HomeFragment
 import com.example.omy.trips.TripShowActivity
 import com.google.android.gms.location.*
+import com.google.android.gms.location.LocationRequest.create
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import okhttp3.*
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.IOException
+import java.net.URI.create
 import java.text.DateFormat
 import java.util.*
 
@@ -124,6 +130,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             return
         }
+
         mFusedLocationClient.requestLocationUpdates(
             mLocationRequest,
             mLocationCallback,
@@ -151,7 +158,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     private var mLocationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             super.onLocationResult(locationResult)
-            mCurrentLocation = locationResult.getLastLocation()
+            mCurrentLocation = locationResult.lastLocation
             mLastUpdateTime = DateFormat.getTimeInstance().format(Date())
             Log.i("MAP", "new location " + mCurrentLocation.toString())
             val currentLongitude = mCurrentLocation!!.longitude
