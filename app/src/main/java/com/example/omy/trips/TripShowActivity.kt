@@ -25,11 +25,15 @@ class TripShowActivity : AppCompatActivity() {
                 val tripDate = findViewById<TextView>(R.id.trip_date)
                 val tripDistance = findViewById<TextView>(R.id.trip_distance)
                 val tripLocation = findViewById<TextView>(R.id.trip_num_of_locations)
+                val tripDescription = findViewById<TextView>(R.id.trip_description)
+                val tripWeather = findViewById<TextView>(R.id.trip_weather)
                 val element = TripsAdapter.items[position]
                 Log.i("showActivity", element!!.tripTitle!!)
-                tripTitle.text = element!!.tripTitle!!
-                tripDate.text = element!!.tripDate!!
-                tripDistance.text = element!!.tripDistance!!.toString() + " km"
+                tripTitle.text = element.tripTitle
+                tripDate.text = element.tripDate
+                tripDistance.text = element.tripDistance.toString() + " km"
+                tripDescription.text = element.tripDescription
+                tripWeather.text = element.tripWeather.toString()
                 //tripLocation.text = element!!.tripLocations!!.toString()
             }
         }
