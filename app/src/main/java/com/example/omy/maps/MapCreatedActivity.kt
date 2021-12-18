@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.omy.BuildConfig
 import com.example.omy.data.Trip
 import com.example.omy.fragments.HomeFragment
+import com.example.omy.locations.LocationsViewModel
 import com.example.omy.trips.TripShowActivity
 import com.example.omy.trips.TripsAdapter
 import com.example.omy.trips.TripsViewModel
@@ -43,7 +44,9 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
+import java.util.UUID
 
 
 class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -60,7 +63,9 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var addButton: FloatingActionButton
     private lateinit var endTripButton: Button
     private var tripsViewModel: TripsViewModel? = null
+    private var locationsViewModel: LocationsViewModel? = null
     private lateinit var tripWeather:String
+    private lateinit var uuid:UUID
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +73,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
 
         /* Receive information from HomeFragment */
         tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
+        locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
         val b: Bundle? = intent.extras
         if (b != null) {
             displayTitle = findViewById(R.id.display_title)
@@ -77,6 +83,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             displayTemperature.text = getString(R.string.temperature, b.getString("trip_temperature"))
             visitedLongLatLocations.add(Pair(b.getDouble("base_latitude"),b.getDouble("base_longitude")))
         }
+
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
@@ -96,18 +103,27 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
 
         endTripButton = findViewById<Button>(R.id.map_end_trip)
         endTripButton.setOnClickListener {
+            uuid = UUID.randomUUID()
             stopLocationUpdates()
             saveTripToDB()
+
             /* Pass parameters to the TripShowActivity */
             val intent = Intent(this, TripShowActivity::class.java)
                // HOPEFULLY IT IS POSSIBLE TO FETCH A TRIP USING ITS TITLE
-            tripsViewModel!!.getLastTrip()!!.observe(this, {
-                    newValue ->
-                val extras = Bundle()
-                extras.putInt("position", newValue!!.id)
-                intent.putExtras(extras)
-                startActivity(intent)
-            })
+            //Log.i("testing", locations.size.toString())
+
+
+            for (location  in locations){
+
+                location.locationTripId = uuid.toString()
+                Log.i("LOCATION",location.locationTripId!!)
+                locationsViewModel!!.createNewLocation(location)
+                }
+
+            val extras = Bundle()
+            extras.putString("position", uuid.toString())
+            intent.putExtras(extras)
+            startActivity(intent)
             //Log.i("CHECK",tripID.toString())
 
         }
@@ -126,6 +142,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -223,6 +240,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
 
     companion object {
         private const val ACCESS_FINE_LOCATION = 123
+        var locations:MutableList<com.example.omy.data.Location> = ArrayList<com.example.omy.data.Location>()
     }
 
     private fun saveTripToDB() {
@@ -233,9 +251,14 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val tripDistance = calculateDistance(visitedLongLatLocations)
 
-        val trip = Trip(tripTitle = tripTitle, tripDate = tripDate, tripDistance = tripDistance, tripWeather = tripWeather, tripDescription = "")
+        Log.i("TRIP",uuid.toString())
+
+
+        val trip = Trip(id = uuid.toString(),tripTitle = tripTitle, tripDate = tripDate, tripDistance = tripDistance, tripWeather = tripWeather, tripDescription = "")
+
 
         tripsViewModel!!.createNewTrip(trip)
+
 
         TripsAdapter.items.add(trip)
         //Log.i("ID_ATTEMPT", tripID.toString())

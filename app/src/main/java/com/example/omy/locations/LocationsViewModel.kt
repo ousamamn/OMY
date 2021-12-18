@@ -28,7 +28,7 @@ class LocationsViewModel(application: Application): AndroidViewModel(application
         return this.locationsToDisplay
     }
 
-    fun createNewPhoto(location: Location) {
+    fun createNewLocation(location: Location) {
         viewModelScope.launch(Dispatchers.IO) { locationsRepository.createNewLocation(location) }
         }
     }

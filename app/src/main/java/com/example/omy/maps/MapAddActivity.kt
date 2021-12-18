@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -75,7 +76,13 @@ class MapAddActivity : AppCompatActivity() {
                 )
                     .show();
             } else {
-                //val location = Location(locationLongitude = tripLongitude, locationLatitude = tripLatitude, locationTitle = displayTitle.text.toString(),)
+                val location = Location(
+                    locationLongitude = tripLongitude,
+                    locationLatitude = tripLatitude,
+                    locationTitle = titleNameEditText.text.toString(),
+                    locationTripId = "", 
+                    locationDescription = descriptionEditText.text.toString())
+                MapCreatedActivity.locations.add(location)
                 onBackPressed()
                 finish()
             }
