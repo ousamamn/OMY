@@ -100,11 +100,12 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             saveTripToDB()
             /* Pass parameters to the TripShowActivity */
             val intent = Intent(this, TripShowActivity::class.java)
-            val extras = Bundle()
-            //extras.putString("position", tripID)    // HOPEFULLY IT IS POSSIBLE TO FETCH A TRIP USING ITS TITLE
+               // HOPEFULLY IT IS POSSIBLE TO FETCH A TRIP USING ITS TITLE
             tripsViewModel!!.getLastTrip()!!.observe(this, {
                     newValue ->
-                intent.putExtra("position",newValue!!.id-1)
+                val extras = Bundle()
+                extras.putInt("position", newValue!!.id)
+                intent.putExtras(extras)
                 startActivity(intent)
             })
             //Log.i("CHECK",tripID.toString())
