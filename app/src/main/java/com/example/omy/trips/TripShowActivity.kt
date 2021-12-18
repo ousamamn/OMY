@@ -8,14 +8,21 @@ import com.example.omy.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.maps.model.Marker
 
-class TripShowActivity : AppCompatActivity(), OnMapReadyCallback {
+
+
+
+class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListener {
     private lateinit var mMap: GoogleMap
+
+    private lateinit var tripMapTitle: String
     private lateinit var backButton: FloatingActionButton
     private val tripRoute : ArrayList<Pair<Double, Double>> = arrayListOf(
         Pair(53.38, -1.38),
@@ -61,6 +68,7 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback {
                 val element = TripsAdapter.items[position]
                 Log.i("showActivity", element!!.tripTitle!!)
                 tripTitle.text = element.tripTitle
+                tripMapTitle = element.tripTitle.toString()
                 tripDate.text = element.tripDate
                 tripDistance.text = element.tripDistance.toString() + " km"
                 tripDescription.text = element.tripDescription
@@ -79,6 +87,8 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback {
         val latLngLocations = convertToLatLng(tripRoute)
         val (firstLat, firstLong) = tripRoute.first()
         mMap = googleMap
+        googleMap.setOnMarkerClickListener(this)
+
         val startingLocation = LatLng(firstLat, firstLong)
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startingLocation, 10.0f))
 
@@ -90,8 +100,15 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // For each location, display a marker for it
         for (loc in latLngLocations) {
-            mMap.addMarker(MarkerOptions().position(loc).title("This needs to be replaced with location title"))
+            mMap.addMarker(MarkerOptions().position(loc)
+                .title("This needs to be replaced with location title")
+                .snippet(tripMapTitle))
         }
+    }
+
+    override fun onMarkerClick(marker: Marker): Boolean {
+        // TODO: (Maybe I should add it too, but not sure since we'll have a list of locations down below)
+        return false
     }
 
     private fun convertToLatLng(array: ArrayList<Pair<Double,Double>>): MutableList<LatLng> {
