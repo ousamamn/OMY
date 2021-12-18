@@ -60,7 +60,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var addButton: FloatingActionButton
     private lateinit var endTripButton: Button
     private var tripsViewModel: TripsViewModel? = null
-    private var tripID:Int =0
+    private lateinit var tripWeather:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +73,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             displayTitle = findViewById(R.id.display_title)
             displayTitle.text = b.getString("trip_title")
             displayTemperature = findViewById(R.id.display_temperature)
+            tripWeather = b.getString("trip_temperature")!!
             displayTemperature.text = getString(R.string.temperature, b.getString("trip_temperature"))
             visitedLongLatLocations.add(Pair(b.getDouble("base_latitude"),b.getDouble("base_longitude")))
         }
@@ -231,11 +232,9 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val tripDistance = calculateDistance(visitedLongLatLocations)
 
-        val tripWeather = getWeather(visitedLongLatLocations[0])
-
         val trip = Trip(tripTitle = tripTitle, tripDate = tripDate, tripDistance = tripDistance, tripWeather = tripWeather, tripDescription = "")
 
-        tripsViewModel!!.createNewTrip(trip)!!
+        tripsViewModel!!.createNewTrip(trip)
 
         TripsAdapter.items.add(trip)
         //Log.i("ID_ATTEMPT", tripID.toString())
@@ -255,35 +254,4 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         return start.distanceTo(end).toDouble()
     }
 
-    private fun getWeather(coords:Pair<Double,Double>):Int{
-        val (longitude,latitude) = coords
-            val url =
-                "http://api.weatherapi.com/v1/current.json?key=" +
-                        BuildConfig.WEATHER_APIKEY + "&q=" + latitude + "," + longitude
-            val client = OkHttpClient()
-            val request = Request.Builder().url(url).build()
-        var temp = 999
-            client.newCall(request).enqueue(object : Callback {
-                override fun onResponse(call: Call, response: Response) {
-                    val body = response.body!!.string()
-                    //activity?.runOnUiThread {
-                        try {
-                            val json = JSONObject(body)
-                            val responseObject: JSONObject = json.getJSONObject("current")
-                            val tempC = responseObject.get("temp_c")
-                            val weather = responseObject.getJSONObject("condition")
-                            val icon = weather.get("icon")
-                            temp = tempC.toString().toDouble().roundToInt()
-                        } catch (e: JSONException) {
-                            e.printStackTrace()
-                        }
-                    //}
-                }
-
-                override fun onFailure(call: Call, e: IOException) {
-                    e.printStackTrace()
-                }
-            })
-        return temp
-        }
     }
