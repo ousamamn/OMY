@@ -8,7 +8,6 @@ data class Trip(
     @ColumnInfo(name="title") val tripTitle: String?,
     @ColumnInfo(name="date") val tripDate: String?,
     @ColumnInfo(name="distance") val tripDistance: Double,
-    @ColumnInfo(name="weather") val tripWeather: Int,
+    @ColumnInfo(name="weather") val tripWeather: String?,
     @ColumnInfo(name="description") val tripDescription: String?,
-    @ColumnInfo(name="locations") val tripLocations: Int,
 )

@@ -1,6 +1,7 @@
 package com.example.omy.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -56,7 +57,7 @@ class TripsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val trip1 = Trip(id = 1, tripTitle = "Me at the Zoo", tripDate = "12 Dec 2021",
-            tripDistance = 3.2, tripWeather = 19, tripDescription = "description", tripLocations = 3)
+            tripDistance = 3.2, tripWeather = "19.0", tripDescription = "description")
         tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
         //tripsDataset.clear()
 
@@ -94,6 +95,11 @@ class TripsFragment : Fragment() {
         }*/
 
         mRecyclerView.adapter = mAdapter
+        if (tripsDataset.isNotEmpty()) {
+            Log.i("TAG", tripsDataset[0]!!.tripTitle!!)
+            TripsAdapter(tripsDataset)
+            Log.i("another", TripsAdapter.items[0]!!.tripTitle!!)
+        }
 
 
 

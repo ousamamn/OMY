@@ -1,6 +1,7 @@
 package com.example.omy.trips
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,9 +15,11 @@ import androidx.lifecycle.viewModelScope
 class TripsViewModel(application: Application): AndroidViewModel(application) {
     private var tripsRepository: TripsRepository = TripsRepository(application)
     private var tripsToDisplay: LiveData<List<Trip?>>? = null
+    private var lastTrip: LiveData<Trip?>? = null
 
     init {
         this.tripsToDisplay = this.tripsRepository.getTrips()
+        this.lastTrip = this.tripsRepository.getLastTrip()
     }
 
     fun getTripsToDisplay(): LiveData<List<Trip?>>? {
@@ -26,7 +29,12 @@ class TripsViewModel(application: Application): AndroidViewModel(application) {
         return this.tripsToDisplay
     }
 
+    fun getLastTrip():LiveData<Trip?>?{
+
+        return this.lastTrip
+    }
+
     fun createNewTrip(trip : Trip) {
-        viewModelScope.launch(Dispatchers.IO) { tripsRepository.createNewTrip(trip) }
+        viewModelScope.launch(Dispatchers.IO) {tripsRepository.createNewTrip(trip) }
         }
     }

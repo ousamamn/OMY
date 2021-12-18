@@ -26,13 +26,18 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         TripsAdapter.items = items as MutableList<Trip?>
     }
 
+    constructor(cont: Context, items: List<Trip?>) : super() {
+        TripsAdapter.items = items as MutableList<Trip?>
+        context = cont
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         //Inflate the layout, initialize the View Holder
         val v: View = LayoutInflater.from(parent.context).inflate(
             R.layout.trip_list_item,
             parent, false
         )
-        val holder: ViewHolder = ViewHolder(v)
+        val holder: TripsAdapter.ViewHolder = ViewHolder(v)
         context = parent.context
         return holder
     }
@@ -43,11 +48,15 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         //notifyDataSetChanged()
     }
 
+    fun addTrip(trip:Trip){
+        items.add(trip)
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = items[position]?.tripTitle
         holder.date.text = items[position]?.tripDate
         holder.distance.text = items[position]?.tripDistance.toString()
-        holder.numOfLocations.text = items[position]?.tripLocations.toString()
+        //holder.numOfLocations.text = items[position]?.tripLocations.toString()
         holder.itemView.setOnClickListener(View.OnClickListener {
             val intent = Intent(context, TripShowActivity::class.java)
             intent.putExtra("position", position)

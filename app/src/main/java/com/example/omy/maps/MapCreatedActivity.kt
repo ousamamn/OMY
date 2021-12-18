@@ -18,9 +18,13 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.ViewModelProvider
 import com.example.omy.BuildConfig
+import com.example.omy.data.Trip
 import com.example.omy.fragments.HomeFragment
 import com.example.omy.trips.TripShowActivity
+import com.example.omy.trips.TripsAdapter
+import com.example.omy.trips.TripsViewModel
 import com.google.android.gms.location.*
 import com.google.android.gms.location.LocationRequest.create
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -35,7 +39,11 @@ import org.json.JSONObject
 import java.io.IOException
 import java.net.URI.create
 import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.math.roundToInt
 
 
 class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -51,17 +59,21 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var stopLocatingButton: Button
     private lateinit var addButton: FloatingActionButton
     private lateinit var endTripButton: Button
+    private var tripsViewModel: TripsViewModel? = null
+    private lateinit var tripWeather:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.map_created_trip)
 
         /* Receive information from HomeFragment */
+        tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
         val b: Bundle? = intent.extras
         if (b != null) {
             displayTitle = findViewById(R.id.display_title)
             displayTitle.text = b.getString("trip_title")
             displayTemperature = findViewById(R.id.display_temperature)
+            tripWeather = b.getString("trip_temperature")!!
             displayTemperature.text = getString(R.string.temperature, b.getString("trip_temperature"))
             visitedLongLatLocations.add(Pair(b.getDouble("base_latitude"),b.getDouble("base_longitude")))
         }
@@ -88,10 +100,16 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             saveTripToDB()
             /* Pass parameters to the TripShowActivity */
             val intent = Intent(this, TripShowActivity::class.java)
-            val extras = Bundle()
-            extras.putString("trip_title", displayTitle.text.toString())    // HOPEFULLY IT IS POSSIBLE TO FETCH A TRIP USING ITS TITLE
-            intent.putExtras(extras)
-            startActivity(intent)
+               // HOPEFULLY IT IS POSSIBLE TO FETCH A TRIP USING ITS TITLE
+            tripsViewModel!!.getLastTrip()!!.observe(this, {
+                    newValue ->
+                val extras = Bundle()
+                extras.putInt("position", newValue!!.id)
+                intent.putExtras(extras)
+                startActivity(intent)
+            })
+            //Log.i("CHECK",tripID.toString())
+
         }
 
         addButton = findViewById(R.id.add_picture)
@@ -208,6 +226,33 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun saveTripToDB() {
-        TODO("Connect to DAO and save the trip")
+        //TODO("Connect to DAO and save the trip")
+        val tripTitle = displayTitle.text.toString()
+
+        val tripDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MMM-dd HH:mm"))
+
+        val tripDistance = calculateDistance(visitedLongLatLocations)
+
+        val trip = Trip(tripTitle = tripTitle, tripDate = tripDate, tripDistance = tripDistance, tripWeather = tripWeather, tripDescription = "")
+
+        tripsViewModel!!.createNewTrip(trip)
+
+        TripsAdapter.items.add(trip)
+        //Log.i("ID_ATTEMPT", tripID.toString())
+
     }
-}
+
+    private fun calculateDistance(visitedLongLatLocations: List<Pair<Double,Double>>):Double{
+
+        var (first_long,first_lat) = visitedLongLatLocations.first()
+        var (last_long,last_lat) = visitedLongLatLocations.last()
+        var start = Location ("startLocation")
+        start.latitude = first_lat
+        start.longitude = first_long
+        var end = Location("endLocation")
+        end.latitude = last_lat
+        end.longitude = last_long
+        return start.distanceTo(end).toDouble()
+    }
+
+    }

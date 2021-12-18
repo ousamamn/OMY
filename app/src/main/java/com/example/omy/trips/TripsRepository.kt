@@ -1,6 +1,7 @@
 package com.example.omy.trips
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class TripsRepository(application: Application) {
     private var tripsDBDao: TripDao? = null
-
+    var id:Int? =0
     private val databaseObj:OMYDatabase? = MainRepository(application).databaseObj
     init {
         if (databaseObj != null) {
@@ -25,10 +26,11 @@ class TripsRepository(application: Application) {
     companion object {
         private val scope = CoroutineScope(Dispatchers.IO)
         private class InsertAsyncTask(private val dao: TripDao?) : ViewModel() {
-            suspend fun insertInBackground(vararg params: Trip) {
+            suspend fun insertInBackground(vararg params: Trip){
+                var insertedId:Int? =0
                 scope.launch {
                     for(param in params) {
-                        val insertedId = this@InsertAsyncTask.dao?.insert(param)
+                        insertedId = this@InsertAsyncTask.dao?.insert(param)?.toInt()
                     }
                 }
             }
@@ -39,8 +41,13 @@ class TripsRepository(application: Application) {
         return tripsDBDao?.getAll()
     }
 
-    suspend fun createNewTrip(trip : Trip) {
+    fun getLastTrip(): LiveData<Trip?>? {
+        return tripsDBDao?.getLastTrip()
+    }
+
+    suspend fun createNewTrip(trip : Trip){
         // somehow create a new trip
         InsertAsyncTask(tripsDBDao).insertInBackground(trip)
+
     }
 }

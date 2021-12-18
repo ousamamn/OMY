@@ -8,7 +8,7 @@ import androidx.room.*
 interface TripDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(trip:Trip)
+    fun insert(trip:Trip): Long
 
     @Update
     fun update(tripData:Trip)
@@ -18,6 +18,9 @@ interface TripDao {
 
     @Query("SELECT * from trip")
     fun getAll(): LiveData<List<Trip?>>?
+
+    @Query("SELECT * FROM trip ORDER BY id DESC LIMIT 1;")
+    fun getLastTrip(): LiveData<Trip?>
 
     @Query("SELECT * from trip WHERE id=:id")
     fun getTrip(id:Int):LiveData<Trip>?

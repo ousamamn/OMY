@@ -2,6 +2,7 @@ package com.example.omy.trips
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import com.example.omy.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -36,15 +37,20 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback {
         if (b != null) {
             position = b.getInt("position")
             if (position != -1) {
-                val tripTitle = findViewById<TextView>(R.id.title_name)
+                val tripTitle = findViewById<TextView>(R.id.trip_title)
                 val tripDate = findViewById<TextView>(R.id.trip_date)
                 val tripDistance = findViewById<TextView>(R.id.trip_distance)
                 val tripLocation = findViewById<TextView>(R.id.trip_num_of_locations)
-                val element = TripsAdapter.items[position]                              // GET THIS VALUES FROM DAO
-                tripTitle.text = element?.tripTitle
-                tripDate.text = element?.tripDate
-                tripDistance.text = element?.tripDistance.toString() + " km"
-                tripLocation.text = element?.tripLocations.toString()
+                val tripDescription = findViewById<TextView>(R.id.trip_description)
+                val tripWeather = findViewById<TextView>(R.id.trip_weather)
+                val element = TripsAdapter.items[position]
+                Log.i("showActivity", element!!.tripTitle!!)
+                tripTitle.text = element.tripTitle
+                tripDate.text = element.tripDate
+                tripDistance.text = element.tripDistance.toString() + " km"
+                tripDescription.text = element.tripDescription
+                tripWeather.text = element.tripWeather.toString()
+                //tripLocation.text = element!!.tripLocations!!.toString()
             }
         }
         backButton = findViewById(R.id.back_to_previous_button)
