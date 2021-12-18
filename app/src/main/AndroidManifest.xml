@@ -25,12 +25,30 @@
         <activity
             android:name=".locations.LocationSeeReviewActivity"
             android:exported="true" />
+        <activity
+            android:name=".locations.LocationShowActivity"
+            android:exported="true" />
+        <activity
+            android:name=".maps.MapAddActivity"
+            android:exported="true" />
+        <activity
+            android:name=".maps.MapCreatedActivity"
+            android:exported="true" />
+        <activity
+            android:name=".trips.TripShowActivity"
+            android:exported="true" />
+        <activity
+            android:name=".photos.PhotoShowActivity"
+            android:exported="true" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <service
+            android:name=".maps.LocationService"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -41,39 +59,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".maps.MapAddActivity"
-            android:exported="true" />
-        <activity
-            android:name=".maps.MapCreatedActivity"
-            android:exported="true" />
-        <service
-            android:name="com.example.omy.maps.LocationService"
-            android:enabled="true"
-            android:exported="false" />
-        <activity
-            android:name=".trips.TripShowActivity"
-            android:exported="true" />
-        <activity
-            android:name=".photos.PhotoShowActivity"
-            android:exported="true" />
-        <activity
-            android:name=".locations.LocationShowActivity"
-            android:exported="true" />
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/.
-        -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}" />
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
