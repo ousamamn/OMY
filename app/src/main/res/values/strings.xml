@@ -34,6 +34,8 @@
     <string name="heading_home">CREATE A NEW TRIP</string>
     <string name="map_resume_location">RESUME</string>
     <string name="temperature">"Temperature: %1$s"</string>
+    <string name="map_dialog_cancel">"Cancel"</string>
+    <string name="map_dialog_approve">"Finish trip"</string>
     <string-array name="trips_filter_array">
         <item>A-Z</item>
         <item>Z-A</item>
