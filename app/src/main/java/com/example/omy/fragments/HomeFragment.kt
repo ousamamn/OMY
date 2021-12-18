@@ -17,10 +17,8 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import com.example.omy.BuildConfig
+import com.example.omy.BuildConfig.WEATHER_APIKEY
 import com.example.omy.R
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import okhttp3.*
 import org.json.JSONException
@@ -152,7 +150,6 @@ class HomeFragment : Fragment() {
 
             baseLocation = Pair(mCurrentLocation.latitude, mCurrentLocation.longitude)
             getCurrentWeather(weatherTemperatureText, weatherIconView, mCurrentLocation.latitude, mCurrentLocation.longitude)
-            weatherWidget.visibility = View.VISIBLE
         }
     }
 
@@ -179,10 +176,9 @@ class HomeFragment : Fragment() {
 
     /* --- Get weather and temperature --- */
     private fun getCurrentWeather(textView: TextView, imageView: ImageView, latitude: Double, longitude: Double) {
-
         val url =
             "http://api.weatherapi.com/v1/current.json?key=" +
-                    BuildConfig.WEATHER_APIKEY + "&q=" + latitude + "," + longitude
+                    WEATHER_APIKEY + "&q=" + latitude + "," + longitude
         val client = OkHttpClient()
         val request = Request.Builder().url(url).build()
         client.newCall(request).enqueue(object : Callback {
@@ -221,5 +217,6 @@ class HomeFragment : Fragment() {
                 handler.post { icon.setImageBitmap(image) }
             } catch (e: Exception) { e.printStackTrace() }
         }
+        weatherWidget.visibility = View.VISIBLE
     }
 }

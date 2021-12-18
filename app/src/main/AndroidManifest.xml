@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.omy">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
-
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -22,12 +20,11 @@
         android:theme="@style/Theme.OMY"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".locations.LocationEditReviewAcitivity"
+            android:name=".locations.LocationEditReviewActivity"
             android:exported="true" />
         <activity
             android:name=".locations.LocationSeeReviewActivity"
             android:exported="true" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
@@ -50,6 +47,10 @@
         <activity
             android:name=".maps.MapCreatedActivity"
             android:exported="true" />
+        <service
+            android:name="com.example.omy.maps.LocationService"
+            android:enabled="true"
+            android:exported="false" />
         <activity
             android:name=".trips.TripShowActivity"
             android:exported="true" />
