@@ -81,10 +81,17 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
         val startingLocation = LatLng(firstLat, firstLong)
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startingLocation, 10.0f))
+
+        // Draw a route
         val polylineOptions = PolylineOptions()
         polylineOptions.addAll(latLngLocations)
         polylineOptions.width(10f).color(R.color.lightgreen)
         mMap.addPolyline(polylineOptions)
+
+        // For each location, display a marker for it
+        for (loc in latLngLocations) {
+            mMap.addMarker(MarkerOptions().position(loc).title("This needs to be replaced with location title"))
+        }
     }
 
     private fun convertToLatLng(array: ArrayList<Pair<Double,Double>>): MutableList<LatLng> {
