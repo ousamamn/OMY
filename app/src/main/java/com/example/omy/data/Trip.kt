@@ -10,5 +10,4 @@ data class Trip(
     @ColumnInfo(name="distance") val tripDistance: Double,
     @ColumnInfo(name="weather") val tripWeather: Int,
     @ColumnInfo(name="description") val tripDescription: String?,
-    @ColumnInfo(name="locations") val tripLocations: Int,
 )

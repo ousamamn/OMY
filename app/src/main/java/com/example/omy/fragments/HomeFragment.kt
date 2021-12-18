@@ -34,7 +34,10 @@ import android.content.Intent
 import android.location.*
 import android.widget.*
 import androidx.core.location.LocationManagerCompat
+import androidx.lifecycle.ViewModelProvider
 import com.example.omy.maps.MapCreatedActivity
+import com.example.omy.trips.TripsAdapter
+import com.example.omy.trips.TripsViewModel
 import com.google.android.gms.location.LocationRequest
 import java.text.DateFormat
 import java.util.*
@@ -50,6 +53,8 @@ class HomeFragment : Fragment() {
     private lateinit var weatherTemperatureText: TextView
     private lateinit var weatherIconView: ImageView
     private lateinit var baseLocation: Pair<Double, Double>
+    private var tripsViewModel: TripsViewModel? = null
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -57,6 +62,13 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
+        tripsViewModel!!.getTripsToDisplay()!!.observe(viewLifecycleOwner, {
+            newValue ->
+            val tripsAdapter = TripsAdapter(newValue)
+            Log.i("HOME_TAG", "called")
+        })
 
         mLocationRequest = LocationRequest.create()
         LocationRequest.create().apply {

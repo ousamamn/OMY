@@ -18,9 +18,13 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.ViewModelProvider
 import com.example.omy.BuildConfig
+import com.example.omy.data.Trip
 import com.example.omy.fragments.HomeFragment
 import com.example.omy.trips.TripShowActivity
+import com.example.omy.trips.TripsAdapter
+import com.example.omy.trips.TripsViewModel
 import com.google.android.gms.location.*
 import com.google.android.gms.location.LocationRequest.create
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -35,7 +39,11 @@ import org.json.JSONObject
 import java.io.IOException
 import java.net.URI.create
 import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.math.roundToInt
 
 
 class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -51,12 +59,15 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var stopLocatingButton: Button
     private lateinit var addButton: FloatingActionButton
     private lateinit var endTripButton: Button
+    private var tripsViewModel: TripsViewModel? = null
+    private var tripID:Int =0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.map_created_trip)
 
         /* Receive information from HomeFragment */
+        tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
         val b: Bundle? = intent.extras
         if (b != null) {
             displayTitle = findViewById(R.id.display_title)
@@ -89,9 +100,14 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             /* Pass parameters to the TripShowActivity */
             val intent = Intent(this, TripShowActivity::class.java)
             val extras = Bundle()
-            extras.putString("trip_title", displayTitle.text.toString())    // HOPEFULLY IT IS POSSIBLE TO FETCH A TRIP USING ITS TITLE
-            intent.putExtras(extras)
-            startActivity(intent)
+            //extras.putString("position", tripID)    // HOPEFULLY IT IS POSSIBLE TO FETCH A TRIP USING ITS TITLE
+            tripsViewModel!!.getLastTrip()!!.observe(this, {
+                    newValue ->
+                intent.putExtra("position",newValue!!.id-1)
+                startActivity(intent)
+            })
+            //Log.i("CHECK",tripID.toString())
+
         }
 
         addButton = findViewById(R.id.add_picture)
@@ -208,6 +224,66 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun saveTripToDB() {
-        TODO("Connect to DAO and save the trip")
+        //TODO("Connect to DAO and save the trip")
+        val tripTitle = displayTitle.text.toString()
+
+        val tripDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MMM-dd HH:mm"))
+
+        val tripDistance = calculateDistance(visitedLongLatLocations)
+
+        val tripWeather = getWeather(visitedLongLatLocations[0])
+
+        val trip = Trip(tripTitle = tripTitle, tripDate = tripDate, tripDistance = tripDistance, tripWeather = tripWeather, tripDescription = "")
+
+        tripsViewModel!!.createNewTrip(trip)!!
+
+        TripsAdapter.items.add(trip)
+        //Log.i("ID_ATTEMPT", tripID.toString())
+
     }
-}
+
+    private fun calculateDistance(visitedLongLatLocations: List<Pair<Double,Double>>):Double{
+
+        var (first_long,first_lat) = visitedLongLatLocations.first()
+        var (last_long,last_lat) = visitedLongLatLocations.last()
+        var start = Location ("startLocation")
+        start.latitude = first_lat
+        start.longitude = first_long
+        var end = Location("endLocation")
+        end.latitude = last_lat
+        end.longitude = last_long
+        return start.distanceTo(end).toDouble()
+    }
+
+    private fun getWeather(coords:Pair<Double,Double>):Int{
+        val (longitude,latitude) = coords
+            val url =
+                "http://api.weatherapi.com/v1/current.json?key=" +
+                        BuildConfig.WEATHER_APIKEY + "&q=" + latitude + "," + longitude
+            val client = OkHttpClient()
+            val request = Request.Builder().url(url).build()
+        var temp = 999
+            client.newCall(request).enqueue(object : Callback {
+                override fun onResponse(call: Call, response: Response) {
+                    val body = response.body!!.string()
+                    //activity?.runOnUiThread {
+                        try {
+                            val json = JSONObject(body)
+                            val responseObject: JSONObject = json.getJSONObject("current")
+                            val tempC = responseObject.get("temp_c")
+                            val weather = responseObject.getJSONObject("condition")
+                            val icon = weather.get("icon")
+                            temp = tempC.toString().toDouble().roundToInt()
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                    //}
+                }
+
+                override fun onFailure(call: Call, e: IOException) {
+                    e.printStackTrace()
+                }
+            })
+        return temp
+        }
+    }
