@@ -6,13 +6,13 @@ import android.util.Log
 import android.widget.TextView
 import com.example.omy.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.example.omy.fragments.TripsFragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.material.internal.ContextUtils.getActivity
-
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 
 class TripShowActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
@@ -31,8 +31,23 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.trip_activity)
-        val b: Bundle? = intent.extras
 
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment!!.getMapAsync(this)
+
+        /*val toBeReplaced = arrayListOf(
+            Pair(53.38, -1.38),
+            Pair(53.60, -1.38),
+            Pair(53.72, -1.40),
+            Pair(54.01, -1.31),
+            Pair(54.09, -1.32),
+            Pair(54.10, -1.29),
+            Pair(54.12, -1.25),
+            Pair(54.20, -1.20),
+        )*/
+        //tripRoute = convertToLatLng(toBeReplaced)
+
+        val b: Bundle? = intent.extras
         var position = -1
         if (b != null) {
             position = b.getInt("position")
@@ -61,9 +76,20 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+        val latLngLocations = convertToLatLng(tripRoute)
         val (firstLat, firstLong) = tripRoute.first()
         mMap = googleMap
         val startingLocation = LatLng(firstLat, firstLong)
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startingLocation, 16.0f))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startingLocation, 10.0f))
+        val polylineOptions = PolylineOptions()
+        polylineOptions.addAll(latLngLocations)
+        polylineOptions.width(10f).color(R.color.lightgreen)
+        mMap.addPolyline(polylineOptions)
+    }
+
+    private fun convertToLatLng(array: ArrayList<Pair<Double,Double>>): MutableList<LatLng> {
+        return array.map { it ->
+            val (latitude, longitude) = it
+            LatLng(latitude, longitude) } as MutableList<LatLng>
     }
 }
