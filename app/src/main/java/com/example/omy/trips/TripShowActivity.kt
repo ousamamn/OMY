@@ -65,7 +65,7 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
             tripDistance.text = element.tripDistance.toString() + " km"
             tripDescription.text = element.tripDescription
             tripWeather.text = element.tripWeather.toString()
-            //tripRoute = parseCoords(element.tripListCoords!!)
+            tripRoute = parseCoords(element.tripListCoords!!)
             Log.e("PARSECOORDS", element.tripListCoords!!)
             //tripLocation.text = tripRoute.size.toString() NO THESE ARE DIFFERENT LOCATIONS
             //tripLocation.text = element!!.tripLocations!!.toString()

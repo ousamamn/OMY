@@ -42,6 +42,7 @@ class LocationService : Service {
                 if (MapCreatedActivity.getActivity() != null)
                     MapCreatedActivity.getActivity()?.runOnUiThread(Runnable {
                         try {
+                            MapCreatedActivity.visitedLongLatLocations.add(Pair(mCurrentLocation!!.latitude,mCurrentLocation!!.longitude))
                             MapCreatedActivity.getMap().addMarker(
                                 MarkerOptions().position(
                                     LatLng(
@@ -60,6 +61,7 @@ class LocationService : Service {
                                     )
                                 )
                             )
+
                             MapCreatedActivity.getMap().animateCamera(zoom)
                         } catch (e: Exception) {
                             Log.e("LocationService", "Error cannot write on map " + e.message)
