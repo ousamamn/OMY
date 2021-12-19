@@ -125,4 +125,16 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
             val (latitude, longitude) = it
             LatLng(latitude, longitude) } as MutableList<LatLng>
     }
+    private fun parseCoords(coords:String):List<Pair<Double,Double>>{
+        var coordListPair: MutableList<Pair<Double,Double>> = ArrayList()
+        val coordsList = coords.split("!")
+        for (coord in coordsList){
+            val long = coords.split(",")[0].toDouble()
+            val lat = coords.split(",")[0].toDouble()
+            val pair = Pair<Double,Double>(long,lat)
+
+            coordListPair.add(pair)
+        }
+        return coordListPair
+    }
 }

@@ -253,8 +253,10 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
 
         Log.i("TRIP",uuid.toString())
 
+        val coords = makeCoords(visitedLongLatLocations)
 
-        val trip = Trip(id = uuid.toString(),tripTitle = tripTitle, tripDate = tripDate, tripDistance = tripDistance, tripWeather = tripWeather, tripDescription = "")
+
+        val trip = Trip(id = uuid.toString(),tripTitle = tripTitle, tripDate = tripDate, tripDistance = tripDistance, tripWeather = tripWeather, tripDescription = "", tripListCoords = coords)
 
 
         tripsViewModel!!.createNewTrip(trip)
@@ -276,6 +278,13 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         end.latitude = last_lat
         end.longitude = last_long
         return start.distanceTo(end).toDouble()
+    }
+    private fun makeCoords(visitedLongLatLocations: List<Pair<Double, Double>>):String{
+        var result =""
+        for (coordinates in visitedLongLatLocations){
+            result+= coordinates.first.toString() + "," + coordinates.second.toString() + '!'
+        }
+        return result
     }
 
     }

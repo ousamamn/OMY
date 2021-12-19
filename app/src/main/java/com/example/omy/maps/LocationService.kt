@@ -19,8 +19,8 @@ import java.util.*
 /*
  * Implementation of service
  */
-class LocationService : Service {
-    private var mCurrentLocation: Location? = null
+//class LocationService : Service {
+    /*private var mCurrentLocation: Location? = null
     private var mLastUpdateTime: String? = null
 
     private var startMode: Int = 0             // indicates how to behave if the service is killed
@@ -100,5 +100,5 @@ class LocationService : Service {
     override fun onDestroy() {
         // The service is no longer used and is being destroyed
         Log.e("Service", "end")
-    }
-}
+    }*/
+//}

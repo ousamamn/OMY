@@ -57,7 +57,7 @@ class TripsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val trip1 = Trip(id = "test", tripTitle = "Me at the Zoo", tripDate = "12 Dec 2021",
-            tripDistance = 3.2, tripWeather = "19.0", tripDescription = "description")
+            tripDistance = 3.2, tripWeather = "19.0", tripDescription = "description", tripListCoords = "test")
         tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
         //tripsDataset.clear()
 
@@ -121,4 +121,6 @@ class TripsFragment : Fragment() {
             //mRecyclerView.adapter = mAdapter
         })
     }
+
+
     }
