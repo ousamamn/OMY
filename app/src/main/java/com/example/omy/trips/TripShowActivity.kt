@@ -22,89 +22,55 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
 
     private lateinit var tripMapTitle: String
     private lateinit var backButton: FloatingActionButton
-    private lateinit var selectedTrip:Trip
-    private val tripRoute : ArrayList<Pair<Double, Double>> = arrayListOf(
-        Pair(53.38, -1.38),
-        Pair(53.60, -1.38),
-        Pair(53.72, -1.40),
-        Pair(54.01, -1.31),
-        Pair(54.09, -1.32),
-        Pair(54.10, -1.29),
-        Pair(54.12, -1.25),
-        Pair(54.20, -1.20),
-    )
+    private lateinit var selectedTrip: Trip
+    private lateinit var tripRoute : MutableList<Pair<Double, Double>>
+    private lateinit var element: Trip
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.trip_activity)
 
-        var position = ""
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
-
-        /*val toBeReplaced = arrayListOf(
-            Pair(53.38, -1.38),
-            Pair(53.60, -1.38),
-            Pair(53.72, -1.40),
-            Pair(54.01, -1.31),
-            Pair(54.09, -1.32),
-            Pair(54.10, -1.29),
-            Pair(54.12, -1.25),
-            Pair(54.20, -1.20),
-        )*/
-        //tripRoute = convertToLatLng(toBeReplaced)
-
         val b: Bundle? = intent.extras
+        var position = ""
 
         if (b != null) {
+            val tripTitle = findViewById<TextView>(R.id.trip_title)
+            val tripDate = findViewById<TextView>(R.id.trip_date)
+            val tripDistance = findViewById<TextView>(R.id.trip_distance)
+            val tripLocation = findViewById<TextView>(R.id.trip_num_of_locations)
+            val tripDescription = findViewById<TextView>(R.id.trip_description)
+            val tripWeather = findViewById<TextView>(R.id.trip_weather)
+
             if (b.getString("position").isNullOrBlank()){
                 val position1 = b.getInt("position")
                 if (position1!=-1) {
-                    val tripTitle = findViewById<TextView>(R.id.trip_title)
-                    val tripDate = findViewById<TextView>(R.id.trip_date)
-                    val tripDistance = findViewById<TextView>(R.id.trip_distance)
-                    val tripLocation = findViewById<TextView>(R.id.trip_num_of_locations)
-                    val tripDescription = findViewById<TextView>(R.id.trip_description)
-                    val tripWeather = findViewById<TextView>(R.id.trip_weather)
-                    val element = TripsAdapter.items[position1]
+                    element = TripsAdapter.items[position1]!!
                     //Log.i("showActivity", element.tripTitle!!)
-                    tripTitle.text = element!!.tripTitle
-                    tripMapTitle = element.tripTitle.toString()
-                    tripDate.text = element.tripDate
-                    tripDistance.text = element.tripDistance.toString() + " km"
-                    tripDescription.text = element.tripDescription
-                    tripWeather.text = element.tripWeather.toString()
-                    //tripLocation.text = element!!.tripLocations!!.toString()
                 }
-            }
-            else {
+            } else {
                 position = b.getString("position")!!
                 for (trip in TripsAdapter.items) {
-                    if (trip!!.id == position) {
-                        selectedTrip = trip
-                    }
+                    if (trip!!.id == position) { selectedTrip = trip }
                 }
                 if (position!="") {
-                    val tripTitle = findViewById<TextView>(R.id.trip_title)
-                    val tripDate = findViewById<TextView>(R.id.trip_date)
-                    val tripDistance = findViewById<TextView>(R.id.trip_distance)
-                    val tripLocation = findViewById<TextView>(R.id.trip_num_of_locations)
-                    val tripDescription = findViewById<TextView>(R.id.trip_description)
-                    val tripWeather = findViewById<TextView>(R.id.trip_weather)
-                    val element = selectedTrip
+                    element = selectedTrip
                     //Log.i("showActivity", element.tripTitle!!)
-                    tripTitle.text = element.tripTitle
-                    tripMapTitle = element.tripTitle.toString()
-                    tripDate.text = element.tripDate
-                    tripDistance.text = element.tripDistance.toString() + " km"
-                    tripDescription.text = element.tripDescription
-                    tripWeather.text = element.tripWeather.toString()
-                    //tripLocation.text = element!!.tripLocations!!.toString()
                 }
             }
-
-
+            tripTitle.text = element.tripTitle
+            tripMapTitle = element.tripTitle.toString()
+            tripDate.text = element.tripDate
+            tripDistance.text = element.tripDistance.toString() + " km"
+            tripDescription.text = element.tripDescription
+            tripWeather.text = element.tripWeather.toString()
+            //tripRoute = parseCoords(element.tripListCoords!!)
+            Log.e("PARSECOORDS", element.tripListCoords!!)
+            //tripLocation.text = tripRoute.size.toString() NO THESE ARE DIFFERENT LOCATIONS
+            //tripLocation.text = element!!.tripLocations!!.toString()
         }
+
         backButton = findViewById(R.id.back_to_previous_button)
         backButton.setOnClickListener {
             onBackPressed()
@@ -140,16 +106,16 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
         return false
     }
 
-    private fun convertToLatLng(array: ArrayList<Pair<Double,Double>>): MutableList<LatLng> {
+    private fun convertToLatLng(array: MutableList<Pair<Double,Double>>): MutableList<LatLng> {
         return array.map { val (latitude, longitude) = it
             LatLng(latitude, longitude) } as MutableList<LatLng>
     }
-    private fun parseCoords(coords:String): List<Pair<Double,Double>>{
+    private fun parseCoords(coords:String): MutableList<Pair<Double, Double>> {
         val coordListPair: MutableList<Pair<Double,Double>> = ArrayList()
         val coordsList = coords.split("!")
         for (coord in coordsList){
-            val long = coords.split(",")[0].toDouble()
-            val lat = coords.split(",")[0].toDouble()
+            val long = "%.2f".format(coords.split(",")[0]).toDouble()
+            val lat = "%.2f".format(coords.split(",")[0]).toDouble()
             coordListPair.add(Pair(lat,long))
         }
         return coordListPair
