@@ -74,14 +74,14 @@ class LocationShowActivity : AppCompatActivity() {
             val intentForEditReview = Intent(this, LocationEditReviewActivity::class.java)
             val textView = findViewById<TextView>(R.id.title_name)
             val reviewActivityTitle = textView.text.toString()
-            intentForEditReview.putExtra("msg", reviewActivityTitle)
+            intentForEditReview.putExtra("locationTitle", reviewActivityTitle)
             startActivity(intentForEditReview)
         }
         seeAllReviewsButton.setOnClickListener {
             val intentForTitle = Intent(this, LocationSeeReviewActivity::class.java)
             val textView = findViewById<TextView>(R.id.title_name)
             val reviewActivityTitle = textView.text.toString()
-            intentForTitle.putExtra("msg", reviewActivityTitle)
+            intentForTitle.putExtra("locationTitle", reviewActivityTitle)
             startActivity(intentForTitle)
         }
 //        seeAllReviewsButton.setOnClickListener {

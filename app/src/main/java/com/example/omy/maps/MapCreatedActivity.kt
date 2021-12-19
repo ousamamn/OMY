@@ -17,7 +17,6 @@ import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.omy.data.Trip
-import com.example.omy.fragments.HomeFragment
 import com.example.omy.locations.LocationsViewModel
 import com.example.omy.trips.TripShowActivity
 import com.example.omy.trips.TripsAdapter
@@ -31,14 +30,12 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.example.omy.maps.LocationService
 import com.google.android.gms.common.api.ApiException
 import java.text.DateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.roundToInt
 import java.util.UUID
 
 
@@ -100,11 +97,11 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             MaterialAlertDialogBuilder(this)
                 .setTitle("Are you sure to finish and save the trip?")
                 .setMessage("You will not be able to change your trip afterwards.")
-                .setNegativeButton("Cancel") { dialog, which ->
+                .setNegativeButton("Cancel") { dialog, _ ->
                     dialog.dismiss()
                 }.setPositiveButton("Yes") { dialog, which ->
-                    uuid = UUID.randomUUID()
                     stopLocationUpdates()
+                    uuid = UUID.randomUUID()
                     saveTripToDB()
 
                     /* Pass parameters to the TripShowActivity */

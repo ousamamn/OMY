@@ -19,9 +19,6 @@ import org.w3c.dom.Text
 class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     private lateinit var context: Context
 
-    /*constructor() {
-        items = ArrayList<Trip>()
-    }*/
     constructor(items: List<Trip?>): super() {
         TripsAdapter.items = items as MutableList<Trip?>
     }
@@ -33,19 +30,15 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         //Inflate the layout, initialize the View Holder
-        val v: View = LayoutInflater.from(parent.context).inflate(
-            R.layout.trip_list_item,
-            parent, false
-        )
-        val holder: TripsAdapter.ViewHolder = ViewHolder(v)
+        val v: View = LayoutInflater.from(parent.context).inflate(R.layout.trip_list_item,
+            parent, false)
+        val holder = ViewHolder(v)
         context = parent.context
         return holder
     }
 
     fun updateTripList(tripList: MutableList<Trip?>) {
-        //this.tripList
         items = tripList
-        //notifyDataSetChanged()
     }
 
     fun addTrip(trip:Trip){

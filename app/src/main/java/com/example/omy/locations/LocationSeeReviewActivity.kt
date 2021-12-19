@@ -16,7 +16,7 @@ class LocationSeeReviewActivity : AppCompatActivity() {
 
         var msg: String? = "Title"
         if (b != null) {
-            msg = b.getString("msg")
+            msg = b.getString("locationTitle")
             displayTitle = findViewById(R.id.title_name)
             displayTitle.text = msg
         }
