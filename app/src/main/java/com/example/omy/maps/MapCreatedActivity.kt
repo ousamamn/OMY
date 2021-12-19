@@ -17,7 +17,6 @@ import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.omy.data.Trip
-import com.example.omy.fragments.HomeFragment
 import com.example.omy.locations.LocationsViewModel
 import com.example.omy.trips.TripShowActivity
 import com.example.omy.trips.TripsAdapter
@@ -31,14 +30,12 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.example.omy.maps.LocationService
 import com.google.android.gms.common.api.ApiException
 import java.text.DateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.roundToInt
 import java.util.UUID
 
 
@@ -97,43 +94,31 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
 
         endTripButton = findViewById<Button>(R.id.map_end_trip)
         endTripButton.setOnClickListener {
-            uuid = UUID.randomUUID()
-            stopLocationUpdates()
-            saveTripToDB()
-
-            /* Pass parameters to the TripShowActivity */
-            val intent = Intent(this, TripShowActivity::class.java)
-            //Log.i("testing", locations.size.toString())
-
-            for (location  in locations){
-                location.locationTripId = uuid.toString()
-                Log.i("LOCATION",location.locationTripId!!)
-                locationsViewModel!!.createNewLocation(location)
-            }
-
-            val extras = Bundle()
-            extras.putString("position", uuid.toString())
-            intent.putExtras(extras)
-            startActivity(intent)
-            //Log.i("CHECK",tripID.toString())
-
             MaterialAlertDialogBuilder(this)
                 .setTitle("Are you sure to finish and save the trip?")
                 .setMessage("You will not be able to change your trip afterwards.")
-                .setNegativeButton("Cancel") { dialog, which ->
+                .setNegativeButton("Cancel") { dialog, _ ->
                     dialog.dismiss()
-                }.setPositiveButton("Yes") { dialog, which ->
+                    startLocationUpdates()
+                }.setPositiveButton("Yes") { _, _ ->
                     stopLocationUpdates()
+                    uuid = UUID.randomUUID()
                     saveTripToDB()
+
                     /* Pass parameters to the TripShowActivity */
                     val intent = Intent(this, TripShowActivity::class.java)
-                    tripsViewModel!!.getLastTrip()!!.observe(this, {
-                            newValue ->
-                        val extras = Bundle()
-                        extras.putInt("position", newValue!!.id)
-                        intent.putExtras(extras)
-                        startActivity(intent)
-                    })
+                    //Log.i("testing", locations.size.toString())
+
+                    for (location  in locations){
+                        location.locationTripId = uuid.toString()
+                        Log.i("LOCATION",location.locationTripId!!)
+                        locationsViewModel!!.createNewLocation(location)
+                    }
+
+                    val extras = Bundle()
+                    extras.putString("position", uuid.toString())
+                    intent.putExtras(extras)
+                    startActivity(intent)
                     //Log.i("CHECK",tripID.toString())
                     finish()
                 }.show()
