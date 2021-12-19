@@ -25,7 +25,7 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
 
     private lateinit var tripMapTitle: String
     private lateinit var backButton: FloatingActionButton
-    private lateinit var selectedTrip: Trip
+    private lateinit var selectedTrip:Trip
     private val tripRoute : ArrayList<Pair<Double, Double>> = arrayListOf(
         Pair(53.38, -1.38),
         Pair(53.60, -1.38),
@@ -60,30 +60,53 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
         val b: Bundle? = intent.extras
 
         if (b != null) {
-            position = b.getString("position")!!
-            for (trip in TripsAdapter.items){
-                if (trip!!.id == position){
-                    selectedTrip = trip
+            if (b.getString("position").isNullOrBlank()){
+                val position1 = b.getInt("position")
+                if (position1!=-1) {
+                    val tripTitle = findViewById<TextView>(R.id.trip_title)
+                    val tripDate = findViewById<TextView>(R.id.trip_date)
+                    val tripDistance = findViewById<TextView>(R.id.trip_distance)
+                    val tripLocation = findViewById<TextView>(R.id.trip_num_of_locations)
+                    val tripDescription = findViewById<TextView>(R.id.trip_description)
+                    val tripWeather = findViewById<TextView>(R.id.trip_weather)
+                    val element = TripsAdapter.items[position1]
+                    //Log.i("showActivity", element.tripTitle!!)
+                    tripTitle.text = element!!.tripTitle
+                    tripMapTitle = element.tripTitle.toString()
+                    tripDate.text = element.tripDate
+                    tripDistance.text = element.tripDistance.toString() + " km"
+                    tripDescription.text = element.tripDescription
+                    tripWeather.text = element.tripWeather.toString()
+                    //tripLocation.text = element!!.tripLocations!!.toString()
+                }
+            }
+            else {
+                position = b.getString("position")!!
+                for (trip in TripsAdapter.items) {
+                    if (trip!!.id == position) {
+                        selectedTrip = trip
+                    }
+                }
+                if (position!="") {
+                    val tripTitle = findViewById<TextView>(R.id.trip_title)
+                    val tripDate = findViewById<TextView>(R.id.trip_date)
+                    val tripDistance = findViewById<TextView>(R.id.trip_distance)
+                    val tripLocation = findViewById<TextView>(R.id.trip_num_of_locations)
+                    val tripDescription = findViewById<TextView>(R.id.trip_description)
+                    val tripWeather = findViewById<TextView>(R.id.trip_weather)
+                    val element = selectedTrip
+                    //Log.i("showActivity", element.tripTitle!!)
+                    tripTitle.text = element.tripTitle
+                    tripMapTitle = element.tripTitle.toString()
+                    tripDate.text = element.tripDate
+                    tripDistance.text = element.tripDistance.toString() + " km"
+                    tripDescription.text = element.tripDescription
+                    tripWeather.text = element.tripWeather.toString()
+                    //tripLocation.text = element!!.tripLocations!!.toString()
                 }
             }
 
-            if (position!="") {
-                val tripTitle = findViewById<TextView>(R.id.trip_title)
-                val tripDate = findViewById<TextView>(R.id.trip_date)
-                val tripDistance = findViewById<TextView>(R.id.trip_distance)
-                val tripLocation = findViewById<TextView>(R.id.trip_num_of_locations)
-                val tripDescription = findViewById<TextView>(R.id.trip_description)
-                val tripWeather = findViewById<TextView>(R.id.trip_weather)
-                val element = selectedTrip
-                //Log.i("showActivity", element.tripTitle!!)
-                tripTitle.text = element.tripTitle
-                tripMapTitle = element.tripTitle.toString()
-                tripDate.text = element.tripDate
-                tripDistance.text = element.tripDistance.toString() + " km"
-                tripDescription.text = element.tripDescription
-                tripWeather.text = element.tripWeather.toString()
-                //tripLocation.text = element!!.tripLocations!!.toString()
-            }
+
         }
         backButton = findViewById(R.id.back_to_previous_button)
         backButton.setOnClickListener {

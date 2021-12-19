@@ -97,46 +97,34 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
 
         endTripButton = findViewById<Button>(R.id.map_end_trip)
         endTripButton.setOnClickListener {
-            uuid = UUID.randomUUID()
-            stopLocationUpdates()
-            saveTripToDB()
-
-            /* Pass parameters to the TripShowActivity */
-            val intent = Intent(this, TripShowActivity::class.java)
-            //Log.i("testing", locations.size.toString())
-
-            for (location  in locations){
-                location.locationTripId = uuid.toString()
-                Log.i("LOCATION",location.locationTripId!!)
-                locationsViewModel!!.createNewLocation(location)
-            }
-
-            val extras = Bundle()
-            extras.putString("position", uuid.toString())
-            intent.putExtras(extras)
-            startActivity(intent)
-            //Log.i("CHECK",tripID.toString())
-
             MaterialAlertDialogBuilder(this)
                 .setTitle("Are you sure to finish and save the trip?")
                 .setMessage("You will not be able to change your trip afterwards.")
                 .setNegativeButton("Cancel") { dialog, which ->
                     dialog.dismiss()
                 }.setPositiveButton("Yes") { dialog, which ->
+                    uuid = UUID.randomUUID()
                     stopLocationUpdates()
                     saveTripToDB()
+
                     /* Pass parameters to the TripShowActivity */
+
+                    for (location  in locations){
+                        location.locationTripId = uuid.toString()
+                        Log.i("LOCATION",location.locationTripId!!)
+                        locationsViewModel!!.createNewLocation(location)
+                    }
+
                     val intent = Intent(this, TripShowActivity::class.java)
-                    tripsViewModel!!.getLastTrip()!!.observe(this, {
-                            newValue ->
-                        val extras = Bundle()
-                        extras.putInt("position", newValue!!.id)
-                        intent.putExtras(extras)
-                        startActivity(intent)
-                    })
+                    val extras = Bundle()
+                    extras.putString("position", uuid.toString())
+                    intent.putExtras(extras)
+                    startActivity(intent)
                     //Log.i("CHECK",tripID.toString())
                     finish()
                 }.show()
+
+
         }
 
         addButton = findViewById(R.id.add_picture)
