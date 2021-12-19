@@ -8,7 +8,7 @@ import androidx.room.*
 interface TripDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(trip:Trip): Long
+    fun insert(trip:Trip)
 
     @Update
     fun update(tripData:Trip)

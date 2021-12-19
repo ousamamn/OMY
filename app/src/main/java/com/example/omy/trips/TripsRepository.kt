@@ -30,7 +30,8 @@ class TripsRepository(application: Application) {
                 var insertedId:Int? =0
                 scope.launch {
                     for(param in params) {
-                        insertedId = this@InsertAsyncTask.dao?.insert(param)?.toInt()
+                        this@InsertAsyncTask.dao?.insert(param)
+                        Log.i("test?????","success")
                     }
                 }
             }

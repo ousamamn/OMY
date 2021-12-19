@@ -18,8 +18,8 @@ class TripsViewModel(application: Application): AndroidViewModel(application) {
     private var lastTrip: LiveData<Trip?>? = null
 
     init {
-        this.tripsToDisplay = this.tripsRepository.getTrips()
-        this.lastTrip = this.tripsRepository.getLastTrip()
+        this.tripsToDisplay = tripsRepository.getTrips()
+        this.lastTrip = tripsRepository.getLastTrip()
     }
 
     fun getTripsToDisplay(): LiveData<List<Trip?>>? {

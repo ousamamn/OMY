@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import com.example.omy.R
+import com.example.omy.data.Trip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -24,6 +25,7 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
 
     private lateinit var tripMapTitle: String
     private lateinit var backButton: FloatingActionButton
+    private lateinit var selectedTrip: Trip
     private val tripRoute : ArrayList<Pair<Double, Double>> = arrayListOf(
         Pair(53.38, -1.38),
         Pair(53.60, -1.38),
@@ -39,6 +41,7 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
         super.onCreate(savedInstanceState)
         setContentView(R.layout.trip_activity)
 
+        var position = ""
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
 
@@ -55,18 +58,24 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
         //tripRoute = convertToLatLng(toBeReplaced)
 
         val b: Bundle? = intent.extras
-        var position = -1
+
         if (b != null) {
-            position = b.getInt("position")
-            if (position != -1) {
+            position = b.getString("position")!!
+            for (trip in TripsAdapter.items){
+                if (trip!!.id == position){
+                    selectedTrip = trip
+                }
+            }
+
+            if (position!="") {
                 val tripTitle = findViewById<TextView>(R.id.trip_title)
                 val tripDate = findViewById<TextView>(R.id.trip_date)
                 val tripDistance = findViewById<TextView>(R.id.trip_distance)
                 val tripLocation = findViewById<TextView>(R.id.trip_num_of_locations)
                 val tripDescription = findViewById<TextView>(R.id.trip_description)
                 val tripWeather = findViewById<TextView>(R.id.trip_weather)
-                val element = TripsAdapter.items[position]
-                Log.i("showActivity", element!!.tripTitle!!)
+                val element = selectedTrip
+                //Log.i("showActivity", element.tripTitle!!)
                 tripTitle.text = element.tripTitle
                 tripMapTitle = element.tripTitle.toString()
                 tripDate.text = element.tripDate

@@ -29,12 +29,14 @@ class LocationShowActivity : AppCompatActivity() {
                 val textViewTitleInfo = findViewById<TextView>(R.id.location_title)
                 val textViewLongitudeInfo = findViewById<TextView>(R.id.location_longitude)
                 val textViewLatitudeInfo = findViewById<TextView>(R.id.location_latitude)
+                val textViewDescription = findViewById<TextView>(R.id.location_description)
                 val element = LocationsAdapter.items[position]
                 if (element != null) {
                     textView.text = element.locationTitle
                     textViewTitleInfo.text = element.locationTitle
                     textViewLongitudeInfo.text = element.locationLongitude.toString()
                     textViewLatitudeInfo.text = element.locationLatitude.toString()
+                    textViewDescription.text = element.locationDescription
                 } else if (element == null) {
                     textView.text = "Error"
                     textViewTitleInfo.text = "Error"

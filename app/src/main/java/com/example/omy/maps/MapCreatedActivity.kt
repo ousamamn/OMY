@@ -18,6 +18,7 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.omy.data.Trip
 import com.example.omy.fragments.HomeFragment
+import com.example.omy.locations.LocationsViewModel
 import com.example.omy.trips.TripShowActivity
 import com.example.omy.trips.TripsAdapter
 import com.example.omy.trips.TripsViewModel
@@ -36,6 +37,9 @@ import java.text.DateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.math.roundToInt
+import java.util.UUID
 
 
 class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -52,7 +56,9 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var addButton: FloatingActionButton
     private lateinit var endTripButton: Button
     private var tripsViewModel: TripsViewModel? = null
-    private lateinit var tripWeather:String
+    private var locationsViewModel: LocationsViewModel? = null
+    private lateinit var tripWeather: String
+    private lateinit var uuid: UUID
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +68,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
 
         /* Receive information from HomeFragment */
         tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
+        locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
         val b: Bundle? = intent.extras
         if (b != null) {
             displayTitle = findViewById(R.id.display_title)
@@ -90,6 +97,26 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
 
         endTripButton = findViewById<Button>(R.id.map_end_trip)
         endTripButton.setOnClickListener {
+            uuid = UUID.randomUUID()
+            stopLocationUpdates()
+            saveTripToDB()
+
+            /* Pass parameters to the TripShowActivity */
+            val intent = Intent(this, TripShowActivity::class.java)
+            //Log.i("testing", locations.size.toString())
+
+            for (location  in locations){
+                location.locationTripId = uuid.toString()
+                Log.i("LOCATION",location.locationTripId!!)
+                locationsViewModel!!.createNewLocation(location)
+            }
+
+            val extras = Bundle()
+            extras.putString("position", uuid.toString())
+            intent.putExtras(extras)
+            startActivity(intent)
+            //Log.i("CHECK",tripID.toString())
+
             MaterialAlertDialogBuilder(this)
                 .setTitle("Are you sure to finish and save the trip?")
                 .setMessage("You will not be able to change your trip afterwards.")
@@ -142,7 +169,6 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
                     Manifest.permission.ACCESS_FINE_LOCATION
                 )
             ) {
-
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
@@ -258,15 +284,19 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         fun getMap(): GoogleMap {
             return mMap
         }
-
+        var locations:MutableList<com.example.omy.data.Location> = ArrayList<com.example.omy.data.Location>()
     }
 
     private fun saveTripToDB() {
         val tripTitle = displayTitle.text.toString()
         val tripDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MMM-dd HH:mm"))
         val tripDistance = calculateDistance(visitedLongLatLocations)
-        val trip = Trip(tripTitle = tripTitle, tripDate = tripDate,
-            tripDistance = tripDistance, tripWeather = tripWeather, tripDescription = "")
+
+        Log.i("TRIP",uuid.toString())
+
+        val trip = Trip(id = uuid.toString(),tripTitle = tripTitle, tripDate = tripDate, tripDistance = tripDistance, tripWeather = tripWeather, tripDescription = "")
+
+        //val trip = Trip(tripTitle = tripTitle, tripDate = tripDate, tripDistance = tripDistance, tripWeather = tripWeather, tripDescription = "")
 
         tripsViewModel!!.createNewTrip(trip)
 
