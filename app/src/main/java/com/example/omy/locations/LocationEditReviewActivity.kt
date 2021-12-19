@@ -29,7 +29,7 @@ class LocationEditReviewActivity : AppCompatActivity() {
 
         var msg: String? = "Title"
         if (b != null) {
-            msg = b.getString("msg")
+            msg = b.getString("locationTitle")
             displayHeading = findViewById(R.id.review_heading)
             displayHeading.text = getString(R.string.heading_reviews) + " - " + msg
         }

@@ -17,9 +17,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.maps.model.Marker
 
-
-
-
 class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListener {
     private lateinit var mMap: GoogleMap
 
@@ -121,19 +118,16 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
     }
 
     private fun convertToLatLng(array: ArrayList<Pair<Double,Double>>): MutableList<LatLng> {
-        return array.map { it ->
-            val (latitude, longitude) = it
+        return array.map { val (latitude, longitude) = it
             LatLng(latitude, longitude) } as MutableList<LatLng>
     }
-    private fun parseCoords(coords:String):List<Pair<Double,Double>>{
-        var coordListPair: MutableList<Pair<Double,Double>> = ArrayList()
+    private fun parseCoords(coords:String): List<Pair<Double,Double>>{
+        val coordListPair: MutableList<Pair<Double,Double>> = ArrayList()
         val coordsList = coords.split("!")
         for (coord in coordsList){
             val long = coords.split(",")[0].toDouble()
             val lat = coords.split(",")[0].toDouble()
-            val pair = Pair<Double,Double>(long,lat)
-
-            coordListPair.add(pair)
+            coordListPair.add(Pair(lat,long))
         }
         return coordListPair
     }

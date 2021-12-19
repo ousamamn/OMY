@@ -22,28 +22,11 @@ import com.example.omy.MainRepository
 
 class TripsFragment : Fragment() {
     lateinit var tripsFilterSpinner: Spinner
-    lateinit var tripsDaoObj: TripDao
-    private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private var tripsDataset: List<Trip?> = ArrayList<Trip?>()
     private var tripsViewModel: TripsViewModel? = null
-    //private var tripsAdapter : TripsAdapter()
     lateinit var mRecyclerView: RecyclerView
     lateinit var mAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
     lateinit var mLayoutManager: RecyclerView.LayoutManager
-    /*private val tripsDataset: Array<TripElement> = arrayOf<TripElement>(
-        TripElement(
-            "Me at the Zoo", "3 Oct 2021", "3.2",
-            "4"
-        ),
-        TripElement(
-            "Morning Hike", "12 Sep 2021", "7",
-            "3"
-        ),
-        TripElement(
-            "Picnic in a Park", "31 Aug 2021", "0.4",
-            "11"
-        )
-    )*/
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,12 +54,8 @@ class TripsFragment : Fragment() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             tripsFilterSpinner.adapter = adapter
         }
-        //tripsViewModel?.createNewTrip(trip1)
-
 
         /*  Get list of trips */
-
-
         mRecyclerView = view.findViewById<RecyclerView>(R.id.trips_list)
         mLayoutManager = LinearLayoutManager(requireContext())
         mRecyclerView.layoutManager = mLayoutManager
@@ -100,16 +79,6 @@ class TripsFragment : Fragment() {
             TripsAdapter(tripsDataset)
             Log.i("another", TripsAdapter.items[0]!!.tripTitle!!)
         }
-
-
-
-
-        //mRecyclerView.adapter = mAdapter
-
-
-        //mAdapter = TripsAdapter(tripsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
-        //mRecyclerView.adapter = mAdapter
-
     }
 
     private fun initData() {
@@ -117,10 +86,6 @@ class TripsFragment : Fragment() {
             tripsDataset = newValue
             mAdapter.notifyDataSetChanged()
             mAdapter = TripsAdapter(newValue) as RecyclerView.Adapter<RecyclerView.ViewHolder>
-
-            //mRecyclerView.adapter = mAdapter
         })
     }
-
-
-    }
+}
