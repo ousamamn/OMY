@@ -2,24 +2,20 @@ package com.example.omy.maps
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
+import android.app.PendingIntent
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.omy.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.location.Location
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
-import com.example.omy.BuildConfig
 import com.example.omy.data.Trip
 import com.example.omy.fragments.HomeFragment
 import com.example.omy.locations.LocationsViewModel
@@ -34,13 +30,10 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import okhttp3.*
-import org.json.JSONException
-import org.json.JSONObject
-import java.io.IOException
-import java.net.URI.create
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.example.omy.maps.LocationService
+import com.google.android.gms.common.api.ApiException
 import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -50,11 +43,11 @@ import java.util.UUID
 
 
 class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
-    private lateinit var mMap: GoogleMap
     private var defaultLocation: Array<Double> = arrayOf(53.38, -1.48)
     private var visitedLongLatLocations = ArrayList<Pair<Double, Double>>()
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
+    private lateinit var ctx: Context
 
     private lateinit var displayTitle: TextView
     private lateinit var displayTemperature: TextView
@@ -64,12 +57,14 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var endTripButton: Button
     private var tripsViewModel: TripsViewModel? = null
     private var locationsViewModel: LocationsViewModel? = null
-    private lateinit var tripWeather:String
-    private lateinit var uuid:UUID
+    private lateinit var tripWeather: String
+    private lateinit var uuid: UUID
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.map_created_trip)
+        setActivity(this)
+        setContext(this)
 
         /* Receive information from HomeFragment */
         tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
@@ -83,7 +78,6 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             displayTemperature.text = getString(R.string.temperature, b.getString("trip_temperature"))
             visitedLongLatLocations.add(Pair(b.getDouble("base_latitude"),b.getDouble("base_longitude")))
         }
-
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
@@ -109,16 +103,13 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
 
             /* Pass parameters to the TripShowActivity */
             val intent = Intent(this, TripShowActivity::class.java)
-               // HOPEFULLY IT IS POSSIBLE TO FETCH A TRIP USING ITS TITLE
             //Log.i("testing", locations.size.toString())
 
-
             for (location  in locations){
-
                 location.locationTripId = uuid.toString()
                 Log.i("LOCATION",location.locationTripId!!)
                 locationsViewModel!!.createNewLocation(location)
-                }
+            }
 
             val extras = Bundle()
             extras.putString("position", uuid.toString())
@@ -126,6 +117,26 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             startActivity(intent)
             //Log.i("CHECK",tripID.toString())
 
+            MaterialAlertDialogBuilder(this)
+                .setTitle("Are you sure to finish and save the trip?")
+                .setMessage("You will not be able to change your trip afterwards.")
+                .setNegativeButton("Cancel") { dialog, which ->
+                    dialog.dismiss()
+                }.setPositiveButton("Yes") { dialog, which ->
+                    stopLocationUpdates()
+                    saveTripToDB()
+                    /* Pass parameters to the TripShowActivity */
+                    val intent = Intent(this, TripShowActivity::class.java)
+                    tripsViewModel!!.getLastTrip()!!.observe(this, {
+                            newValue ->
+                        val extras = Bundle()
+                        extras.putInt("position", newValue!!.id)
+                        intent.putExtras(extras)
+                        startActivity(intent)
+                    })
+                    //Log.i("CHECK",tripID.toString())
+                    finish()
+                }.show()
         }
 
         addButton = findViewById(R.id.add_picture)
@@ -143,14 +154,18 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     @SuppressLint("MissingPermission")
-    private fun startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(this,
+    private fun checkpermission(){
+        if (ActivityCompat.checkSelfPermission(
+                this,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
                     Manifest.permission.ACCESS_FINE_LOCATION
                 )
             ) {
@@ -158,38 +173,55 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
             } else {
-                ActivityCompat.requestPermissions(
-                    this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    ACCESS_FINE_LOCATION
-                )
+
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), ACCESS_FINE_LOCATION)
             }
             return
         }
+    }
 
-        mFusedLocationClient.requestLocationUpdates(
-            mLocationRequest,
-            mLocationCallback,
-            null /* Looper */
-        )
+    private fun startLocationUpdates() {
+        Log.e("Location update", "Starting...")
+
+        val intent = Intent(ctx, LocationService::class.java)
+        mLocationPendingIntent = PendingIntent.getService(ctx, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        Log.e("IntentService", "Getting...")
+
+        val locationTask = mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationPendingIntent!!)
+        locationTask.addOnFailureListener { e ->
+            if (e is ApiException) { e.message?.let { Log.w("MapsActivity", it) } }
+            else { Log.w("MapsActivity", e.message!!) }
+        }
+        locationTask.addOnCompleteListener {
+            Log.d("MapsActivity", "starting gps successful!")
+        }
+
     }
 
     private fun stopLocationUpdates() {
-        mFusedLocationClient.removeLocationUpdates(mLocationCallback)
+        Log.e("Location", "update stop")
+        mFusedLocationClient.removeLocationUpdates(mLocationPendingIntent!!)
     }
 
     override fun onResume() {
         super.onResume()
-        mLocationRequest = LocationRequest.create().apply {
-            interval = 1000
-            fastestInterval = 20000
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        }
+        mLocationRequest = create()
+        mLocationRequest.interval = 10000
+        mLocationRequest.fastestInterval = 20000
+        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        checkpermission()
         startLocationUpdates()
     }
 
     private var mCurrentLocation: Location? = null
     private var mLastUpdateTime: String? = null
+    private var mLocationPendingIntent: PendingIntent? = null
+    private val ACCESS_FINE_LOCATION = 123
+
     private var mLocationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             super.onLocationResult(locationResult)
@@ -213,19 +245,14 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
 
     @SuppressLint("MissingPermission")
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>, grantResults: IntArray
-    ) {
+        requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             ACCESS_FINE_LOCATION -> {
-                if (grantResults.isNotEmpty()
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED
-                ) {
-                    mFusedLocationClient.requestLocationUpdates(
-                        mLocationRequest,
-                        mLocationCallback, null /* Looper */
-                    )
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.i("Location", "Access permission granted")
+                } else {
+                    Log.e("Location ", "Denied")
                 }
                 return
             }
@@ -235,20 +262,34 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         val sheffield = LatLng(defaultLocation[0], defaultLocation[1])
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sheffield, 14.0f))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sheffield, 16.0f))
+    }
+
+    private fun setContext(context: Context) {
+        ctx = context
     }
 
     companion object {
-        private const val ACCESS_FINE_LOCATION = 123
+        private var activity: AppCompatActivity? = null
+        private lateinit var mMap: GoogleMap
+
+        fun getActivity(): AppCompatActivity? {
+            return activity
+        }
+
+        fun setActivity(newActivity: AppCompatActivity) {
+            activity = newActivity
+        }
+
+        fun getMap(): GoogleMap {
+            return mMap
+        }
         var locations:MutableList<com.example.omy.data.Location> = ArrayList<com.example.omy.data.Location>()
     }
 
     private fun saveTripToDB() {
-        //TODO("Connect to DAO and save the trip")
         val tripTitle = displayTitle.text.toString()
-
         val tripDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MMM-dd HH:mm"))
-
         val tripDistance = calculateDistance(visitedLongLatLocations)
 
         Log.i("TRIP",uuid.toString())
@@ -259,25 +300,24 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         val trip = Trip(id = uuid.toString(),tripTitle = tripTitle, tripDate = tripDate, tripDistance = tripDistance, tripWeather = tripWeather, tripDescription = "", tripListCoords = coords)
 
 
-        tripsViewModel!!.createNewTrip(trip)
+        //val trip = Trip(tripTitle = tripTitle, tripDate = tripDate, tripDistance = tripDistance, tripWeather = tripWeather, tripDescription = "")
 
+        tripsViewModel!!.createNewTrip(trip)
 
         TripsAdapter.items.add(trip)
         //Log.i("ID_ATTEMPT", tripID.toString())
-
     }
 
     private fun calculateDistance(visitedLongLatLocations: List<Pair<Double,Double>>):Double{
-
-        var (first_long,first_lat) = visitedLongLatLocations.first()
-        var (last_long,last_lat) = visitedLongLatLocations.last()
-        var start = Location ("startLocation")
+        val (first_long,first_lat) = visitedLongLatLocations.first()
+        val (last_long,last_lat) = visitedLongLatLocations.last()
+        val start = Location ("startLocation")
         start.latitude = first_lat
         start.longitude = first_long
-        var end = Location("endLocation")
+        val end = Location("endLocation")
         end.latitude = last_lat
         end.longitude = last_long
-        return start.distanceTo(end).toDouble()
+        return "%.2f".format(start.distanceTo(end)).toDouble()
     }
     private fun makeCoords(visitedLongLatLocations: List<Pair<Double, Double>>):String{
         var result =""

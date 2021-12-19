@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:noHistory="true"
+    android:excludeFromRecents="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".maps.MapCreatedActivity">
 
@@ -48,7 +50,6 @@
                 android:textStyle="bold" />
     </LinearLayout>
 
-
     <View
         android:id="@+id/shadow"
         android:layout_width="wrap_content"
@@ -63,16 +64,17 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:layout_marginBottom="25dp"
+        android:backgroundTint="#545454"
+        android:elevation="30dp"
+        android:fontFamily="@font/nunito_extrabold"
+        android:onClick="showAlertDialog"
+        android:paddingLeft="20dp"
         android:paddingTop="10dp"
         android:paddingRight="20dp"
         android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
-        app:cornerRadius="15dp"
-        android:elevation="30dp"
-        android:backgroundTint="#545454"
         android:text="END TRIP"
         android:textSize="20sp"
-        android:fontFamily="@font/nunito_extrabold"
+        app:cornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
