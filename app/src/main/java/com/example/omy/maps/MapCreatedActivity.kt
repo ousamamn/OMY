@@ -41,7 +41,6 @@ import java.util.UUID
 
 class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     private var defaultLocation: Array<Double> = arrayOf(53.38, -1.48)
-    private var visitedLongLatLocations = ArrayList<Pair<Double, Double>>()
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private lateinit var ctx: Context
@@ -212,7 +211,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             super.onLocationResult(locationResult)
             mCurrentLocation = locationResult.lastLocation
             mLastUpdateTime = DateFormat.getTimeInstance().format(Date())
-            Log.i("MAP", "new location " + mCurrentLocation.toString())
+            Log.i("MAP", "new location lol" + mCurrentLocation.toString())
             val currentLongitude = mCurrentLocation!!.longitude
             val currentLatitude = mCurrentLocation!!.latitude
 
@@ -257,6 +256,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     companion object {
         private var activity: AppCompatActivity? = null
         private lateinit var mMap: GoogleMap
+        var visitedLongLatLocations = ArrayList<Pair<Double, Double>>()
 
         fun getActivity(): AppCompatActivity? {
             return activity
