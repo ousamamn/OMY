@@ -238,7 +238,7 @@
             android:textSize="20sp"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/trip_images"
+            android:id="@+id/trip_locations"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp" />

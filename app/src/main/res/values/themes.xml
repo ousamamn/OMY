@@ -10,7 +10,7 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/darkgreen</item>
         <item name="colorSecondaryVariant">@color/darkgreen</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/lightgreen</item>
         <!-- Customize your theme here. -->

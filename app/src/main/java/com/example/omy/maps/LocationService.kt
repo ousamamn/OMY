@@ -43,15 +43,6 @@ class LocationService : Service {
                     MapCreatedActivity.getActivity()?.runOnUiThread(Runnable {
                         try {
                             MapCreatedActivity.visitedLongLatLocations.add(Pair(mCurrentLocation!!.latitude,mCurrentLocation!!.longitude))
-                            MapCreatedActivity.getMap().addMarker(
-                                MarkerOptions().position(
-                                    LatLng(
-                                        mCurrentLocation!!.latitude,
-                                        mCurrentLocation!!.longitude
-                                    )
-                                )
-                                    .title(mLastUpdateTime)
-                            )
                             val zoom = CameraUpdateFactory.zoomTo(16f)
                             MapCreatedActivity.getMap().moveCamera(
                                 CameraUpdateFactory.newLatLng(
