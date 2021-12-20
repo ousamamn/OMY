@@ -16,12 +16,12 @@ import com.google.android.gms.maps.model.*
 
 class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListener {
     private lateinit var mMap: GoogleMap
+    private lateinit var element: Trip
 
     private lateinit var tripMapTitle: String
     private lateinit var backButton: FloatingActionButton
     private lateinit var selectedTrip: Trip
     private lateinit var tripRoute : MutableList<Pair<Double, Double>>
-    private lateinit var element: Trip
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +43,6 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
                 val position1 = b.getInt("position")
                 if (position1!=-1) {
                     element = TripsAdapter.items[position1]!!
-                    //Log.i("showActivity", element.tripTitle!!)
                 }
             } else {
                 val position = b.getString("position")!!
@@ -52,7 +51,6 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
                 }
                 if (position!="") {
                     element = selectedTrip
-                    //Log.i("showActivity", element.tripTitle!!)
                 }
             }
             tripTitle.text = element.tripTitle
@@ -61,10 +59,9 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
             tripDistance.text = element.tripDistance.toString() + " km"
             tripDescription.text = element.tripDescription
             tripWeather.text = element.tripWeather.toString()
+            tripLocation.text = TripsAdapter.tripAndLocation[element.id]!!.size.toString()
             tripRoute = parseCoords(element.tripListCoords!!)
-            Log.e("PARSECOORDS", element.tripListCoords!!)
-            //tripLocation.text = tripRoute.size.toString() NO THESE ARE DIFFERENT LOCATIONS
-            //tripLocation.text = element!!.tripLocations!!.toString()
+            Log.e("COORDS", element.tripListCoords!!)
         }
 
         backButton = findViewById(R.id.back_to_previous_button)
@@ -99,10 +96,12 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
         // Add a marker for the first and very last latlong value positions
         mMap.addMarker(MarkerOptions()
             .position(latLngLocations.first())
-            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)))
+            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+            .title("Starting point").snippet(tripMapTitle))
         mMap.addMarker(MarkerOptions()
             .position(latLngLocations.last())
-            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)))
+            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+            .title("Ending point").snippet(tripMapTitle))
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
@@ -115,18 +114,16 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
             LatLng(latitude, longitude) } as MutableList<LatLng>
     }
     private fun parseCoords(coords:String): MutableList<Pair<Double, Double>> {
-        //Log.i("coords?!!!", coords)
-        val coordListPair: MutableList<Pair<Double,Double>> = ArrayList()
+        val coordListPairs: MutableList<Pair<Double,Double>> = ArrayList()
         val coordsList = coords.split("!")
 
         for (coord in coordsList){
             if (coord!="") {
-                Log.i("whatsgoingon",coord)
-                val lat = "%.2f".format(coord.split(",")[0].toDouble()).toDouble()
-                val long = "%.2f".format(coord.split(",")[1].toDouble()).toDouble()
-                coordListPair.add(Pair(lat, long))
+                val lat = coord.split(",")[0].toDouble()
+                val long = coord.split(",")[1].toDouble()
+                coordListPairs.add(Pair(lat,long))
             }
         }
-        return coordListPair
+        return coordListPairs
     }
 }
