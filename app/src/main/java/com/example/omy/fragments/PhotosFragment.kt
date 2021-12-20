@@ -1,6 +1,5 @@
 package com.example.omy.fragments
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
@@ -8,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -18,8 +18,6 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.example.omy.R
 import com.example.omy.data.Image
 import com.example.omy.photos.*
-import com.example.omy.trips.TripsAdapter
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.runBlocking
 import pl.aprilapps.easyphotopicker.ChooserType
 import pl.aprilapps.easyphotopicker.EasyImage
@@ -28,13 +26,13 @@ import pl.aprilapps.easyphotopicker.MediaFile
 import java.util.ArrayList
 
 class PhotosFragment : Fragment() {
-    lateinit var searchView: SearchView
-    lateinit var mRecyclerView: RecyclerView
+    private lateinit var searchView: SearchView
+    private lateinit var mRecyclerView: RecyclerView
+    private lateinit var recyclerEmpty: TextView
     private lateinit var mAdapter: Adapter<RecyclerView.ViewHolder>
     private val photoDataset: MutableList<Image> = ArrayList<Image>()
     private lateinit var easyImage: EasyImage
     private var photosViewModel: PhotosViewModel? = null
-
 
     val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -64,6 +62,7 @@ class PhotosFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        recyclerEmpty = view.findViewById(R.id.no_photos)
         this.photosViewModel = ViewModelProvider(this)[PhotosViewModel::class.java]
         mAdapter = PhotosAdapter(photoDataset) as Adapter<RecyclerView.ViewHolder>
         initData()
@@ -96,6 +95,8 @@ class PhotosFragment : Fragment() {
         this.photosViewModel!!.getPhotosToDisplay()?.observe(viewLifecycleOwner, {newValue ->
             mAdapter.notifyDataSetChanged()
             mAdapter = PhotosAdapter(newValue) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+            if (newValue.isEmpty()) recyclerEmpty.visibility = View.VISIBLE
+            else recyclerEmpty.visibility = View.GONE
         })
     }
 
@@ -103,7 +104,6 @@ class PhotosFragment : Fragment() {
         var insertJob = photosViewModel!!.createNewPhoto(imageData)
         insertJob.toString().toInt()
     }
-
 
     @SuppressLint("NotifyDataSetChanged")
     private fun onPhotosReturned(returnedPhotos: Array<MediaFile>) {

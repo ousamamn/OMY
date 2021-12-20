@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +30,7 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private var tripsViewModel: TripsViewModel? = null
     private var locationsViewModel: LocationsViewModel? = null
     lateinit var mRecyclerView: RecyclerView
+    private lateinit var recyclerEmpty: TextView
     lateinit var mAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
     lateinit var mLayoutManager: RecyclerView.LayoutManager
 
@@ -41,6 +43,7 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        recyclerEmpty = view.findViewById(R.id.no_trips)
         //val trip1 = Trip(id = "test", tripTitle = "Me at the Zoo", tripDate = "12 Dec 2021", tripDistance = 3.2, tripWeather = "19.0", tripDescription = "description", tripListCoords = "test")
         tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
         locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
@@ -84,31 +87,36 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
             for(trip in newValue){
                 tripandLocations[trip!!.id] = getSpecificTrip(trip,locations)
             }
+
+            if (newValue.isEmpty()) recyclerEmpty.visibility = View.VISIBLE
+            else recyclerEmpty.visibility = View.GONE
             //mAdapter = TripsAdapter(newValue) as RecyclerView.Adapter<RecyclerView.ViewHolder>
         })
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        when (position) {
-            0 -> {
-                Log.e("p0","clicked a-z")
-                sortedTripsDataset =
-                    tripsDataset.sortedBy { it!!.tripTitle } as MutableList<Trip>
-            } 1 -> {
-                Log.e("p0","clicked z-a")
-                sortedTripsDataset =
-                    tripsDataset.sortedByDescending { it!!.tripTitle } as MutableList<Trip>
-            } 2 -> {
-                Log.e("p0","clicked newest")
-                sortedTripsDataset =
-                    tripsDataset.sortedByDescending { it!!.tripDate } as MutableList<Trip>
-            } 3 -> {
-                Log.e("p0","clicked oldest")
-                sortedTripsDataset =
-                    tripsDataset.sortedBy { it!!.tripDate } as MutableList<Trip>
-            } else -> {
-                //set the list of locations to 0, A-Z
-                sortedTripsDataset = tripsDataset
+        if(tripsDataset.isNotEmpty()) {
+            when (position) {
+                0 -> {
+                    Log.e("p0", "clicked a-z")
+                    sortedTripsDataset =
+                        tripsDataset.sortedBy { it!!.tripTitle } as MutableList<Trip>
+                } 1 -> {
+                    Log.e("p0", "clicked z-a")
+                    sortedTripsDataset =
+                        tripsDataset.sortedByDescending { it!!.tripTitle } as MutableList<Trip>
+                } 2 -> {
+                    Log.e("p0", "clicked newest")
+                    sortedTripsDataset =
+                        tripsDataset.sortedByDescending { it!!.tripDate } as MutableList<Trip>
+                } 3 -> {
+                    Log.e("p0", "clicked oldest")
+                    sortedTripsDataset =
+                        tripsDataset.sortedBy { it!!.tripDate } as MutableList<Trip>
+                } else -> {
+                    //set the list of locations to 0, A-Z
+                    sortedTripsDataset = tripsDataset
+                }
             }
         }
         mAdapter = TripsAdapter(sortedTripsDataset,tripandLocations) as RecyclerView.Adapter<RecyclerView.ViewHolder>

@@ -42,8 +42,11 @@
     <string name="map_finish_trip">END TRIP</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
-    <string name="cancel">CANCEL</string>
+    <string name="cancel">Cancel</string>
     <string name="save">SAVE</string>
+    <string name="no_photos">No photos yet…</string>
+    <string name="no_trips">No trips yet…</string>
+    <string name="no_locations">No locations yet…</string>
     <string-array name="sort_array">
         <item>A-Z</item>
         <item>Z-A</item>
