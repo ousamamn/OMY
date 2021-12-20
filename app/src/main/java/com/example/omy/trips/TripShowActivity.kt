@@ -12,10 +12,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PolylineOptions
-import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.*
 
 class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListener {
     private lateinit var mMap: GoogleMap
@@ -94,11 +91,18 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
         mMap.addPolyline(polylineOptions)
 
         // For each location, display a marker for it
-        for (loc in latLngLocations) {
-            mMap.addMarker(MarkerOptions().position(loc)
-                .title("This needs to be replaced with location title")
-                .snippet(tripMapTitle))
+        locations!!.forEach { loc ->
+            mMap.addMarker(MarkerOptions()
+                .position(LatLng(loc!!.locationLatitude, loc.locationLongitude))
+                .title(loc.locationTitle).snippet(tripMapTitle))
         }
+        // Add a marker for the first and very last latlong value positions
+        mMap.addMarker(MarkerOptions()
+            .position(latLngLocations.first())
+            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)))
+        mMap.addMarker(MarkerOptions()
+            .position(latLngLocations.last())
+            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)))
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
