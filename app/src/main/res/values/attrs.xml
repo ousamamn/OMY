@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="bottom_navigation_menu_icon_home" format="reference"/>
+    <attr name="bottom_navigation_menu_icon_trips" format="reference"/>
+    <attr name="bottom_navigation_menu_icon_locations" format="reference"/>
+    <attr name="bottom_navigation_menu_icon_photos" format="reference"/>
+</resources>
