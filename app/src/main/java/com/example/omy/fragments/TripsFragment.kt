@@ -94,23 +94,19 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 Log.e("p0","clicked a-z")
                 sortedTripsDataset =
                     tripsDataset.sortedBy { it!!.tripTitle } as MutableList<Trip>
-            }
-            1 -> {
+            } 1 -> {
                 Log.e("p0","clicked z-a")
                 sortedTripsDataset =
                     tripsDataset.sortedByDescending { it!!.tripTitle } as MutableList<Trip>
-            }
-            2 -> {
+            } 2 -> {
                 Log.e("p0","clicked newest")
                 sortedTripsDataset =
                     tripsDataset.sortedByDescending { it!!.tripDate } as MutableList<Trip>
-            }
-            3 -> {
+            } 3 -> {
                 Log.e("p0","clicked oldest")
                 sortedTripsDataset =
                     tripsDataset.sortedBy { it!!.tripDate } as MutableList<Trip>
-            }
-            else -> {
+            } else -> {
                 //set the list of locations to 0, A-Z
                 sortedTripsDataset = tripsDataset
             }
@@ -119,7 +115,7 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         mRecyclerView.adapter = mAdapter
     }
 
-    override fun onNothingSelected(p0: AdapterView<*>?) {
+    override fun onNothingSelected(parent: AdapterView<*>?) {
         mAdapter = TripsAdapter(tripsDataset,tripandLocations) as RecyclerView.Adapter<RecyclerView.ViewHolder>
         mRecyclerView.adapter = mAdapter
     }
