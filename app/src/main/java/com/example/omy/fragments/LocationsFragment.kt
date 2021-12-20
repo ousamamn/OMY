@@ -78,23 +78,19 @@ class LocationsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 Log.e("p0","clicked a-z")
                 sortedLocationsDataset =
                     locationsDataset.sortedBy { it!!.locationTitle } as MutableList<Location>
-            }
-            1 -> {
+            } 1 -> {
                 Log.e("p0","clicked z-a")
                 sortedLocationsDataset =
                     locationsDataset.sortedByDescending { it!!.locationTitle } as MutableList<Location>
-            }
-            2 -> {
+            } 2 -> {
                 Log.e("p0","clicked newest")
                 sortedLocationsDataset =
-                    locationsDataset.sortedBy { it!!.locationLatitude } as MutableList<Location>
-            }
-            3 -> {
+                    locationsDataset.sortedByDescending { it!!.locationLatitude } as MutableList<Location>
+            } 3 -> {
                 Log.e("p0","clicked oldest")
                 sortedLocationsDataset =
-                    locationsDataset.sortedByDescending { it!!.locationLatitude } as MutableList<Location>
-            }
-            else -> {
+                    locationsDataset.sortedBy { it!!.locationLatitude } as MutableList<Location>
+            } else -> {
                 //set the list of locations to 0, A-Z
                 sortedLocationsDataset = locationsDataset
             }
