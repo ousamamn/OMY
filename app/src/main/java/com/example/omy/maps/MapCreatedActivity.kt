@@ -108,11 +108,9 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
                     /* Pass parameters to the TripShowActivity */
                     for (location  in locations){
                         location!!.locationTripId = uuid.toString()
-                        Log.i("LOCATION",location.locationTripId!!)
                         locationsViewModel!!.createNewLocation(location)
 
                     }
-
 
                     val intent = Intent(this, TripShowActivity::class.java)
                     val extras = Bundle()
@@ -122,8 +120,6 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
                     //Log.i("CHECK",tripID.toString())
                     finish()
                 }.show()
-
-
         }
 
         addButton = findViewById(R.id.add_picture)
@@ -281,10 +277,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         val tripDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MMM-dd HH:mm"))
         val tripDistance = calculateDistance(visitedLongLatLocations)
 
-        Log.i("TRIP",uuid.toString())
-
         val coords = makeCoords(visitedLongLatLocations)
-
         val trip = Trip(id = uuid.toString(),tripTitle = tripTitle, tripDate = tripDate, tripDistance = tripDistance, tripWeather = tripWeather, tripDescription = "", tripListCoords = coords)
 
         //val trip = Trip(tripTitle = tripTitle, tripDate = tripDate, tripDistance = tripDistance, tripWeather = tripWeather, tripDescription = "")
@@ -295,16 +288,19 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         //Log.i("ID_ATTEMPT", tripID.toString())
     }
 
-    private fun calculateDistance(visitedLongLatLocations: List<Pair<Double,Double>>):Double{
-        val (first_long,first_lat) = visitedLongLatLocations.first()
-        val (last_long,last_lat) = visitedLongLatLocations.last()
-        val start = Location ("startLocation")
-        start.latitude = first_lat
-        start.longitude = first_long
-        val end = Location("endLocation")
-        end.latitude = last_lat
-        end.longitude = last_long
-        return "%.2f".format(start.distanceTo(end)).toDouble()
+    private fun calculateDistance(visitedLatLongs: List<Pair<Double,Double>>): Double {
+        var sumOfDistances = 0.0F
+        for (i in visitedLatLongs.indices) {
+            if (i + 1 < visitedLatLongs.size) {
+                val results = FloatArray(1)
+                Location.distanceBetween(visitedLatLongs[i].first, visitedLatLongs[i].second,
+                    visitedLatLongs[i+1].first, visitedLatLongs[i+1].second, results)
+                sumOfDistances += results[0]
+            }
+        }
+
+        if (sumOfDistances >= 1000) { sumOfDistances /= 1000 }
+        return "%.2f".format(sumOfDistances).toDouble()
     }
     private fun makeCoords(visitedLongLatLocations: List<Pair<Double, Double>>):String{
         var result =""
@@ -313,5 +309,4 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         return result
     }
-
-    }
+}
