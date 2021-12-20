@@ -36,6 +36,8 @@
     <string name="temperature">"Temperature: %1$s"</string>
     <string name="map_dialog_cancel">"Cancel"</string>
     <string name="map_dialog_approve">"Finish trip"</string>
+    <string name="home_fragment_title">Provide the trip title</string>
+    <string name="start_trip_no_location_enabled">Please enable the location</string>
     <string-array name="sort_array">
         <item>A-Z</item>
         <item>Z-A</item>

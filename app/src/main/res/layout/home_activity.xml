@@ -23,8 +23,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:fontFamily="@font/nunito_bold"
-            android:text="Provide the trip title"
-            android:textColor="@color/darkgreen"
+            android:text="@string/home_fragment_title"
+            android:textColor="?android:textColorPrimary"
             android:textSize="32sp"
             android:textStyle="bold" />
 
@@ -75,6 +75,7 @@
             android:elevation="30dp"
             android:backgroundTint="#545454"
             android:drawableRight="@drawable/ic_outline_arrow_circle_right_24"
+            android:textColor="@color/white"
             android:text="@string/trip_name_go"
             android:textSize="25sp"
             android:fontFamily="@font/nunito_extrabold" />
@@ -91,7 +92,7 @@
             android:paddingBottom="15dp"
             android:visibility="gone"
             android:textColor="@color/white"
-            android:text="Please enable the location"
+            android:text="@string/start_trip_no_location_enabled"
             android:textSize="25sp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

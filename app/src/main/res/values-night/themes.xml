@@ -1,16 +1,21 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.OMY" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="windowNoTitle">true</item>
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/darkgreen</item>
-        <item name="colorPrimaryVariant">@color/darkgreen</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">@color/lightgreen</item>
+        <item name="colorPrimaryVariant">@color/lightgreen</item>
+        <item name="colorOnPrimary">@color/darkgrey</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/darkgreen</item>
-        <item name="colorSecondaryVariant">@color/darkgreen</item>
+        <item name="colorSecondary">@color/lightgreen</item>
+        <item name="colorSecondaryVariant">@color/lightgreen</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">#1F6226</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/lightgreen</item>
         <!-- Customize your theme here. -->
+        <item name="bottom_navigation_menu_icon_home">@drawable/ic_baseline_home_24_dark</item>
+        <item name="bottom_navigation_menu_icon_trips">@drawable/ic_baseline_explore_24_dark</item>
+        <item name="bottom_navigation_menu_icon_locations">@drawable/ic_baseline_location_on_24_dark</item>
+        <item name="bottom_navigation_menu_icon_photos">@drawable/ic_baseline_image_24_dark</item>
     </style>
 </resources>
