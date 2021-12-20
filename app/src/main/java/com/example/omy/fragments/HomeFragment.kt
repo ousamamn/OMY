@@ -178,12 +178,12 @@ class HomeFragment : Fragment() {
     companion object {
         private const val ACCESS_FINE_LOCATION = 123
         var locations: MutableList<com.example.omy.data.Location?> = mutableListOf()
-        var tripandLocations:MutableMap<String,MutableList<com.example.omy.data.Location?>> = mutableMapOf()
+        var tripandLocations: MutableMap<String,MutableList<com.example.omy.data.Location?>> = mutableMapOf()
 
         fun getSpecificTrip(trip: Trip, locations:MutableList<com.example.omy.data.Location?>):MutableList<com.example.omy.data.Location?>{
             val result: MutableList<com.example.omy.data.Location?> = ArrayList()
             for (location in locations){
-                Log.i("TEST","sivess")
+                //Log.i("TEST","sivess")
                 if (location!!.locationTripId == trip.id){
 
                     result.add(location)

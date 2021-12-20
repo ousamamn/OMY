@@ -78,6 +78,7 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+        val locations = TripsAdapter.tripAndLocation[element.id]
         val latLngLocations = convertToLatLng(tripRoute)
         val (firstLat, firstLong) = tripRoute.first()
         mMap = googleMap
@@ -117,8 +118,8 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
         for (coord in coordsList){
             if (coord!="") {
                 Log.i("whatsgoingon",coord)
-                val long = "%.2f".format(coord.split(",")[0].toDouble()).toDouble()
-                val lat = "%.2f".format(coord.split(",")[1].toDouble()).toDouble()
+                val lat = "%.2f".format(coord.split(",")[0].toDouble()).toDouble()
+                val long = "%.2f".format(coord.split(",")[1].toDouble()).toDouble()
                 coordListPair.add(Pair(lat, long))
             }
         }
