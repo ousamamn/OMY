@@ -36,17 +36,10 @@
     <string name="temperature">"Temperature: %1$s"</string>
     <string name="map_dialog_cancel">"Cancel"</string>
     <string name="map_dialog_approve">"Finish trip"</string>
-    <string-array name="trips_filter_array">
+    <string-array name="sort_array">
         <item>A-Z</item>
         <item>Z-A</item>
         <item>Newest</item>
         <item>Oldest</item>
     </string-array>
-    <string-array name="locations_filter_array">
-        <item>A-Z</item>
-        <item>Z-A</item>
-        <item>Newest</item>
-        <item>Oldest</item>
-    </string-array>
-
 </resources>
