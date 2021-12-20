@@ -7,11 +7,11 @@
     android:layout_height="match_parent"
     android:layout_marginTop="70dp"
     tools:context=".fragments.LocationsFragment"
-    tools:showIn="@layout/locations_filter_bar">
+    tools:showIn="@layout/locations_sort_bar">
 
     <include
         android:id="@+id/filter_bar"
-        layout="@layout/locations_filter_bar" />
+        layout="@layout/locations_sort_bar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/locations_list"

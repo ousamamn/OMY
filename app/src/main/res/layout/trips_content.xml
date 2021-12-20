@@ -7,11 +7,11 @@
     android:layout_height="match_parent"
     android:layout_marginTop="70dp"
     tools:context=".fragments.TripsFragment"
-    tools:showIn="@layout/trips_bar_filter">
+    tools:showIn="@layout/trips_sort_bar">
 
     <include
         android:id="@+id/filter_bar"
-        layout="@layout/trips_bar_filter" />
+        layout="@layout/trips_sort_bar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/trips_list"
