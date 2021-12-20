@@ -33,7 +33,6 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
         val b: Bundle? = intent.extras
-        var position = ""
 
         if (b != null) {
             val tripTitle = findViewById<TextView>(R.id.trip_title)
@@ -50,7 +49,7 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
                     //Log.i("showActivity", element.tripTitle!!)
                 }
             } else {
-                position = b.getString("position")!!
+                val position = b.getString("position")!!
                 for (trip in TripsAdapter.items) {
                     if (trip!!.id == position) { selectedTrip = trip }
                 }
@@ -117,8 +116,8 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
 
         for (coord in coordsList){
             if (coord.isNotBlank()) {
-                val long = "%.2f".format(coord.split(",")[0].toDouble()).toDouble()
-                val lat = "%.2f".format(coord.split(",")[1].toDouble()).toDouble()
+                val long = "%.2f".format(coord.split(",")[0]).toDouble()
+                val lat = "%.2f".format(coord.split(",")[1]).toDouble()
                 coordListPair.add(Pair(lat, long))
             }
         }
