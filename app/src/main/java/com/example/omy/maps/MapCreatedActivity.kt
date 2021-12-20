@@ -282,9 +282,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val coords = makeCoords(visitedLongLatLocations)
 
-
         val trip = Trip(id = uuid.toString(),tripTitle = tripTitle, tripDate = tripDate, tripDistance = tripDistance, tripWeather = tripWeather, tripDescription = "", tripListCoords = coords)
-
 
         //val trip = Trip(tripTitle = tripTitle, tripDate = tripDate, tripDistance = tripDistance, tripWeather = tripWeather, tripDescription = "")
 
