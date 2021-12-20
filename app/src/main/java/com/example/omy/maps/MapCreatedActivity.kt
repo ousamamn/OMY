@@ -298,9 +298,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
                 sumOfDistances += results[0]
             }
         }
-
-        if (sumOfDistances >= 1000) { sumOfDistances /= 1000 }
-        return "%.2f".format(sumOfDistances).toDouble()
+        return "%.2f".format(sumOfDistances / 1000).toDouble()
     }
     private fun makeCoords(visitedLongLatLocations: List<Pair<Double, Double>>):String{
         var result =""
