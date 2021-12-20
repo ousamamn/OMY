@@ -103,14 +103,16 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
                     uuid = UUID.randomUUID()
                     saveTripToDB()
 
+                    TripsAdapter.tripAndLocation[uuid.toString()]= locations
+
                     /* Pass parameters to the TripShowActivity */
                     for (location  in locations){
-                        location.locationTripId = uuid.toString()
+                        location!!.locationTripId = uuid.toString()
                         Log.i("LOCATION",location.locationTripId!!)
                         locationsViewModel!!.createNewLocation(location)
-                        
+
                     }
-                    TripsAdapter.tripAndLocation[uuid.toString()]= locations
+
 
                     val intent = Intent(this, TripShowActivity::class.java)
                     val extras = Bundle()
@@ -130,9 +132,9 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             val intent = Intent(this, MapAddActivity::class.java)
             val extras = Bundle()
             extras.putString("trip_title", displayTitle.text.toString())
-            val (tripLongitude, tripLatitude) = visitedLongLatLocations.last()
-            extras.putDouble("trip_longitude",tripLongitude)
+            val (tripLatitude,tripLongitude) = visitedLongLatLocations.last()
             extras.putDouble("trip_latitude", tripLatitude)
+            extras.putDouble("trip_longitude",tripLongitude)
             intent.putExtras(extras)
             startActivity(intent)
         }
@@ -167,6 +169,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
         Log.e("Location update", "Starting...")
 
@@ -270,7 +273,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         fun getMap(): GoogleMap {
             return mMap
         }
-        var locations:MutableList<com.example.omy.data.Location> = ArrayList<com.example.omy.data.Location>()
+        var locations:MutableList<com.example.omy.data.Location?> = ArrayList()
     }
 
     private fun saveTripToDB() {
