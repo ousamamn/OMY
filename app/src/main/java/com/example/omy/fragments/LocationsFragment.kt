@@ -19,7 +19,7 @@ import com.example.omy.trips.TripsAdapter
 import java.util.ArrayList
 
 class LocationsFragment : Fragment(), AdapterView.OnItemSelectedListener {
-    lateinit var locationsSortSpinner: Spinner
+    private lateinit var locationsSortSpinner: Spinner
     private var locationsDataset: List<Location?> = ArrayList<Location?>()
     private var sortedLocationsDataset: List<Location?> = ArrayList<Location?>()
 
@@ -37,16 +37,16 @@ class LocationsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         super.onViewCreated(view, savedInstanceState)
 
         /*  Locations Sort Functionality */
-        val locationsSortSpinner: Spinner = view.findViewById(R.id.locations_filters_spinner)
+        locationsSortSpinner = view.findViewById(R.id.locations_filters_spinner)
         locationsSortSpinner.onItemSelectedListener = this
-
-        locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
-        ArrayAdapter.createFromResource(requireContext(), R.array.locations_filter_array,
+        ArrayAdapter.createFromResource(requireContext(), R.array.sort_array,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             locationsSortSpinner.adapter = adapter
         }
+
+        locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
 
         /*  Get list of locations */
         mRecyclerView = view.findViewById<RecyclerView>(R.id.locations_list)
