@@ -89,11 +89,22 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/no_trips"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:text="@string/no_reviews"
+            android:fontFamily="@font/raleway_medium"
+            android:textColor="@color/lightgrey"
+            android:textStyle="italic"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/reviews_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
