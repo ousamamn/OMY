@@ -48,6 +48,9 @@
     <string name="no_trips">No trips yet…</string>
     <string name="no_locations">No locations yet…</string>
     <string name="no_reviews">No reviews yet…</string>
+    <string name="see_all">See all</string>
+    <string name="add_a_review">Add a review</string>
+    <string name="add_a_photo">Upload a photo</string>
     <string-array name="sort_array">
         <item>A-Z</item>
         <item>Z-A</item>

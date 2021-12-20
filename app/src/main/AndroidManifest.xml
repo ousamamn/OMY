@@ -20,10 +20,10 @@
         android:theme="@style/Theme.OMY"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".locations.LocationEditReviewActivity"
+            android:name=".locations.LocationAddReviewActivity"
             android:exported="true" />
         <activity
-            android:name=".locations.LocationSeeReviewActivity"
+            android:name=".locations.LocationReviewsActivity"
             android:exported="true" />
         <activity
             android:name=".locations.LocationShowActivity"

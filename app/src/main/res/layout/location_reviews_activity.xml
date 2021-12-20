@@ -99,6 +99,7 @@
             android:textColor="@color/lightgrey"
             android:textStyle="italic"
             android:textSize="20sp"
+            android:visibility="gone"
             android:layout_gravity="center"
             android:gravity="center_vertical"/>
 

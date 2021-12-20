@@ -11,8 +11,6 @@ import com.example.omy.R
 import com.example.omy.data.Image
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import com.example.omy.data.Trip
-import com.example.omy.trips.TripsAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -58,7 +56,7 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
                 scope.launch {
                     val bitmap =
                         decodeSampledBitmapFromResource(it.imageUri, 150, 150)
-                    bitmap?.let {
+                    bitmap.let {
                         items[position].thumbnail = it
                         holder.imageView.setImageBitmap(items[position].thumbnail)
                     }

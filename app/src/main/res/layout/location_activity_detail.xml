@@ -173,8 +173,9 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:fontFamily="@font/nunito_bold"
                     android:text="@string/photos"
                     android:textColor="@color/darkgrey"
@@ -182,13 +183,25 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/location_photos_see_all"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:id="@+id/location_photo_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_bold"
-                    android:gravity="end|center"
-                    android:text="See all"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="center"
+                    android:text="@string/add_a_photo"
+                    android:textColor="@color/lightgreen"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:clickable="true"/>
+
+                <TextView
+                    android:id="@+id/location_photos_see_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_bold"
+                    android:layout_gravity="end|center"
+                    android:text="@string/see_all"
                     android:textColor="@color/lightgreen"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -214,8 +227,9 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:fontFamily="@font/nunito_bold"
                     android:text="@string/reviews"
                     android:textColor="@color/darkgrey"
@@ -223,13 +237,25 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/location_reviews_see_all"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:id="@+id/location_review_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_bold"
-                    android:gravity="end|center"
-                    android:text="See all"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="center"
+                    android:text="@string/add_a_review"
+                    android:textColor="@color/lightgreen"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:clickable="true"/>
+
+                <TextView
+                    android:id="@+id/location_reviews_see_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_bold"
+                    android:layout_gravity="end|center"
+                    android:text="@string/see_all"
                     android:textColor="@color/lightgreen"
                     android:textSize="16sp"
                     android:textStyle="bold"

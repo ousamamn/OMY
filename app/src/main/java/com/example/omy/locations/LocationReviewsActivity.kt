@@ -6,12 +6,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.omy.R
 
-class LocationSeeReviewActivity : AppCompatActivity() {
+class LocationReviewsActivity : AppCompatActivity() {
     private lateinit var displayTitle: TextView
     private lateinit var backToPrevious: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.reviews_activity)
+        setContentView(R.layout.location_reviews_activity)
         val b: Bundle? = intent.extras
 
         var msg: String? = "Title"
