@@ -31,7 +31,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/nunito_bold"
                 android:gravity="start"
-                android:text="Title"
+                android:text="@string/title"
                 android:textAlignment="textStart"
                 android:textColor="@color/darkgrey"
                 android:textSize="20sp"
@@ -67,12 +67,12 @@
         android:backgroundTint="#545454"
         android:elevation="30dp"
         android:fontFamily="@font/nunito_extrabold"
-        android:onClick="showAlertDialog"
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
         android:paddingRight="20dp"
         android:paddingBottom="10dp"
-        android:text="END TRIP"
+        android:textColor="@color/white"
+        android:text="@string/map_finish_trip"
         android:textSize="20sp"
         app:cornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -94,10 +94,12 @@
             android:layout_height="wrap_content"
             android:backgroundTint="#545454"
             android:fontFamily="@font/nunito_medium"
-            android:text="Start"
+            android:text="@string/start"
+            android:textColor="@color/white"
             android:textSize="16sp"
             app:cornerRadius="8dp"
-            app:icon="@drawable/ic_baseline_my_location_24" />
+            app:icon="@drawable/ic_baseline_my_location_24"
+            app:iconTint="@color/white" />
 
         <Button
             android:id="@+id/map_pause_location"
@@ -105,11 +107,13 @@
             android:layout_height="wrap_content"
             android:backgroundTint="#545454"
             android:fontFamily="@font/nunito_medium"
-            android:text="Stop"
+            android:text="@string/stop"
+            android:textColor="@color/white"
             android:textSize="16sp"
             app:cornerRadius="8dp"
             android:visibility="gone"
-            app:icon="@drawable/ic_baseline_location_disabled_24" />
+            app:icon="@drawable/ic_baseline_location_disabled_24"
+            app:iconTint="@color/white" />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
