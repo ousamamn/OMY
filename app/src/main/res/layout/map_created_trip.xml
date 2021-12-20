@@ -98,6 +98,7 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             app:cornerRadius="8dp"
+            android:visibility="gone"
             app:icon="@drawable/ic_baseline_my_location_24"
             app:iconTint="@color/white" />
 
@@ -111,7 +112,6 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             app:cornerRadius="8dp"
-            android:visibility="gone"
             app:icon="@drawable/ic_baseline_location_disabled_24"
             app:iconTint="@color/white" />
     </LinearLayout>
