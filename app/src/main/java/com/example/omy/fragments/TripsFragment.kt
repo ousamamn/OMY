@@ -41,8 +41,6 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         //val trip1 = Trip(id = "test", tripTitle = "Me at the Zoo", tripDate = "12 Dec 2021", tripDistance = 3.2, tripWeather = "19.0", tripDescription = "description", tripListCoords = "test")
         tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
         locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
@@ -74,8 +72,6 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
-
-
     private fun initData() {
         this.locationsViewModel!!.getLocationsToDisplay()!!.observe(viewLifecycleOwner,{ newValue ->
             locations = newValue as MutableList<Location?>
@@ -91,8 +87,6 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
             //mAdapter = TripsAdapter(newValue) as RecyclerView.Adapter<RecyclerView.ViewHolder>
         })
     }
-
-
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         when (position) {
