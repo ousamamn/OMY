@@ -10,12 +10,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import androidx.lifecycle.viewModelScope
+import com.example.omy.data.Location
 
 
 class TripsViewModel(application: Application): AndroidViewModel(application) {
     private var tripsRepository: TripsRepository = TripsRepository(application)
     private var tripsToDisplay: LiveData<List<Trip?>>? = null
     private var lastTrip: LiveData<Trip?>? = null
+    private var locations: LiveData<List<Location?>>? = null
 
     init {
         this.tripsToDisplay = tripsRepository.getTrips()

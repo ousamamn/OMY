@@ -23,5 +23,8 @@ interface TripDao {
     fun getLastTrip(): LiveData<Trip?>
 
     @Query("SELECT * from trip WHERE id=:id")
-    fun getTrip(id:Int):LiveData<Trip>?
+    fun getTrip(id:String):LiveData<Trip>?
+
+    @Query("SELECT * from location WHERE trip_id=:id")
+    fun getLocations(id:String):LiveData<List<Location?>>?
 }

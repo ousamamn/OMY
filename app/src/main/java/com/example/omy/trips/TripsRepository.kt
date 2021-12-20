@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.omy.MainRepository
+import com.example.omy.data.Location
 import com.example.omy.data.OMYDatabase
 import com.example.omy.data.Trip
 import com.example.omy.data.TripDao
@@ -27,11 +28,9 @@ class TripsRepository(application: Application) {
         private val scope = CoroutineScope(Dispatchers.IO)
         private class InsertAsyncTask(private val dao: TripDao?) : ViewModel() {
             suspend fun insertInBackground(vararg params: Trip){
-                var insertedId:Int? =0
                 scope.launch {
                     for(param in params) {
                         this@InsertAsyncTask.dao?.insert(param)
-                        Log.i("test?????","success")
                     }
                 }
             }
@@ -50,5 +49,9 @@ class TripsRepository(application: Application) {
         // somehow create a new trip
         InsertAsyncTask(tripsDBDao).insertInBackground(trip)
 
+    }
+
+    fun getLocations(tripID:String): LiveData<List<Location?>>?{
+        return tripsDBDao!!.getLocations(tripID)
     }
 }

@@ -109,6 +109,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
                         location.locationTripId = uuid.toString()
                         Log.i("LOCATION",location.locationTripId!!)
                         locationsViewModel!!.createNewLocation(location)
+                        //TripsAdapter.locations.add(location)
                     }
 
                     val intent = Intent(this, TripShowActivity::class.java)

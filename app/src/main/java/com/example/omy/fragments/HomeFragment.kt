@@ -33,6 +33,8 @@ import android.location.*
 import android.widget.*
 import androidx.core.location.LocationManagerCompat
 import androidx.lifecycle.ViewModelProvider
+import com.example.omy.data.Trip
+import com.example.omy.locations.LocationsViewModel
 import com.example.omy.maps.MapCreatedActivity
 import com.example.omy.trips.TripsAdapter
 import com.example.omy.trips.TripsViewModel
@@ -52,6 +54,7 @@ class HomeFragment : Fragment() {
     private lateinit var weatherIconView: ImageView
     private lateinit var baseLocation: Pair<Double, Double>
     private var tripsViewModel: TripsViewModel? = null
+    private var locationsViewModel: LocationsViewModel? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -62,9 +65,16 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
+        locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
+        this.locationsViewModel!!.getLocationsToDisplay()!!.observe(viewLifecycleOwner,{ newValue ->
+            locations = newValue as MutableList<com.example.omy.data.Location?>
+        })
         tripsViewModel!!.getTripsToDisplay()!!.observe(viewLifecycleOwner, {
             newValue ->
-            val tripsAdapter = TripsAdapter(newValue)
+            for(trip in newValue){
+                tripandLocations[trip!!.id] = getSpecificTrip(trip,locations)
+            }
+            val tripsAdapter = TripsAdapter(newValue, mutableMapOf())
             Log.i("HOME_TAG", "called")
         })
 
@@ -167,6 +177,20 @@ class HomeFragment : Fragment() {
 
     companion object {
         private const val ACCESS_FINE_LOCATION = 123
+        var locations: MutableList<com.example.omy.data.Location?> = mutableListOf()
+        var tripandLocations:MutableMap<String,MutableList<com.example.omy.data.Location?>> = mutableMapOf()
+
+        fun getSpecificTrip(trip: Trip, locations:MutableList<com.example.omy.data.Location?>):MutableList<com.example.omy.data.Location?>{
+            val result: MutableList<com.example.omy.data.Location?> = ArrayList()
+            for (location in locations){
+                Log.i("TEST","sivess")
+                if (location!!.locationTripId == trip.id){
+
+                    result.add(location)
+                }
+            }
+            return result
+        }
     }
 
     private fun isLocationEnabled(context: Context): Boolean {

@@ -115,9 +115,10 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
         val coordsList = coords.split("!")
 
         for (coord in coordsList){
-            if (coord.isNotBlank()) {
-                val long = "%.2f".format(coord.split(",")[0]).toDouble()
-                val lat = "%.2f".format(coord.split(",")[1]).toDouble()
+            if (coord!="") {
+                Log.i("whatsgoingon",coord)
+                val long = "%.2f".format(coord.split(",")[0].toDouble()).toDouble()
+                val lat = "%.2f".format(coord.split(",")[1].toDouble()).toDouble()
                 coordListPair.add(Pair(lat, long))
             }
         }
