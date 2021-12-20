@@ -236,7 +236,8 @@
                         android:paddingTop="5dp"
                         android:paddingRight="10dp"
                         android:paddingBottom="5dp"
-                        android:text="CANCEL"
+                        android:textColor="@color/white"
+                        android:text="@string/cancel"
                         android:textSize="25sp"
                         android:textStyle="bold"
                         app:cornerRadius="10dp" />
@@ -259,7 +260,8 @@
                         android:paddingTop="5dp"
                         android:paddingRight="30dp"
                         android:paddingBottom="5dp"
-                        android:text="SAVE"
+                        android:textColor="@color/white"
+                        android:text="@string/save"
                         android:textSize="25sp"
                         android:textStyle="bold"
                         app:cornerRadius="10dp" />
