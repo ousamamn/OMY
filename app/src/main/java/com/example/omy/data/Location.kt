@@ -13,5 +13,4 @@ data class Location(
     @ColumnInfo(name="longitude") val locationLongitude: Double,
     @ColumnInfo(name="latitude") val locationLatitude: Double,
     @ColumnInfo(name="trip_id") var locationTripId: String?
-
 )

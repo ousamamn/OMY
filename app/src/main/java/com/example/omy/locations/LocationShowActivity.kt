@@ -27,7 +27,7 @@ class LocationShowActivity : AppCompatActivity() {
     private lateinit var seeAllPhotosButton: TextView
     private lateinit var easyImage: EasyImage
     private var imagesViewModel: PhotosViewModel? = null
-
+    private var position: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,10 +35,10 @@ class LocationShowActivity : AppCompatActivity() {
         imagesViewModel = ViewModelProvider(this)[PhotosViewModel::class.java]
         val b: Bundle? = intent.extras
 
-        var position = -1
         if (b != null) {
             position = b.getInt("position")
             if (position != -1) {
+                Log.e("loc_position", position.toString())
                 val textView = findViewById<TextView>(R.id.title_name)
                 val textViewTitleInfo = findViewById<TextView>(R.id.location_title)
                 val textViewLongitudeInfo = findViewById<TextView>(R.id.location_longitude)
@@ -64,11 +64,11 @@ class LocationShowActivity : AppCompatActivity() {
             }
         }
 
-        addReviewButton = findViewById(R.id.location_review_add)
-        addPhotoButton = findViewById(R.id.location_photo_add)
         backButton = findViewById(R.id.back_to_previous)
+        addReviewButton = findViewById(R.id.location_review_add)
         seeAllReviewsButton = findViewById(R.id.location_reviews_see_all)
         seeAllPhotosButton = findViewById(R.id.location_photos_see_all)
+        addPhotoButton = findViewById(R.id.location_photo_add)
 
         backButton.setOnClickListener {
             onBackPressed()
@@ -79,6 +79,7 @@ class LocationShowActivity : AppCompatActivity() {
             val textView = findViewById<TextView>(R.id.title_name)
             val reviewActivityTitle = textView.text.toString()
             intentAddLocationReview.putExtra("locationTitle", reviewActivityTitle)
+            intentAddLocationReview.putExtra("locationPosition", position)
             startActivity(intentAddLocationReview)
         }
         seeAllReviewsButton.setOnClickListener {
@@ -88,7 +89,6 @@ class LocationShowActivity : AppCompatActivity() {
             intentForTitle.putExtra("locationTitle", reviewActivityTitle)
             startActivity(intentForTitle)
         }
-
         addPhotoButton.setOnClickListener {
             val easyImage: EasyImage = EasyImage.Builder(this)
                 .setChooserType(ChooserType.CAMERA_AND_GALLERY)
@@ -114,20 +114,19 @@ class LocationShowActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        easyImage.handleActivityResult(requestCode, resultCode, data, this,
-            object : DefaultCallback() {
-                override fun onMediaFilesPicked(imageFiles: Array<MediaFile>, source: MediaSource) {
-                    onPhotosReturned(imageFiles)
-                }
+        easyImage.handleActivityResult(requestCode, resultCode, data, this, object : DefaultCallback() {
+            override fun onMediaFilesPicked(imageFiles: Array<MediaFile>, source: MediaSource) {
+                onPhotosReturned(imageFiles)
+            }
 
-                override fun onImagePickerError(error: Throwable, source: MediaSource) {
-                    super.onImagePickerError(error, source)
-                }
+            override fun onImagePickerError(error: Throwable, source: MediaSource) {
+                super.onImagePickerError(error, source)
+            }
 
-                override fun onCanceled(source: MediaSource) {
-                    super.onCanceled(source)
-                }
-            })
+            override fun onCanceled(source: MediaSource) {
+                super.onCanceled(source)
+            }
+        })
     }
 
     @SuppressLint("NotifyDataSetChanged")
