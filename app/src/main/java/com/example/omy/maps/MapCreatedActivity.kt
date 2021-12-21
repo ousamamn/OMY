@@ -131,6 +131,8 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             val (tripLatitude,tripLongitude) = visitedLongLatLocations.last()
             extras.putDouble("trip_latitude", tripLatitude)
             extras.putDouble("trip_longitude",tripLongitude)
+            extras.putString("location_date", LocalDateTime.now()
+                            .format(DateTimeFormatter.ofPattern("yyyy-MMM-dd HH:mm")))
             intent.putExtras(extras)
             startActivity(intent)
         }

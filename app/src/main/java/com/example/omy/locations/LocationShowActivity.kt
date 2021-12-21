@@ -99,7 +99,7 @@ class LocationShowActivity : AppCompatActivity() {
                     textViewTitleInfo.text = element!!.locationTitle
                     textViewLongitudeInfo.text = "%.2f".format(element!!.locationLongitude)
                     textViewLatitudeInfo.text = "%.2f".format(element!!.locationLatitude)
-                    //textViewDate.text = element!!.locationDate
+                    textViewDate.text = element!!.locationDate?.replace('-', ' ')
                     textViewDescription.text = element!!.locationDescription
                 } else {
                     textView.text = "Error"
