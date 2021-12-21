@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -50,62 +49,74 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/location_sub_sub_label"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/title_name"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:fontFamily="@font/nunito_bold"
-                android:text="@string/title"
-                android:textColor="@color/darkgreen"
-                android:textSize="32sp"
-                android:textStyle="bold" />
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/title_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:fontFamily="@font/nunito_bold"
+                    android:text="@string/title"
+                    android:textColor="@color/darkgreen"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/reviews"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_bold"
+                    android:text="@string/reviews"
+                    android:textColor="@color/darkgrey"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/reviews"
+                android:id="@+id/no_reviews"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_bold"
-                android:text="@string/reviews"
-                android:textColor="@color/darkgrey"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:text="@string/no_reviews"
+                android:fontFamily="@font/raleway_medium"
+                android:textColor="@color/lightgrey"
+                android:textStyle="italic"
+                android:textSize="20sp"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/location_reviews"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"/>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/no_reviews"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="30dp"
-            android:text="@string/no_reviews"
-            android:fontFamily="@font/raleway_medium"
-            android:textColor="@color/lightgrey"
-            android:textStyle="italic"
-            android:textSize="20sp"
-            android:visibility="gone"
-            android:layout_gravity="center"
-            android:gravity="center_vertical"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/location_reviews"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
