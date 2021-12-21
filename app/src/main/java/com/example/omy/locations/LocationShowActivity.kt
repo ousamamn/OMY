@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.forEach
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -160,11 +161,9 @@ class LocationShowActivity : AppCompatActivity() {
             override fun onMediaFilesPicked(imageFiles: Array<MediaFile>, source: MediaSource) {
                 onPhotosReturned(imageFiles)
             }
-
             override fun onImagePickerError(error: Throwable, source: MediaSource) {
                 super.onImagePickerError(error, source)
             }
-
             override fun onCanceled(source: MediaSource) {
                 super.onCanceled(source)
             }
@@ -196,15 +195,16 @@ class LocationShowActivity : AppCompatActivity() {
     }
 
     private fun insertData(image: Image): Int = runBlocking {
-        var insertJob = imagesViewModel!!.createNewPhoto(image)
+        val insertJob = imagesViewModel!!.createNewPhoto(image)
         insertJob
     }
 
     private fun initData() {
         this.reviewsViewModel!!.getReviewsToDisplay()!!.observe(this, { newValue ->
             reviewsDataset = getLocationReviews(element!!, newValue as MutableList<Review?>)
-            if (reviewsDataset.size>3){
-                reviewsDataset = reviewsDataset.takeLast(2)
+            val howManyDisplayed = 2
+            if (reviewsDataset.size >= howManyDisplayed){
+                reviewsDataset = reviewsDataset.takeLast(howManyDisplayed)
             }
             mReviewsAdapter = LocationReviewsAdapter(reviewsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
             mReviewsAdapter.notifyDataSetChanged()
