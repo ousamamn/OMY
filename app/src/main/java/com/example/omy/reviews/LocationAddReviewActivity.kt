@@ -27,17 +27,19 @@ class LocationAddReviewActivity : AppCompatActivity() {
     private lateinit var cancelButton: Button
     private lateinit var sendButton: Button
     private lateinit var displayHeading: TextView
+    private var locationTitle: String = ""
     private var locationPosition: Int = 0
     private var reviewsViewModel: ReviewsViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.location_add_review_acitivity)
+        
         val b: Bundle? = intent.extras
         reviewsViewModel = ViewModelProvider(this)[ReviewsViewModel::class.java]
 
         if (b != null) {
-            val locationTitle = b.getString("locationTitle")
+            locationTitle = b.getString("locationTitle").toString()
             locationPosition = b.getInt("locationPosition")
             Log.i("TAGGHG",locationPosition.toString())
             displayHeading = findViewById(R.id.review_heading)
@@ -75,12 +77,13 @@ class LocationAddReviewActivity : AppCompatActivity() {
                     .show();
             } else {
                 saveReviewToDB()
+                val intentAllReviews = Intent(this, LocationReviewsActivity::class.java)
+                val title = titleEditText.text.toString()
+                intentAllReviews.putExtra("locationTitle", title)
+                intentAllReviews.putExtra("locationPosition", locationPosition)
+                startActivity(intentAllReviews)
                 onBackPressed()
                 finish()
-                val intentForTitle = Intent(this, LocationReviewsActivity::class.java)
-                val title = titleEditText.text.toString()
-                intentForTitle.putExtra("locationTitle", title)
-                startActivity(intentForTitle)
             }
         }
         setupUI(findViewById(R.id.on_touch_review))

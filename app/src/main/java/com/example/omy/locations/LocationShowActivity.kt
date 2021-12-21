@@ -71,17 +71,17 @@ class LocationShowActivity : AppCompatActivity() {
         }
 
 
-        mRecyclerViewPhotos = findViewById(R.id.location_photos)
-        mPhotosLayoutManager = LinearLayoutManager(this)
-        mRecyclerViewPhotos.layoutManager = mPhotosLayoutManager
+        //mRecyclerViewPhotos = findViewById(R.id.location_photos)
+        //mPhotosLayoutManager = LinearLayoutManager(this)
+        //mRecyclerViewPhotos.layoutManager = mPhotosLayoutManager
         //mPhotosAdapter = LocationReviewsAdapter()
 
 
         //mRecyclerViewPhotos.adapter = mPhotosAdapter
 
         imagesViewModel = ViewModelProvider(this)[PhotosViewModel::class.java]
-        val b: Bundle? = intent.extras
 
+        val b: Bundle? = intent.extras
         if (b != null) {
             position = b.getInt("position")
             if (position != -1) {
@@ -119,21 +119,22 @@ class LocationShowActivity : AppCompatActivity() {
             finish()
         }
         addReviewButton.setOnClickListener {
-            val intentAddLocationReview = Intent(this, LocationAddReviewActivity::class.java)
+            val intentNewReview = Intent(this, LocationAddReviewActivity::class.java)
             val textView = findViewById<TextView>(R.id.title_name)
             val reviewActivityTitle = textView.text.toString()
-            intentAddLocationReview.putExtra("locationTitle", reviewActivityTitle)
-            intentAddLocationReview.putExtra("locationPosition", position)
-            startActivity(intentAddLocationReview)
+            intentNewReview.putExtra("locationTitle", reviewActivityTitle)
+            intentNewReview.putExtra("locationPosition", position)
+            startActivity(intentNewReview)
         }
         seeAllReviewsButton.setOnClickListener {
-            val intentForTitle = Intent(this, LocationReviewsActivity::class.java)
+            val intentAllReviews = Intent(this, LocationReviewsActivity::class.java)
             val textView = findViewById<TextView>(R.id.title_name)
             val reviewActivityTitle = textView.text.toString()
-            intentForTitle.putExtra("locationTitle", reviewActivityTitle)
-            startActivity(intentForTitle)
+            intentAllReviews.putExtra("locationTitle", reviewActivityTitle)
+            intentAllReviews.putExtra("locationPosition", position)
+            startActivity(intentAllReviews)
         }
-        addPhotoButton.setOnClickListener {
+        /*addPhotoButton.setOnClickListener {
             val easyImage: EasyImage = EasyImage.Builder(this)
                 .setChooserType(ChooserType.CAMERA_AND_GALLERY)
                 .setCopyImagesToPublicGalleryFolder(false)
@@ -149,7 +150,7 @@ class LocationShowActivity : AppCompatActivity() {
             val reviewActivityTitle = textView.text.toString()
             intentForTitle.putExtra("locationTitle", reviewActivityTitle)
             startActivity(intentForTitle)
-        }
+        }*/
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
