@@ -8,6 +8,7 @@ import com.example.omy.MainRepository
 import com.example.omy.data.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class PhotosRepository(application: Application) {
@@ -24,12 +25,13 @@ class PhotosRepository(application: Application) {
     companion object {
         private val scope = CoroutineScope(Dispatchers.IO)
         private class InsertAsyncTask(private val dao: ImageDao?) : ViewModel() {
-            suspend fun insertInBackground(vararg params: Image) {
+            suspend fun insertInBackground(param: Image):Int {
+                var insertedId = 0
                 scope.launch {
-                    for(param in params) {
-                        val insertedId = this@InsertAsyncTask.dao?.insert(param)
-                    }
+                    insertedId = async{this@InsertAsyncTask.dao?.insert(param)}.await()?.toInt()!!
+
                 }
+                return insertedId
             }
         }
     }
@@ -38,8 +40,8 @@ class PhotosRepository(application: Application) {
         return photosDBDao?.getAll()
     }
 
-    suspend fun createNewPhoto(photo : Image) {
+    suspend fun createNewPhoto(photo : Image):Int {
         // somehow create a new trip
-        InsertAsyncTask(photosDBDao).insertInBackground(photo)
+       return InsertAsyncTask(photosDBDao).insertInBackground(photo)
     }
 }

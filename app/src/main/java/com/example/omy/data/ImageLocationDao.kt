@@ -8,6 +8,4 @@ import androidx.room.Query
 interface ImageLocationDao {
         @Query("SELECT * FROM location")
         fun getLocationWithImages(): LiveData<List<LocationWithImages>>
-
-
     }

@@ -27,7 +27,9 @@ class PhotosViewModel(application: Application): AndroidViewModel(application) {
         return this.photosToDisplay
     }
 
-    fun createNewPhoto(photo : Image) {
-        viewModelScope.launch(Dispatchers.IO) { photosRepository.createNewPhoto(photo) }
+    fun createNewPhoto(photo : Image):Int {
+        var insertedID =0
+        viewModelScope.launch(Dispatchers.IO) { insertedID = photosRepository.createNewPhoto(photo) }
+        return insertedID
         }
     }

@@ -75,7 +75,7 @@ class PhotosFragment : Fragment() {
         //mAdapter = PhotosAdapter(photoDataset) as Adapter<RecyclerView.ViewHolder>
         mRecyclerView.adapter = mAdapter
 
-        initEasyImage()
+        //initEasyImage()
        // val fabGallery: FloatingActionButton = getView().findViewById(pl.aprilapps.easyphotopicker.R.id.fab_gallery)
         //fabGallery.setOnClickListener(View.OnClickListener {
         //    easyImage.openChooser(this@PhotosFragment)
