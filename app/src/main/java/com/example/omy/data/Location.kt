@@ -10,6 +10,7 @@ data class Location(
     @PrimaryKey(autoGenerate = true) val id: Int=0,
     @ColumnInfo(name="title") val locationTitle: String?,
     @ColumnInfo(name="description") val locationDescription: String?,
+    @ColumnInfo(name="date") val locationDate: String?,
     @ColumnInfo(name="longitude") val locationLongitude: Double,
     @ColumnInfo(name="latitude") val locationLatitude: Double,
     @ColumnInfo(name="trip_id") var locationTripId: String?

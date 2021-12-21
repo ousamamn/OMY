@@ -41,6 +41,7 @@ class LocationReviewsActivity : AppCompatActivity() {
         if (reviewsDataset.isNotEmpty()) {
             LocationReviewsAdapter(reviewsDataset)
         }
+        mRecyclerViewReviews.adapter = mReviewsAdapter
 
         val b: Bundle? = intent.extras
 

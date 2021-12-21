@@ -14,13 +14,11 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
     private lateinit var context: Context
     private var numOfReviews: Int = 0
     private var numOfPhotos: Int = 0
-
-
+    
     constructor(items: List<Location?>): super() {
         LocationsAdapter.items = items as MutableList<Location?>
     }
-
-
+    
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         //Inflate the layout, initialize the View Holder
         val v: View = LayoutInflater.from(parent.context).inflate(R.layout.location_list_item,
