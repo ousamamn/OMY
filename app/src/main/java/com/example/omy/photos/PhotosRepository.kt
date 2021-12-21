@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 
 class PhotosRepository(application: Application) {
     private var photosDBDao: ImageDao? = null
+    private var photosLocationDBDao: ImageLocationDao? = null
     private val databaseObj:OMYDatabase? = MainRepository(application).databaseObj
     init {
         if (databaseObj != null) {
@@ -38,6 +39,10 @@ class PhotosRepository(application: Application) {
 
     fun getPhotos(): LiveData<List<Image>>? {
         return photosDBDao?.getAll()
+    }
+
+    fun getLocationPhotos():LiveData<List<LocationWithImages>>? {
+        return photosLocationDBDao?.getLocationWithImages()
     }
 
     suspend fun createNewPhoto(photo : Image):Int {
