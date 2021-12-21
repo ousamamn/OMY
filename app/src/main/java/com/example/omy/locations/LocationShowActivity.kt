@@ -2,11 +2,12 @@ package com.example.omy.locations
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.MediaStore
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.omy.R
+import com.example.omy.reviews.LocationAddReviewActivity
+import com.example.omy.reviews.LocationReviewsActivity
 import pl.aprilapps.easyphotopicker.ChooserType
 import pl.aprilapps.easyphotopicker.EasyImage
 

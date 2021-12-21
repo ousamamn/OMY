@@ -19,11 +19,9 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
     constructor(items: List<Location?>): super() {
         LocationsAdapter.items = items as MutableList<Location?>
     }
-
     constructor() {
         LocationsAdapter.items = ArrayList<Location?>()
     }
-
     constructor(cont: Context, items: List<Location?>) : super() {
         LocationsAdapter.items = items as MutableList<Location?>
         context = cont
