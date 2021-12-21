@@ -263,12 +263,23 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/no_reviews"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/no_reviews"
+                android:fontFamily="@font/raleway_medium"
+                android:textColor="@color/lightgrey"
+                android:textStyle="italic"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:textSize="20sp" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/location_reviews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-
         </LinearLayout>
-
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

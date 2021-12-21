@@ -4,22 +4,42 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
 import com.example.omy.data.Image
+import com.example.omy.data.Review
 import com.example.omy.photos.PhotosViewModel
 import kotlinx.coroutines.runBlocking
 import pl.aprilapps.easyphotopicker.*
 import java.util.ArrayList
 import com.example.omy.reviews.LocationAddReviewActivity
 import com.example.omy.reviews.LocationReviewsActivity
+import com.example.omy.reviews.LocationReviewsAdapter
+import com.example.omy.reviews.ReviewsViewModel
 import pl.aprilapps.easyphotopicker.ChooserType
 import pl.aprilapps.easyphotopicker.EasyImage
 
 class LocationShowActivity : AppCompatActivity() {
+    private lateinit var mRecyclerViewReviews: RecyclerView
+    private lateinit var mReviewsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
+    private lateinit var mReviewsLayoutManager: RecyclerView.LayoutManager
+    private var reviewsDataset: List<Review?> = ArrayList<Review?>()
+    private var reviewsViewModel: ReviewsViewModel? = null
+    private lateinit var reviewsRecyclerEmpty: TextView
+
+    private lateinit var mRecyclerViewPhotos: RecyclerView
+    private lateinit var mPhotosAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
+    private lateinit var mPhotosLayoutManager: RecyclerView.LayoutManager
+    //private var photosDataset: List<Photo?> = ArrayList<Review?>()
+    private var locationsViewModel: LocationsViewModel? = null
+
+
     private lateinit var backButton: ImageView
     private lateinit var addReviewButton: TextView
     private lateinit var addPhotoButton: TextView
@@ -32,6 +52,23 @@ class LocationShowActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.location_activity)
+
+        reviewsRecyclerEmpty = findViewById(R.id.no_reviews)
+        mRecyclerViewReviews = findViewById(R.id.location_reviews)
+        mReviewsLayoutManager = LinearLayoutManager(this)
+        mRecyclerViewReviews.layoutManager = mReviewsLayoutManager
+        mReviewsAdapter = LocationReviewsAdapter(reviewsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+        initDataReviews()
+        if (reviewsDataset.isNotEmpty()) {
+            LocationReviewsAdapter(reviewsDataset)
+        }
+
+        mRecyclerViewPhotos = findViewById(R.id.location_photos)
+        mPhotosLayoutManager = LinearLayoutManager(this)
+        mRecyclerViewPhotos.layoutManager = mPhotosLayoutManager
+        //mPhotosAdapter = LocationReviewsAdapter()
+        initDataPhotos()
+
         imagesViewModel = ViewModelProvider(this)[PhotosViewModel::class.java]
         val b: Bundle? = intent.extras
 
@@ -155,4 +192,16 @@ class LocationShowActivity : AppCompatActivity() {
         insertJob
     }
 
+    private fun initDataReviews() {
+        this.reviewsViewModel!!.getReviewsToDisplay()!!.observe(viewLifecycleOwner, { newValue ->
+            reviewsDataset = newValue
+            mReviewsAdapter.notifyDataSetChanged()
+            if (newValue.isEmpty()) reviewsRecyclerEmpty.visibility = View.VISIBLE
+            else reviewsRecyclerEmpty.visibility = View.GONE
+        })
+    }
+
+    private fun initDataPhotos() {
+        TODO("Not yet implemented")
+    }
 }

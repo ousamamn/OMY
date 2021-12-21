@@ -14,14 +14,14 @@ class LocationReviewsAdapter: RecyclerView.Adapter<LocationReviewsAdapter.ViewHo
     private lateinit var context: Context
     private var rating: Int = 0
 
-    constructor(items: List<Review>): super() {
-        LocationReviewsAdapter.items = items as MutableList<Review?>
+    constructor(reviews: List<Review>): super() {
+        LocationReviewsAdapter.reviews = reviews as MutableList<Review?>
     }
     constructor() {
-        items = ArrayList()
+        reviews = ArrayList()
     }
-    constructor(cont: Context, items: List<Review>) : super() {
-        LocationReviewsAdapter.items = items as MutableList<Review?>
+    constructor(cont: Context, reviews: List<Review>) : super() {
+        LocationReviewsAdapter.reviews = reviews as MutableList<Review?>
         context = cont
     }
 
@@ -35,8 +35,8 @@ class LocationReviewsAdapter: RecyclerView.Adapter<LocationReviewsAdapter.ViewHo
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.title.text = items[position]?.reviewTitle
-        holder.description.text = items[position]?.reviewDescription
+        holder.title.text = reviews[position]?.reviewTitle
+        holder.description.text = reviews[position]?.reviewDescription
         holder.rating.text = rating.toString()
         holder.itemView.setOnClickListener {
             val intent = Intent(context, LocationReviewsActivity::class.java)
@@ -46,7 +46,7 @@ class LocationReviewsAdapter: RecyclerView.Adapter<LocationReviewsAdapter.ViewHo
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return reviews.size
     }
 
     class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -56,6 +56,6 @@ class LocationReviewsAdapter: RecyclerView.Adapter<LocationReviewsAdapter.ViewHo
     }
 
     companion object {
-        lateinit var items: MutableList<Review?>
+        lateinit var reviews: MutableList<Review?>
     }
 }

@@ -1,5 +1,6 @@
 package com.example.omy.data
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
@@ -14,7 +15,7 @@ interface ReviewDao {
     fun delete(review: Review)
 
     @Query("SELECT * from review")
-    fun getAll():List<Review>
+    fun getAll(): LiveData<List<Review?>>?
 
     @Query("SELECT * from review WHERE id=:id")
     fun getReview(id:Int):Review
