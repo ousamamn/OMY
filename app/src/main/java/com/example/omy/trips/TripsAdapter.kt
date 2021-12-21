@@ -51,11 +51,11 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         holder.distance.text = items[position]?.tripDistance.toString()
         //Log.i("MMM",getSpecificTrip(items[position]!!, locations).size.toString())
         holder.numOfLocations.text = tripAndLocation[items[position]?.id]!!.size.toString()
-        holder.itemView.setOnClickListener(View.OnClickListener {
+        holder.itemView.setOnClickListener {
             val intent = Intent(context, TripShowActivity::class.java)
             intent.putExtra("position", position)
             context.startActivity(intent)
-        })
+        }
     }
 
     override fun getItemCount(): Int {
