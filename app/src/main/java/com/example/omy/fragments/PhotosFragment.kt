@@ -70,11 +70,8 @@ class PhotosFragment : Fragment() {
         val numberOfColumns = 4
         mRecyclerView.layoutManager = GridLayoutManager(requireContext(), numberOfColumns)
 
-
         mRecyclerView.adapter = mAdapter
-
     }
-
 
     private fun initData() {
         this.photosViewModel!!.getPhotosToDisplay()?.observe(viewLifecycleOwner, {newValue ->
@@ -86,7 +83,7 @@ class PhotosFragment : Fragment() {
     }
 
     private fun insertData(imageData: Image): Int = runBlocking {
-        var insertJob = photosViewModel!!.createNewPhoto(imageData)
+        val insertJob = photosViewModel!!.createNewPhoto(imageData)
         insertJob.toString().toInt()
     }
 
@@ -109,10 +106,7 @@ class PhotosFragment : Fragment() {
         val imageDataList: MutableList<Image> = ArrayList<Image>()
         for (mediaFile in returnedPhotos) {
             val fileNameAsTempTitle = mediaFile.file.name
-            var imageData = Image(
-                imageTitle = fileNameAsTempTitle,
-                imageUri = mediaFile.file.absolutePath
-            )
+            var imageData = Image(imageTitle = fileNameAsTempTitle, imageUri = mediaFile.file.absolutePath)
             // Update the database with the newly created object
             var id = insertData(imageData)
             imageData.id = id.toString().toInt()
@@ -120,5 +114,4 @@ class PhotosFragment : Fragment() {
         }
         return imageDataList
     }
-
 }

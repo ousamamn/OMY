@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.forEach
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -90,15 +91,16 @@ class LocationShowActivity : AppCompatActivity() {
                 val textViewTitleInfo = findViewById<TextView>(R.id.location_title)
                 val textViewLongitudeInfo = findViewById<TextView>(R.id.location_longitude)
                 val textViewLatitudeInfo = findViewById<TextView>(R.id.location_latitude)
+                val textViewDate = findViewById<TextView>(R.id.location_date)
                 val textViewDescription = findViewById<TextView>(R.id.location_description)
                 element = LocationsAdapter.items[position]
                 if (element != null) {
                     textView.text = element!!.locationTitle
                     textViewTitleInfo.text = element!!.locationTitle
-                    textViewLongitudeInfo.text = element!!.locationLongitude.toString()
-                    textViewLatitudeInfo.text = element!!.locationLatitude.toString()
+                    textViewLongitudeInfo.text = "%.2f".format(element!!.locationLongitude)
+                    textViewLatitudeInfo.text = "%.2f".format(element!!.locationLatitude)
+                    textViewDate.text = element!!.locationDate?.replace('-', ' ')
                     textViewDescription.text = element!!.locationDescription
-
                 } else {
                     textView.text = "Error"
                     textViewTitleInfo.text = "Error"
@@ -160,11 +162,9 @@ class LocationShowActivity : AppCompatActivity() {
             override fun onMediaFilesPicked(imageFiles: Array<MediaFile>, source: MediaSource) {
                 onPhotosReturned(imageFiles)
             }
-
             override fun onImagePickerError(error: Throwable, source: MediaSource) {
                 super.onImagePickerError(error, source)
             }
-
             override fun onCanceled(source: MediaSource) {
                 super.onCanceled(source)
             }
@@ -196,15 +196,16 @@ class LocationShowActivity : AppCompatActivity() {
     }
 
     private fun insertData(image: Image): Int = runBlocking {
-        var insertJob = imagesViewModel!!.createNewPhoto(image)
+        val insertJob = imagesViewModel!!.createNewPhoto(image)
         insertJob
     }
 
     private fun initData() {
         this.reviewsViewModel!!.getReviewsToDisplay()!!.observe(this, { newValue ->
-            reviewsDataset = getLocationReviews(element!!, newValue as MutableList<Review?>)
-            if (reviewsDataset.size>3){
-                reviewsDataset = reviewsDataset.takeLast(2)
+            reviewsDataset = getLocationReviews(element!!.id, newValue as MutableList<Review?>)
+            val howManyDisplayed = 2
+            if (reviewsDataset.size >= howManyDisplayed){
+                reviewsDataset = reviewsDataset.takeLast(howManyDisplayed)
             }
             mReviewsAdapter = LocationReviewsAdapter(reviewsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
             mReviewsAdapter.notifyDataSetChanged()
@@ -217,10 +218,10 @@ class LocationShowActivity : AppCompatActivity() {
     }
 
     companion object{
-        fun getLocationReviews(location: Location, reviews:MutableList<Review?>):MutableList<Review?>{
+        fun getLocationReviews(locationID: Int, reviews:MutableList<Review?>):MutableList<Review?>{
             val result: MutableList<Review?> = ArrayList()
             for (review in reviews){
-                if (review!!.reviewLocationId == location.id){
+                if (review!!.reviewLocationId == locationID){
                     result.add(review)
                 }
             }
