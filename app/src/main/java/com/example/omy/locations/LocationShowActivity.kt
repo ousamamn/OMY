@@ -202,7 +202,7 @@ class LocationShowActivity : AppCompatActivity() {
 
     private fun initData() {
         this.reviewsViewModel!!.getReviewsToDisplay()!!.observe(this, { newValue ->
-            reviewsDataset = getLocationReviews(element!!, newValue as MutableList<Review?>)
+            reviewsDataset = getLocationReviews(element!!.id, newValue as MutableList<Review?>)
             if (reviewsDataset.size>3){
                 reviewsDataset = reviewsDataset.takeLast(2)
             }
@@ -217,10 +217,10 @@ class LocationShowActivity : AppCompatActivity() {
     }
 
     companion object{
-        fun getLocationReviews(location: Location, reviews:MutableList<Review?>):MutableList<Review?>{
+        fun getLocationReviews(locationID: Int, reviews:MutableList<Review?>):MutableList<Review?>{
             val result: MutableList<Review?> = ArrayList()
             for (review in reviews){
-                if (review!!.reviewLocationId == location.id){
+                if (review!!.reviewLocationId == locationID){
                     result.add(review)
                 }
             }
