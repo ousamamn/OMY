@@ -10,5 +10,5 @@ data class Review(
     @ColumnInfo(name="title") val reviewTitle: String?,
     @ColumnInfo(name="description") val reviewDescription: String?,
     @ColumnInfo(name="rating") val reviewRating: Int?,
-    @ColumnInfo(name="location_id") val locationId: Int
+    @ColumnInfo(name="location_id") val reviewLocationId: Int
 )

@@ -14,28 +14,34 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.omy.R
-import java.lang.NumberFormatException
+import com.example.omy.data.Review
+import com.example.omy.reviews.LocationReviewsAdapter.*
+import com.example.omy.reviews.LocationReviewsAdapter.Companion.items
 
 class LocationAddReviewActivity : AppCompatActivity() {
+    private lateinit var titleEditText: EditText
+    private lateinit var ratingEditText: EditText
+    private lateinit var descriptionEditText: EditText
     private lateinit var cancelButton: Button
     private lateinit var sendButton: Button
     private lateinit var displayHeading: TextView
+    private var locationPosition: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.location_add_review_acitivity)
         val b: Bundle? = intent.extras
 
-        var msg: String? = "Title"
         if (b != null) {
-            msg = b.getString("locationTitle")
+            val locationTitle = b.getString("locationTitle")
+            locationPosition = b.getInt("locationPosition")
             displayHeading = findViewById(R.id.review_heading)
-            displayHeading.text = getString(R.string.heading_reviews) + " - " + msg
+            displayHeading.text = getString(R.string.add_review, locationTitle)
         }
 
-        val titleEditText = findViewById<EditText>(R.id.review_title)
-        val ratingEditText = findViewById<EditText>(R.id.review_rating)
-        val descriptionEditText = findViewById<EditText>(R.id.review_description)
+        titleEditText = findViewById(R.id.review_title)
+        ratingEditText = findViewById(R.id.review_rating)
+        descriptionEditText = findViewById(R.id.review_description)
         cancelButton = findViewById(R.id.cancel_button)
         sendButton = findViewById(R.id.review_send_button)
         ratingEditText.filters = arrayOf<InputFilter>(MinMaxFilter(1,5))
@@ -63,6 +69,7 @@ class LocationAddReviewActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT)
                     .show();
             } else {
+                saveReviewToDB()
                 onBackPressed()
                 finish()
                 // the onBackPressed need to be change to be able to save the reviews
@@ -84,14 +91,7 @@ class LocationAddReviewActivity : AppCompatActivity() {
             this.intMax = maxValue
         }
 
-        override fun filter(
-            source: CharSequence?,
-            start: Int,
-            end: Int,
-            dest: Spanned?,
-            dstart: Int,
-            dend: Int
-        ): CharSequence? {
+        override fun filter(source: CharSequence?, start: Int, end: Int, dest: Spanned?, dstart: Int, dend: Int): CharSequence? {
             try {
                 val input = Integer.parseInt(dest.toString() + source.toString())
                 if (isInRange(intMin, intMax, input)){
@@ -138,5 +138,14 @@ class LocationAddReviewActivity : AppCompatActivity() {
                 setupUI(innerView)
             }
         }
+    }
+
+    private fun saveReviewToDB() {
+
+        val review = Review(reviewTitle = titleEditText.text.toString(),
+            reviewDescription = descriptionEditText.text.toString(),
+            reviewRating = ratingEditText.text.toString().toInt(),
+            reviewLocationId = locationPosition)
+        LocationReviewsActivity.items.add(review)
     }
 }

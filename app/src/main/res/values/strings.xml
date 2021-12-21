@@ -33,7 +33,7 @@
     <string name="heading_reviews">REVIEWS</string>
     <string name="heading_home">CREATE A NEW TRIP</string>
     <string name="map_resume_location">RESUME</string>
-    <string name="temperature">"Temperature: %1$s"</string>
+    <string name="temperature">Temperature: %1$s</string>
     <string name="map_dialog_cancel">"Cancel"</string>
     <string name="map_dialog_approve">"Finish trip"</string>
     <string name="home_fragment_title">Provide the trip title</string>
@@ -54,6 +54,7 @@
     <string name="title_of_review">Title Of Review</string>
     <string name="rating">Rating :</string>
     <string name="_3_5">3 / 5</string>
+    <string name="add_review">Add a review (%1$s)</string>
     <string-array name="sort_array">
         <item>A-Z</item>
         <item>Z-A</item>

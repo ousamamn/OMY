@@ -34,7 +34,7 @@ class LocationReviewsAdapter: RecyclerView.Adapter<LocationReviewsAdapter.ViewHo
         return holder
     }
 
-    override fun onBindViewHolder(holder: LocationReviewsAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = items[position]?.reviewTitle
         holder.description.text = items[position]?.reviewDescription
         holder.rating.text = rating.toString()
