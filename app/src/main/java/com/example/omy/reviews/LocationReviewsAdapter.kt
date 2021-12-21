@@ -37,7 +37,7 @@ class LocationReviewsAdapter: RecyclerView.Adapter<LocationReviewsAdapter.ViewHo
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = reviews[position]?.reviewTitle
         holder.description.text = reviews[position]?.reviewDescription
-        holder.rating.text = rating.toString()
+        holder.rating.text = reviews[position]?.reviewRating.toString()
         holder.itemView.setOnClickListener {
             val intent = Intent(context, LocationReviewsActivity::class.java)
             intent.putExtra("position", position)

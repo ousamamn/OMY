@@ -203,6 +203,10 @@ class LocationShowActivity : AppCompatActivity() {
     private fun initData() {
         this.reviewsViewModel!!.getReviewsToDisplay()!!.observe(this, { newValue ->
             reviewsDataset = getLocationReviews(element!!, newValue as MutableList<Review?>)
+            if (reviewsDataset.size>3){
+                reviewsDataset = reviewsDataset.takeLast(2)
+            }
+            mReviewsAdapter = LocationReviewsAdapter(reviewsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
             mReviewsAdapter.notifyDataSetChanged()
             if (newValue.isEmpty()) reviewsRecyclerEmpty.visibility = View.VISIBLE
             else reviewsRecyclerEmpty.visibility = View.GONE
