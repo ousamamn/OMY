@@ -1,6 +1,7 @@
 package com.example.omy.reviews
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.Spanned
@@ -15,8 +16,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.omy.R
 import com.example.omy.data.Review
-import com.example.omy.reviews.LocationReviewsAdapter.*
-import com.example.omy.reviews.LocationReviewsAdapter.Companion.items
 
 class LocationAddReviewActivity : AppCompatActivity() {
     private lateinit var titleEditText: EditText
@@ -42,7 +41,7 @@ class LocationAddReviewActivity : AppCompatActivity() {
         titleEditText = findViewById(R.id.review_title)
         ratingEditText = findViewById(R.id.review_rating)
         descriptionEditText = findViewById(R.id.review_description)
-        cancelButton = findViewById(R.id.cancel_button)
+        cancelButton = findViewById(R.id.review_cancel_button)
         sendButton = findViewById(R.id.review_send_button)
         ratingEditText.filters = arrayOf<InputFilter>(MinMaxFilter(1,5))
         cancelButton.setOnClickListener {
@@ -72,11 +71,10 @@ class LocationAddReviewActivity : AppCompatActivity() {
                 saveReviewToDB()
                 onBackPressed()
                 finish()
-                // the onBackPressed need to be change to be able to save the reviews
-                //val intent = Intent(context, MapsCreatedActivity::class.java)
-                //val msg = tnEditText.text.toString()
-                //intent.putExtra("msg", msg)
-                //context?.startActivity(intent)
+                val intentForTitle = Intent(this, LocationReviewsActivity::class.java)
+                val title = titleEditText.text.toString()
+                intentForTitle.putExtra("locationTitle", title)
+                startActivity(intentForTitle)
             }
         }
         setupUI(findViewById(R.id.on_touch_review))
@@ -146,6 +144,6 @@ class LocationAddReviewActivity : AppCompatActivity() {
             reviewDescription = descriptionEditText.text.toString(),
             reviewRating = ratingEditText.text.toString().toInt(),
             reviewLocationId = locationPosition)
-        LocationReviewsAdapter.items.add(review)
+        LocationReviewsAdapter.reviews.add(review)
     }
 }

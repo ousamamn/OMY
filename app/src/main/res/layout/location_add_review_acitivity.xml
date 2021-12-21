@@ -204,7 +204,8 @@
                     android:paddingTop="5dp"
                     android:paddingRight="10dp"
                     android:paddingBottom="5dp"
-                    android:text="CANCEL"
+                    android:text="@string/cancel"
+                    android:textColor="@color/white"
                     android:textSize="25sp"
                     android:textStyle="bold"
                     app:cornerRadius="10dp" />
@@ -227,7 +228,8 @@
                     android:paddingTop="5dp"
                     android:paddingRight="30dp"
                     android:paddingBottom="5dp"
-                    android:text="ADD"
+                    android:text="@string/add"
+                    android:textColor="@color/white"
                     android:textSize="25sp"
                     android:textStyle="bold"
                     app:cornerRadius="10dp" />

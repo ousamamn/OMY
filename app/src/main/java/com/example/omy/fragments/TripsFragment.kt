@@ -29,10 +29,10 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private var tripsViewModel: TripsViewModel? = null
     private var locationsViewModel: LocationsViewModel? = null
-    lateinit var mRecyclerView: RecyclerView
+    private lateinit var mRecyclerView: RecyclerView
     private lateinit var recyclerEmpty: TextView
-    lateinit var mAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
-    lateinit var mLayoutManager: RecyclerView.LayoutManager
+    private lateinit var mAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
+    private lateinit var mLayoutManager: RecyclerView.LayoutManager
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -50,7 +50,7 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         //val location = Location(id=55,locationTitle = "title",locationDescription = "description",locationLatitude = 1.2,locationLongitude = 1.1,locationTripId = 34)
 
         /*  Get list of trips */
-        mRecyclerView = view.findViewById<RecyclerView>(R.id.trips_list)
+        mRecyclerView = view.findViewById(R.id.trips_list)
         mLayoutManager = LinearLayoutManager(requireContext())
         mRecyclerView.layoutManager = mLayoutManager
         mAdapter = TripsAdapter(tripsDataset,tripandLocations) as RecyclerView.Adapter<RecyclerView.ViewHolder>
