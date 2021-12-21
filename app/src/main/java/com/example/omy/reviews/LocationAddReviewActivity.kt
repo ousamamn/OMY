@@ -1,4 +1,4 @@
-package com.example.omy.locations
+package com.example.omy.reviews
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -16,15 +16,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.omy.R
 import java.lang.NumberFormatException
 
-class LocationEditReviewActivity : AppCompatActivity() {
+class LocationAddReviewActivity : AppCompatActivity() {
     private lateinit var cancelButton: Button
     private lateinit var sendButton: Button
     private lateinit var displayHeading: TextView
 
-    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.location_edit_review_acitivity)
+        setContentView(R.layout.location_add_review_acitivity)
         val b: Bundle? = intent.extras
 
         var msg: String? = "Title"
@@ -109,7 +108,7 @@ class LocationEditReviewActivity : AppCompatActivity() {
         }
     }
 
-    private fun hideSoftKeyboard(locationEditReviewActivity: LocationEditReviewActivity) {
+    private fun hideSoftKeyboard(locationAddReviewActivity: LocationAddReviewActivity) {
         val inputMethodManager: InputMethodManager = getSystemService(
             INPUT_METHOD_SERVICE
         ) as InputMethodManager

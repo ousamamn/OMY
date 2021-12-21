@@ -13,6 +13,21 @@
         android:id="@+id/photos_search_bar"
         layout="@layout/photos_bar_search" />
 
+    <TextView
+        android:id="@+id/no_photos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_photos"
+        android:fontFamily="@font/raleway_medium"
+        android:textColor="@color/lightgrey"
+        android:textStyle="italic"
+        android:textSize="30sp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/photos_search_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/photos_list"
         android:layout_width="wrap_content"

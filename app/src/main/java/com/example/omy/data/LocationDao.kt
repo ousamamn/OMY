@@ -17,4 +17,7 @@ interface LocationDao {
 
     @Query("SELECT * from location WHERE id= :locid")
     fun getLocation(locid:Int):LiveData<Location>?
+
+    @Query("SELECT * from location WHERE id=:locid")
+    fun getReviews(locid:Int):LiveData<List<Review?>>?
 }

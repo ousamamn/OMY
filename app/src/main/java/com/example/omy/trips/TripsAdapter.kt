@@ -1,6 +1,5 @@
 package com.example.omy.trips
 
-
 import android.content.Context
 import android.content.Intent
 import android.media.Image
@@ -24,7 +23,6 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         TripsAdapter.items = items as MutableList<Trip?>
         TripsAdapter.tripAndLocation = locations
     }
-
     constructor(cont: Context, items: List<Trip?>) : super() {
         TripsAdapter.items = items as MutableList<Trip?>
         context = cont
@@ -53,11 +51,11 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         holder.distance.text = items[position]?.tripDistance.toString()
         //Log.i("MMM",getSpecificTrip(items[position]!!, locations).size.toString())
         holder.numOfLocations.text = tripAndLocation[items[position]?.id]!!.size.toString()
-        holder.itemView.setOnClickListener(View.OnClickListener {
+        holder.itemView.setOnClickListener {
             val intent = Intent(context, TripShowActivity::class.java)
             intent.putExtra("position", position)
             context.startActivity(intent)
-        })
+        }
     }
 
     override fun getItemCount(): Int {
@@ -70,8 +68,6 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         var distance: TextView = itemView.findViewById<View>(R.id.trip_distance) as TextView
         var numOfLocations: TextView = itemView.findViewById(R.id.trip_num_of_locations) as TextView
     }
-
-
 
     companion object {
         lateinit var items: MutableList<Trip?>

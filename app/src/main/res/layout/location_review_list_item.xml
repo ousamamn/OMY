@@ -32,7 +32,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/raleway_bold"
                     android:gravity="center|start"
-                    android:text="Title Of Review"
+                    android:text="@string/title_of_review"
                     android:textStyle="bold"
                     android:textColor="@color/darkgreen"
                     android:textSize="18sp" />
@@ -50,7 +50,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"
                         android:fontFamily="@font/raleway_medium"
-                        android:text="Rating : "
+                        android:text="@string/rating"
                         android:textStyle="bold"
                         android:textColor="@color/darkgreen"
                         android:textSize="18sp"/>
@@ -61,15 +61,13 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="5dp"
                         android:fontFamily="@font/raleway_medium"
-                        android:text="3 / 5"
+                        android:text="@string/_3_5"
                         android:textStyle="bold"
                         android:textColor="@color/lightgreen"
                         android:textSize="18sp"/>
 
                 </LinearLayout>
-
             </LinearLayout>
-
         </LinearLayout>
 
         <LinearLayout

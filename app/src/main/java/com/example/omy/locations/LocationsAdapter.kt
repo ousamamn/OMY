@@ -19,11 +19,9 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
     constructor(items: List<Location?>): super() {
         LocationsAdapter.items = items as MutableList<Location?>
     }
-
     constructor() {
         LocationsAdapter.items = ArrayList<Location?>()
     }
-
     constructor(cont: Context, items: List<Location?>) : super() {
         LocationsAdapter.items = items as MutableList<Location?>
         context = cont
@@ -50,11 +48,11 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
         holder.latitude.text = "%.2f".format(items[position]?.locationLatitude)
         holder.numOfReviews.text = numOfReviews.toString()
         holder.numOfPhotos.text = numOfPhotos.toString()
-        holder.itemView.setOnClickListener(View.OnClickListener {
+        holder.itemView.setOnClickListener {
             val intent = Intent(context, LocationShowActivity::class.java)
             intent.putExtra("position", position)
             context.startActivity(intent)
-        })
+        }
     }
 
     fun updateChildTables(numOfReviews : Int,numOfPhotos : Int) {

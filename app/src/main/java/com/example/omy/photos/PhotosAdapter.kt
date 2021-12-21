@@ -11,8 +11,6 @@ import com.example.omy.R
 import com.example.omy.data.Image
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import com.example.omy.data.Trip
-import com.example.omy.trips.TripsAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -27,7 +25,6 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
     constructor() {
         PhotosAdapter.items = ArrayList<Image>()
     }
-
     constructor(cont: Context, items: List<Image>) : super() {
         PhotosAdapter.items = items as MutableList<Image>
         context = cont
@@ -35,10 +32,8 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         //Inflate the layout, initialize the View Holder
-        val v: View = LayoutInflater.from(parent.context).inflate(
-            R.layout.photo_list_item,
-            parent, false
-        )
+        val v: View = LayoutInflater.from(parent.context)
+            .inflate(R.layout.photo_list_item, parent, false)
         val holder: ViewHolder = ViewHolder(v)
         context = parent.context
         return holder
@@ -56,23 +51,20 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
         if (items[position].thumbnail == null) {
             items[position].let {
                 scope.launch {
-                    val bitmap =
-                        decodeSampledBitmapFromResource(it.imageUri, 150, 150)
-                    bitmap?.let {
+                    val bitmap = decodeSampledBitmapFromResource(it.imageUri, 150, 150)
+                    bitmap.let {
                         items[position].thumbnail = it
                         holder.imageView.setImageBitmap(items[position].thumbnail)
                     }
                 }
             }
         }
-        holder.imageView.setOnClickListener(View.OnClickListener {
+        holder.imageView.setOnClickListener {
             val intent = Intent(context, PhotoShowActivity::class.java)
             intent.putExtra("position", position)
             context.startActivity(intent)
-        })
+        }
     }
-
-
 
     override fun getItemCount(): Int {
         return items.size
@@ -86,11 +78,7 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
         lateinit var items: MutableList<Image>
         private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     }
-    suspend fun decodeSampledBitmapFromResource(
-        filePath: String,
-        reqWidth: Int,
-        reqHeight: Int
-    ): Bitmap {
+    suspend fun decodeSampledBitmapFromResource(filePath: String, reqWidth: Int, reqHeight: Int): Bitmap {
         // First decode with inJustDecodeBounds=true to check dimensions
         val options = BitmapFactory.Options()
 
@@ -105,31 +93,22 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
         return BitmapFactory.decodeFile(filePath, options);
     }
 
-    private fun calculateInSampleSize(
-        options: BitmapFactory.Options,
-        reqWidth: Int,
-        reqHeight: Int
-    ): Int {
+    private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
         // Raw height and width of image
         val height = options.outHeight;
         val width = options.outWidth
         var inSampleSize = 1
 
         if (height > reqHeight || width > reqWidth) {
-            val halfHeight = (height / 2).toInt()
-            val halfWidth = (width / 2).toInt()
+            val halfHeight = (height / 2)
+            val halfWidth = (width / 2)
 
             // Calculate the largest inSampleSize value that is a power of 2 and keeps both
             // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) >= reqHeight
-                && (halfWidth / inSampleSize) >= reqWidth
-            ) {
+            while ((halfHeight / inSampleSize) >= reqHeight && (halfWidth / inSampleSize) >= reqWidth) {
                 inSampleSize *= 2;
             }
         }
-
-        return inSampleSize.toInt();
+        return inSampleSize
     }
-
-
 }

@@ -20,10 +20,10 @@
         android:theme="@style/Theme.OMY"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".locations.LocationEditReviewActivity"
+            android:name=".reviews.LocationAddReviewActivity"
             android:exported="true" />
         <activity
-            android:name=".locations.LocationSeeReviewActivity"
+            android:name=".reviews.LocationReviewsActivity"
             android:exported="true" />
         <activity
             android:name=".locations.LocationShowActivity"
@@ -61,4 +61,21 @@
         </activity>
     </application>
 
+    <!-- REQUIRED FOR EasyImage -->
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.GET_CONTENT" />
+            <data android:mimeType="image/*" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.PICK" />
+            <data android:mimeType="image/*" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.CHOOSER" />
+        </intent>
+    </queries>
 </manifest>

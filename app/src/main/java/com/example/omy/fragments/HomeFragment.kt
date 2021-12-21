@@ -111,6 +111,7 @@ class HomeFragment : Fragment() {
                 extras.putDouble("base_longitude", baseLongitude)
                 intent.putExtras(extras)
                 context?.startActivity(intent)
+                resetEditText(tnEditText)
             }
         }
 
@@ -254,5 +255,10 @@ class HomeFragment : Fragment() {
             } catch (e: Exception) { e.printStackTrace() }
         }
         weatherWidget.visibility = View.VISIBLE
+    }
+
+    private fun resetEditText(editText: EditText) {
+        editText.setText("")
+        editText.clearFocus()
     }
 }
