@@ -51,7 +51,6 @@ class MapAddActivity : AppCompatActivity() {
         // Set up easyImage for taking photos
         val easyImage: EasyImage = EasyImage.Builder(this)
             .setChooserType(ChooserType.CAMERA_AND_GALLERY)
-            //.setMemento(memento)
             .setCopyImagesToPublicGalleryFolder(false)
             .setFolderName("EasyImage sample")
             .build()

@@ -19,19 +19,7 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
     constructor(items: List<Location?>): super() {
         LocationsAdapter.items = items as MutableList<Location?>
     }
-    constructor() {
-        LocationsAdapter.items = ArrayList<Location?>()
-    }
-    constructor(cont: Context, items: List<Location?>) : super() {
-        LocationsAdapter.items = items as MutableList<Location?>
-        context = cont
-    }
 
-    /*fun updateLocationList(locationList: List<Location>) {
-        //this.tripList
-        LocationsAdapter.items = locationList
-        notifyDataSetChanged()
-    }*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         //Inflate the layout, initialize the View Holder

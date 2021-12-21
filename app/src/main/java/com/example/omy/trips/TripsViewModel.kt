@@ -17,7 +17,6 @@ class TripsViewModel(application: Application): AndroidViewModel(application) {
     private var tripsRepository: TripsRepository = TripsRepository(application)
     private var tripsToDisplay: LiveData<List<Trip?>>? = null
     private var lastTrip: LiveData<Trip?>? = null
-    private var locations: LiveData<List<Location?>>? = null
 
     init {
         this.tripsToDisplay = tripsRepository.getTrips()
@@ -29,11 +28,6 @@ class TripsViewModel(application: Application): AndroidViewModel(application) {
             this.tripsToDisplay = MutableLiveData()
         }
         return this.tripsToDisplay
-    }
-
-    fun getLastTrip():LiveData<Trip?>?{
-
-        return this.lastTrip
     }
 
     fun createNewTrip(trip : Trip) {

@@ -117,7 +117,6 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
                     extras.putString("position", uuid.toString())
                     intent.putExtras(extras)
                     startActivity(intent)
-                    //Log.i("CHECK",tripID.toString())
                     finish()
                 }.show()
         }
@@ -278,14 +277,12 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         val tripDistance = calculateDistance(visitedLongLatLocations)
 
         val coords = makeCoords(visitedLongLatLocations)
-        val trip = Trip(id = uuid.toString(),tripTitle = tripTitle, tripDate = tripDate, tripDistance = tripDistance, tripWeather = tripWeather, tripDescription = "", tripListCoords = coords)
+        val trip = Trip(id = uuid.toString(),tripTitle = tripTitle, tripDate = tripDate, tripDistance = tripDistance, tripWeather = tripWeather, tripListCoords = coords)
 
-        //val trip = Trip(tripTitle = tripTitle, tripDate = tripDate, tripDistance = tripDistance, tripWeather = tripWeather, tripDescription = "")
 
         tripsViewModel!!.createNewTrip(trip)
 
         TripsAdapter.items.add(trip)
-        //Log.i("ID_ATTEMPT", tripID.toString())
     }
 
     private fun calculateDistance(visitedLatLongs: List<Pair<Double,Double>>): Double {

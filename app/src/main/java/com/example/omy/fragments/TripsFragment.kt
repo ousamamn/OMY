@@ -44,10 +44,9 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerEmpty = view.findViewById(R.id.no_trips)
-        //val trip1 = Trip(id = "test", tripTitle = "Me at the Zoo", tripDate = "12 Dec 2021", tripDistance = 3.2, tripWeather = "19.0", tripDescription = "description", tripListCoords = "test")
+        //val trip1 = Trip(id = "test", tripTitle = "Me at the Zoo", tripDate = "12 Dec 2021", tripDistance = 3.2, tripWeather = "19.0", tripListCoords = "test")
         tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
         locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
-        //tripsDataset.clear()
         //val location = Location(id=55,locationTitle = "title",locationDescription = "description",locationLatitude = 1.2,locationLongitude = 1.1,locationTripId = 34)
 
         /*  Get list of trips */
@@ -59,9 +58,7 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         mRecyclerView.adapter = mAdapter
 
         if (tripsDataset.isNotEmpty()) {
-            Log.i("TAG", tripsDataset[0]!!.tripTitle!!)
             TripsAdapter(tripsDataset,tripandLocations)
-            Log.i("another", TripsAdapter.items[0]!!.tripTitle!!)
         }
 
         /*  Locations Sort Functionality */
@@ -82,15 +79,14 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         this.tripsViewModel!!.getTripsToDisplay()!!.observe(viewLifecycleOwner, { newValue ->
             tripsDataset = newValue
+            mAdapter = TripsAdapter(tripsDataset,tripandLocations) as RecyclerView.Adapter<RecyclerView.ViewHolder>
             mAdapter.notifyDataSetChanged()
-
             for(trip in newValue){
                 tripandLocations[trip!!.id] = getSpecificTrip(trip,locations)
             }
 
             if (newValue.isEmpty()) recyclerEmpty.visibility = View.VISIBLE
             else recyclerEmpty.visibility = View.GONE
-            //mAdapter = TripsAdapter(newValue) as RecyclerView.Adapter<RecyclerView.ViewHolder>
         })
     }
 

@@ -51,7 +51,4 @@ class TripsRepository(application: Application) {
 
     }
 
-    fun getLocations(tripID:String): LiveData<List<Location?>>?{
-        return tripsDBDao!!.getLocations(tripID)
-    }
 }

@@ -41,7 +41,6 @@ class PhotosRepository(application: Application) {
     }
 
     suspend fun createNewPhoto(photo : Image):Int {
-        // somehow create a new trip
        return InsertAsyncTask(photosDBDao).insertInBackground(photo)
     }
 }

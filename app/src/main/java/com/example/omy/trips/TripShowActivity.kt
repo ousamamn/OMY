@@ -36,7 +36,6 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
             val tripDate = findViewById<TextView>(R.id.trip_date)
             val tripDistance = findViewById<TextView>(R.id.trip_distance)
             val tripLocation = findViewById<TextView>(R.id.trip_num_of_locations)
-            val tripDescription = findViewById<TextView>(R.id.trip_description)
             val tripWeather = findViewById<TextView>(R.id.trip_weather)
 
             if (b.getString("position").isNullOrBlank()){
@@ -57,7 +56,6 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
             tripMapTitle = element.tripTitle.toString()
             tripDate.text = element.tripDate
             tripDistance.text = element.tripDistance.toString() + " km"
-            tripDescription.text = element.tripDescription
             tripWeather.text = element.tripWeather.toString()
             tripLocation.text = TripsAdapter.tripAndLocation[element.id]!!.size.toString()
             tripRoute = parseCoords(element.tripListCoords!!)

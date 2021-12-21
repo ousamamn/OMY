@@ -49,7 +49,6 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         holder.title.text = items[position]?.tripTitle
         holder.date.text = items[position]?.tripDate
         holder.distance.text = items[position]?.tripDistance.toString()
-        //Log.i("MMM",getSpecificTrip(items[position]!!, locations).size.toString())
         holder.numOfLocations.text = tripAndLocation[items[position]?.id]!!.size.toString()
         holder.itemView.setOnClickListener {
             val intent = Intent(context, TripShowActivity::class.java)

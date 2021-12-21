@@ -44,9 +44,7 @@ class LocationShowActivity : AppCompatActivity() {
                 val textViewLongitudeInfo = findViewById<TextView>(R.id.location_longitude)
                 val textViewLatitudeInfo = findViewById<TextView>(R.id.location_latitude)
                 val textViewDescription = findViewById<TextView>(R.id.location_description)
-                //val idk = findViewById<ImageView>(R.id.photo)
                 val element = LocationsAdapter.items[position]
-                //val fabGallery: FloatingActionButton = findViewById(pl.aprilapps.easyphotopicker.R.id.fab_gallery)
 
                 if (element != null) {
                     textView.text = element.locationTitle
@@ -92,7 +90,6 @@ class LocationShowActivity : AppCompatActivity() {
         addPhotoButton.setOnClickListener {
             val easyImage: EasyImage = EasyImage.Builder(this)
                 .setChooserType(ChooserType.CAMERA_AND_GALLERY)
-                //.setMemento(memento)
                 .setCopyImagesToPublicGalleryFolder(false)
                 .setFolderName("EasyImage sample")
                 //.allowMultiple(true)
@@ -146,7 +143,6 @@ class LocationShowActivity : AppCompatActivity() {
                 imageUri = mediaFile.file.absolutePath
             )
             // Update the database with the newly created object
-//            var id = insertData(imageData)
             var id = insertData(image)
             image.id = id
             imageList.add(image)

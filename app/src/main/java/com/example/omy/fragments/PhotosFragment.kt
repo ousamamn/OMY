@@ -71,25 +71,10 @@ class PhotosFragment : Fragment() {
         mRecyclerView.layoutManager = GridLayoutManager(requireContext(), numberOfColumns)
 
 
-        //mAdapter = PhotosAdapter(photoDataset) as Adapter<RecyclerView.ViewHolder>
         mRecyclerView.adapter = mAdapter
 
-        //initEasyImage()
-       // val fabGallery: FloatingActionButton = getView().findViewById(pl.aprilapps.easyphotopicker.R.id.fab_gallery)
-        //fabGallery.setOnClickListener(View.OnClickListener {
-        //    easyImage.openChooser(this@PhotosFragment)
-        //})
     }
 
-    private fun initEasyImage() {
-        easyImage = EasyImage.Builder(requireContext())
-//        .setChooserTitle("Pick media")
-//        .setFolderName(GALLERY_DIR)
-            .setChooserType(ChooserType.CAMERA_AND_GALLERY)
-            .allowMultiple(true)
-//        .setCopyImagesToPublicGalleryFolder(true)
-            .build()
-    }
 
     private fun initData() {
         this.photosViewModel!!.getPhotosToDisplay()?.observe(viewLifecycleOwner, {newValue ->
@@ -129,7 +114,6 @@ class PhotosFragment : Fragment() {
                 imageUri = mediaFile.file.absolutePath
             )
             // Update the database with the newly created object
-//            var id = insertData(imageData)
             var id = insertData(imageData)
             imageData.id = id.toString().toInt()
             imageDataList.add(imageData)

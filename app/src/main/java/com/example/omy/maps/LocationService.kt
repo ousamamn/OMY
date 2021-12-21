@@ -23,8 +23,8 @@ class LocationService : Service {
     private var binder: IBinder? = null        // interface for clients that bind
     private var allowRebind: Boolean = false   // indicates whether onRebind should be used
 
-    constructor(name: String?) : super() {}
-    constructor() : super() {}
+    constructor(name: String?) : super()
+    constructor() : super()
 
     override fun onCreate() {
         Log.e("Location Service", "onCreate finished")

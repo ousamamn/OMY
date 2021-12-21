@@ -39,11 +39,6 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
         return holder
     }
 
-    /*fun updatePhotoList(photoList: List<Image>) {
-        //this.tripList
-        PhotosAdapter.items = photoList
-        notifyDataSetChanged()
-    }*/
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //Use the provided View Holder on the onCreateViewHolder method to populate the

@@ -184,7 +184,6 @@ class HomeFragment : Fragment() {
         fun getSpecificTrip(trip: Trip, locations:MutableList<com.example.omy.data.Location?>):MutableList<com.example.omy.data.Location?>{
             val result: MutableList<com.example.omy.data.Location?> = ArrayList()
             for (location in locations){
-                //Log.i("TEST","sivess")
                 if (location!!.locationTripId == trip.id){
 
                     result.add(location)
