@@ -9,5 +9,6 @@ data class Review(
     @PrimaryKey(autoGenerate = true) val id: Int=0,
     @ColumnInfo(name="title") val reviewTitle: String?,
     @ColumnInfo(name="description") val reviewDescription: String?,
+    @ColumnInfo(name="rating") val reviewRating: Int?,
     @ColumnInfo(name="location_id") val locationId: Int
 )

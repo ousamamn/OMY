@@ -51,6 +51,9 @@
     <string name="see_all">See all</string>
     <string name="add_a_review">Add a review</string>
     <string name="add_a_photo">Upload a photo</string>
+    <string name="title_of_review">Title Of Review</string>
+    <string name="rating">Rating :</string>
+    <string name="_3_5">3 / 5</string>
     <string-array name="sort_array">
         <item>A-Z</item>
         <item>Z-A</item>

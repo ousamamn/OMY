@@ -1,4 +1,4 @@
-package com.example.omy.locations
+package com.example.omy.reviews
 
 import android.annotation.SuppressLint
 import android.os.Bundle

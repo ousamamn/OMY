@@ -1,4 +1,4 @@
-package com.example.omy.locations
+package com.example.omy.reviews
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,16 +14,18 @@ class LocationReviewsActivity : AppCompatActivity() {
         setContentView(R.layout.location_reviews_activity)
         val b: Bundle? = intent.extras
 
-        var msg: String? = "Title"
+        var locationTitle: String? = "Title"
         if (b != null) {
-            msg = b.getString("locationTitle")
+            locationTitle = b.getString("locationTitle")
             displayTitle = findViewById(R.id.title_name)
-            displayTitle.text = msg
+            displayTitle.text = locationTitle
         }
         backToPrevious = findViewById(R.id.back_to_previous)
         backToPrevious.setOnClickListener {
             onBackPressed()
             finish()
         }
+
+
     }
 }
