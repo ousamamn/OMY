@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
@@ -24,6 +25,8 @@ class LocationReviewsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.location_reviews_activity)
+
+        reviewsViewModel = ViewModelProvider(this)[ReviewsViewModel::class.java]
 
         reviewsRecyclerEmpty = findViewById(R.id.no_reviews)
         mRecyclerViewReviews = findViewById(R.id.location_reviews)

@@ -104,7 +104,7 @@
             android:gravity="center_vertical"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/reviews_item"
+            android:id="@+id/location_reviews"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>

@@ -104,6 +104,11 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
                     saveTripToDB()
 
                     TripsAdapter.tripAndLocation[uuid.toString()]= locations
+                    val intent = Intent(this, TripShowActivity::class.java)
+                    val extras = Bundle()
+                    extras.putString("position", uuid.toString())
+                    intent.putExtras(extras)
+
 
                     /* Pass parameters to the TripShowActivity */
                     for (location  in locations){
@@ -112,10 +117,6 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     }
 
-                    val intent = Intent(this, TripShowActivity::class.java)
-                    val extras = Bundle()
-                    extras.putString("position", uuid.toString())
-                    intent.putExtras(extras)
                     startActivity(intent)
                     finish()
                 }.show()

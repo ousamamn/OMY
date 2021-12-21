@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.InputFilter
 import android.text.Spanned
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -14,8 +15,10 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.omy.R
 import com.example.omy.data.Review
+import com.example.omy.trips.TripsViewModel
 
 class LocationAddReviewActivity : AppCompatActivity() {
     private lateinit var titleEditText: EditText
@@ -25,15 +28,18 @@ class LocationAddReviewActivity : AppCompatActivity() {
     private lateinit var sendButton: Button
     private lateinit var displayHeading: TextView
     private var locationPosition: Int = 0
+    private var reviewsViewModel: ReviewsViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.location_add_review_acitivity)
         val b: Bundle? = intent.extras
+        reviewsViewModel = ViewModelProvider(this)[ReviewsViewModel::class.java]
 
         if (b != null) {
             val locationTitle = b.getString("locationTitle")
             locationPosition = b.getInt("locationPosition")
+            Log.i("TAGGHG",locationPosition.toString())
             displayHeading = findViewById(R.id.review_heading)
             displayHeading.text = getString(R.string.add_review, locationTitle)
         }
@@ -139,11 +145,11 @@ class LocationAddReviewActivity : AppCompatActivity() {
     }
 
     private fun saveReviewToDB() {
-
         val review = Review(reviewTitle = titleEditText.text.toString(),
             reviewDescription = descriptionEditText.text.toString(),
             reviewRating = ratingEditText.text.toString().toInt(),
-            reviewLocationId = locationPosition)
+            reviewLocationId = locationPosition+1)
+        this.reviewsViewModel!!.createNewReview(review)
         LocationReviewsAdapter.reviews.add(review)
     }
 }

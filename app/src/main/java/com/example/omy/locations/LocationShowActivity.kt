@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
 import com.example.omy.data.Image
+import com.example.omy.data.Location
 import com.example.omy.data.Review
+import com.example.omy.data.Trip
 import com.example.omy.photos.PhotosViewModel
 import kotlinx.coroutines.runBlocking
 import pl.aprilapps.easyphotopicker.*
@@ -38,6 +40,7 @@ class LocationShowActivity : AppCompatActivity() {
     private lateinit var mPhotosLayoutManager: RecyclerView.LayoutManager
     //private var photosDataset: List<Photo?> = ArrayList<Review?>()
     private var locationsViewModel: LocationsViewModel? = null
+     var element: Location? = null
 
 
     private lateinit var backButton: ImageView
@@ -52,23 +55,29 @@ class LocationShowActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.location_activity)
+        reviewsViewModel = ViewModelProvider(this)[ReviewsViewModel::class.java]
 
         reviewsRecyclerEmpty = findViewById(R.id.no_reviews)
         mRecyclerViewReviews = findViewById(R.id.location_reviews)
         mReviewsLayoutManager = LinearLayoutManager(this)
         mRecyclerViewReviews.layoutManager = mReviewsLayoutManager
         mReviewsAdapter = LocationReviewsAdapter(reviewsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+        initData()
+
+        mReviewsAdapter.notifyDataSetChanged()
+
         if (reviewsDataset.isNotEmpty()) {
             LocationReviewsAdapter(reviewsDataset)
         }
-        reviewsViewModel = ViewModelProvider(this)[ReviewsViewModel::class.java]
+
 
         mRecyclerViewPhotos = findViewById(R.id.location_photos)
         mPhotosLayoutManager = LinearLayoutManager(this)
         mRecyclerViewPhotos.layoutManager = mPhotosLayoutManager
         //mPhotosAdapter = LocationReviewsAdapter()
 
-        initData()
+
+        //mRecyclerViewPhotos.adapter = mPhotosAdapter
 
         imagesViewModel = ViewModelProvider(this)[PhotosViewModel::class.java]
         val b: Bundle? = intent.extras
@@ -82,14 +91,13 @@ class LocationShowActivity : AppCompatActivity() {
                 val textViewLongitudeInfo = findViewById<TextView>(R.id.location_longitude)
                 val textViewLatitudeInfo = findViewById<TextView>(R.id.location_latitude)
                 val textViewDescription = findViewById<TextView>(R.id.location_description)
-                val element = LocationsAdapter.items[position]
-
+                element = LocationsAdapter.items[position]
                 if (element != null) {
-                    textView.text = element.locationTitle
-                    textViewTitleInfo.text = element.locationTitle
-                    textViewLongitudeInfo.text = element.locationLongitude.toString()
-                    textViewLatitudeInfo.text = element.locationLatitude.toString()
-                    textViewDescription.text = element.locationDescription
+                    textView.text = element!!.locationTitle
+                    textViewTitleInfo.text = element!!.locationTitle
+                    textViewLongitudeInfo.text = element!!.locationLongitude.toString()
+                    textViewLatitudeInfo.text = element!!.locationLatitude.toString()
+                    textViewDescription.text = element!!.locationDescription
 
                 } else {
                     textView.text = "Error"
@@ -132,9 +140,7 @@ class LocationShowActivity : AppCompatActivity() {
                 .setFolderName("EasyImage sample")
                 //.allowMultiple(true)
                 .build()
-
             easyImage.openGallery(this)
-
             //TODO("SAVE PICKED PHOTO")
         }
         seeAllPhotosButton.setOnClickListener {
@@ -195,12 +201,25 @@ class LocationShowActivity : AppCompatActivity() {
 
     private fun initData() {
         this.reviewsViewModel!!.getReviewsToDisplay()!!.observe(this, { newValue ->
-            reviewsDataset = newValue
+            reviewsDataset = getLocationReviews(element!!, newValue as MutableList<Review?>)
             mReviewsAdapter.notifyDataSetChanged()
             if (newValue.isEmpty()) reviewsRecyclerEmpty.visibility = View.VISIBLE
             else reviewsRecyclerEmpty.visibility = View.GONE
+            mRecyclerViewReviews.adapter = mReviewsAdapter
         })
 
         //TODO("Not yet implemented  - PHOTOS")
+    }
+
+    companion object{
+        fun getLocationReviews(location: Location, reviews:MutableList<Review?>):MutableList<Review?>{
+            val result: MutableList<Review?> = ArrayList()
+            for (review in reviews){
+                if (review!!.reviewLocationId == location.id){
+                    result.add(review)
+                }
+            }
+            return result
+        }
     }
 }
