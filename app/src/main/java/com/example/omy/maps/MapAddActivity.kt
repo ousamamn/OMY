@@ -26,6 +26,8 @@ class MapAddActivity : AppCompatActivity() {
     private lateinit var cancelButton: Button
     private lateinit var saveButton: Button
     private lateinit var addPhotoButton: View
+    private lateinit var titleNameEditText: EditText
+    private lateinit var descriptionEditText: EditText
 
     private var tripLatitude: Double = 0.0
     private var tripLongitude: Double = 0.0
@@ -54,8 +56,8 @@ class MapAddActivity : AppCompatActivity() {
             .setFolderName("EasyImage sample")
             .build()
 
-        val titleNameEditText = findViewById<EditText>(R.id.location_title)
-        val descriptionEditText = findViewById<EditText>(R.id.location_description)
+        titleNameEditText = findViewById(R.id.location_title)
+        descriptionEditText = findViewById(R.id.location_description)
         latEditText = findViewById(R.id.location_latitude)
         latEditText.hint = "%.2f".format(tripLatitude)
         longEditText = findViewById(R.id.location_longitude)
@@ -75,13 +77,7 @@ class MapAddActivity : AppCompatActivity() {
             } else if (TextUtils.isEmpty(descriptionEditText.text.toString())) {
                 Toast.makeText(applicationContext, "Please insert the description", Toast.LENGTH_SHORT).show();
             } else {
-                val location = Location(
-                    locationLongitude = tripLongitude,
-                    locationLatitude = tripLatitude,
-                    locationTitle = titleNameEditText.text.toString(),
-                    locationTripId = "", 
-                    locationDescription = descriptionEditText.text.toString())
-                MapCreatedActivity.locations.add(location)
+                saveLocationToDB()
                 onBackPressed()
                 finish()
             }
@@ -90,10 +86,18 @@ class MapAddActivity : AppCompatActivity() {
             easyImage.openCameraForImage(this)
         }
     }
+
     private fun hideSoftKeyboard(mapAddActivity: MapAddActivity) {
         val inputMethodManager: InputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         if (inputMethodManager.isAcceptingText) {
             inputMethodManager.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
         }
+    }
+
+    private fun saveLocationToDB() {
+        val location = Location(locationLongitude = tripLongitude, locationLatitude = tripLatitude,
+            locationTitle = titleNameEditText.text.toString(), locationTripId = "",
+            locationDescription = descriptionEditText.text.toString())
+        MapCreatedActivity.locations.add(location)
     }
 }
