@@ -14,7 +14,7 @@ class LocationReviewsAdapter: RecyclerView.Adapter<LocationReviewsAdapter.ViewHo
     private lateinit var context: Context
     private var rating: Int = 0
 
-    constructor(reviews: List<Review>): super() {
+    constructor(reviews: List<Review?>): super() {
         LocationReviewsAdapter.reviews = reviews as MutableList<Review?>
     }
     constructor() {

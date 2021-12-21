@@ -52,7 +52,7 @@ class LocationReviewsActivity : AppCompatActivity() {
     }
 
     private fun initDataReviews() {
-        this.reviewsViewModel!!.getReviewsToDisplay()!!.observe(viewLifecycleOwner, { newValue ->
+        this.reviewsViewModel!!.getReviewsToDisplay()!!.observe(this, { newValue ->
             reviewsDataset = newValue
             mReviewsAdapter.notifyDataSetChanged()
             if (newValue.isEmpty()) reviewsRecyclerEmpty.visibility = View.VISIBLE
