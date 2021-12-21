@@ -35,7 +35,6 @@ class LocationReviewsActivity : AppCompatActivity() {
             LocationReviewsAdapter(reviewsDataset)
         }
 
-
         val b: Bundle? = intent.extras
 
         var locationTitle: String? = "Title"
@@ -54,6 +53,7 @@ class LocationReviewsActivity : AppCompatActivity() {
     private fun initDataReviews() {
         this.reviewsViewModel!!.getReviewsToDisplay()!!.observe(this, { newValue ->
             reviewsDataset = newValue
+            mReviewsAdapter = LocationReviewsAdapter(reviewsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
             mReviewsAdapter.notifyDataSetChanged()
             if (newValue.isEmpty()) reviewsRecyclerEmpty.visibility = View.VISIBLE
             else reviewsRecyclerEmpty.visibility = View.GONE

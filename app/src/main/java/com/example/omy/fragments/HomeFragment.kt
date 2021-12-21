@@ -34,6 +34,7 @@ import android.widget.*
 import androidx.core.location.LocationManagerCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.omy.data.Trip
+import com.example.omy.locations.LocationsAdapter
 import com.example.omy.locations.LocationsViewModel
 import com.example.omy.maps.MapCreatedActivity
 import com.example.omy.trips.TripsAdapter
@@ -68,6 +69,7 @@ class HomeFragment : Fragment() {
         locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
         this.locationsViewModel!!.getLocationsToDisplay()!!.observe(viewLifecycleOwner,{ newValue ->
             locations = newValue as MutableList<com.example.omy.data.Location?>
+            val locationsAdapter = LocationsAdapter(newValue)
         })
         tripsViewModel!!.getTripsToDisplay()!!.observe(viewLifecycleOwner, {
             newValue ->

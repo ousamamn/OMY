@@ -58,16 +58,17 @@ class LocationShowActivity : AppCompatActivity() {
         mReviewsLayoutManager = LinearLayoutManager(this)
         mRecyclerViewReviews.layoutManager = mReviewsLayoutManager
         mReviewsAdapter = LocationReviewsAdapter(reviewsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
-        initDataReviews()
         if (reviewsDataset.isNotEmpty()) {
             LocationReviewsAdapter(reviewsDataset)
         }
+        reviewsViewModel = ViewModelProvider(this)[ReviewsViewModel::class.java]
 
         mRecyclerViewPhotos = findViewById(R.id.location_photos)
         mPhotosLayoutManager = LinearLayoutManager(this)
         mRecyclerViewPhotos.layoutManager = mPhotosLayoutManager
         //mPhotosAdapter = LocationReviewsAdapter()
-        initDataPhotos()
+
+        initData()
 
         imagesViewModel = ViewModelProvider(this)[PhotosViewModel::class.java]
         val b: Bundle? = intent.extras
@@ -192,16 +193,14 @@ class LocationShowActivity : AppCompatActivity() {
         insertJob
     }
 
-    private fun initDataReviews() {
+    private fun initData() {
         this.reviewsViewModel!!.getReviewsToDisplay()!!.observe(this, { newValue ->
             reviewsDataset = newValue
             mReviewsAdapter.notifyDataSetChanged()
             if (newValue.isEmpty()) reviewsRecyclerEmpty.visibility = View.VISIBLE
             else reviewsRecyclerEmpty.visibility = View.GONE
         })
-    }
 
-    private fun initDataPhotos() {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented  - PHOTOS")
     }
 }
