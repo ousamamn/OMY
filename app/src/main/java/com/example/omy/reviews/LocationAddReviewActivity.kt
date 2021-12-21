@@ -146,6 +146,6 @@ class LocationAddReviewActivity : AppCompatActivity() {
             reviewDescription = descriptionEditText.text.toString(),
             reviewRating = ratingEditText.text.toString().toInt(),
             reviewLocationId = locationPosition)
-        LocationReviewsActivity.items.add(review)
+        LocationReviewsAdapter.items.add(review)
     }
 }

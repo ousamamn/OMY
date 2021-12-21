@@ -10,11 +10,13 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import androidx.lifecycle.viewModelScope
 import com.example.omy.data.Image
+import com.example.omy.data.LocationWithImages
 
 
 class PhotosViewModel(application: Application): AndroidViewModel(application) {
     private var photosRepository: PhotosRepository = PhotosRepository(application)
     private var photosToDisplay: LiveData<List<Image>>? = null
+    private var photosLocationToDisplay: LiveData<List<LocationWithImages>>? = null
 
     init {
         this.photosToDisplay = this.photosRepository.getPhotos()
@@ -25,6 +27,12 @@ class PhotosViewModel(application: Application): AndroidViewModel(application) {
             this.photosToDisplay = MutableLiveData()
         }
         return this.photosToDisplay
+    }
+    fun getLocationPhotosToDisplay(): LiveData<List<LocationWithImages>>? {
+        if (this.photosLocationToDisplay == null) {
+            this.photosLocationToDisplay = MutableLiveData()
+        }
+        return this.photosLocationToDisplay
     }
 
     fun createNewPhoto(photo : Image):Int {
