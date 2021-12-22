@@ -24,9 +24,9 @@ class TripsViewModel(application: Application): AndroidViewModel(application) {
     }
 
     /**
-     * Function to get trips from database
+     * Fetch specific trips
      *
-     * @return the list of trips data
+     * @return List of trips
      */
     fun getTripsToDisplay(): LiveData<List<Trip?>>? {
         if (this.tripsToDisplay == null) {
@@ -36,7 +36,10 @@ class TripsViewModel(application: Application): AndroidViewModel(application) {
     }
 
     /**
-     * Function to create a new trip
+     * Launches a new trip and creates it in the database
+     *
+     * @param trip A trip
+     * @return void
      */
     fun createNewTrip(trip : Trip) {
         viewModelScope.launch(Dispatchers.IO) {tripsRepository.createNewTrip(trip) }

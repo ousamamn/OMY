@@ -29,6 +29,13 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         context = cont
     }
 
+    /**
+     * Function to update the list of trips
+     *
+     * @param parent A ViewGroup for trips
+     * @param viewType Adapter's position
+     * @return the list of trips
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         //Inflate the layout, initialize the View Holder
         val v: View = LayoutInflater.from(parent.context).inflate(R.layout.trip_list_item,
@@ -41,6 +48,7 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     /**
      * Function to update the list of trips
      *
+     * @param tripList A list of trips
      * @return the list of trips data
      */
     fun updateTripList(tripList: MutableList<Trip?>) {
@@ -50,16 +58,19 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     /**
      * Function to add trip
      *
+     * @param trip A Trip
      * @return the trip data
      */
-    fun addTrip(trip:Trip){
+    fun addTrip(trip: Trip){
         items.add(trip)
     }
 
     /**
-     * Function to get detail of the trips data
+     * Sets up the view holder for a trip
      *
-     * @return the trips data list
+     * @param holder Trip's ViewHolder
+     * @param position Trip's position/id
+     * @return void
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = items[position]?.tripTitle

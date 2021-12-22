@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /* Bottom navigation bar with home fragment as the initial page */
+        // Bottom navigation bar with home fragment as the initial page
         replaceFragment(homeFragment)
         val bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigation.setOnNavigationItemSelectedListener {
@@ -38,9 +38,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Function to switch between the fragments
+     * Switches between the fragments in place
      *
-     * @return new fragment page
+     * @return void
      */
     private fun replaceFragment(fragment: Fragment) {
         if (fragment !== null) {

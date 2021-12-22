@@ -28,7 +28,7 @@ class TripsRepository(application: Application) {
     companion object {
         private val scope = CoroutineScope(Dispatchers.IO)
         private class InsertAsyncTask(private val dao: TripDao?) : ViewModel() {
-            suspend fun insertInBackground(vararg params: Trip){
+            fun insertInBackground(vararg params: Trip){
                 scope.launch {
                     for(param in params) {
                         this@InsertAsyncTask.dao?.insert(param)
@@ -39,27 +39,28 @@ class TripsRepository(application: Application) {
     }
 
     /**
-     * Function to get trips from database
+     * Get all the existing trips
      *
-     * @return the list of trips data
+     * @return all trips
      */
     fun getTrips(): LiveData<List<Trip?>>? {
         return tripsDBDao?.getAll()
     }
 
     /**
-     * Function to get the last trip from database
+     * Get the newest existing trip
      *
-     * @return the last trip data
+     * @return latest trip
      */
     fun getLastTrip(): LiveData<Trip?>? {
         return tripsDBDao?.getLastTrip()
     }
 
     /**
-     * Function to create new trip and save database
+     * Creates a new trip, saving it to the database
      *
-     * @return new trip data in database
+     * @param trip A trip to be saved
+     * @return void
      */
     suspend fun createNewTrip(trip : Trip){
         // somehow create a new trip
