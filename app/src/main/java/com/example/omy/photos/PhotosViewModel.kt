@@ -14,6 +14,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.omy.data.Image
 import com.example.omy.data.ImageLocation
 import com.example.omy.data.LocationWithImages
+import kotlinx.coroutines.runBlocking
 
 
 class PhotosViewModel(application: Application): AndroidViewModel(application) {
@@ -31,10 +32,10 @@ class PhotosViewModel(application: Application): AndroidViewModel(application) {
         return this.photosToDisplay
     }
 
-    fun createNewPhoto(photo : Image):Int {
-        var insertedID =0
-        viewModelScope.launch(Dispatchers.IO) { insertedID = photosRepository.createNewPhoto(photo) }
-        return insertedID
+    fun createNewPhoto(photo : Image):Int =
+        runBlocking {
+        var insertedID = photosRepository.createNewPhoto(photo)
+        insertedID
         }
 
 

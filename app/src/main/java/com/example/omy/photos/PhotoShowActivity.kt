@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -67,14 +68,17 @@ class PhotoShowActivity : FragmentActivity() {
 
     private fun displayData(position: Int){
         if (position != -1) {
-            val imageView = findViewById<ImageView>(R.id.image)
-            //val titleToolbar = findViewById<Toolbar>(R.id.)
-            //val descriptionTextView = findViewById<TextView>(R.id.show_image_description)
+            val imageView = findViewById<ImageView>(R.id.photo_image)
+            val title = findViewById<TextView>(R.id.photo_title)
+            val descriptionTextView = findViewById<TextView>(R.id.description_detail)
+            val dateTextView = findViewById<TextView>(R.id.photo_date)
             val imageData = PhotosAdapter.items[position]
+            //Log.i("PHOTOS", imageData.thumbnail.toString())
 
-            imageView.setImageBitmap(PhotosAdapter.items[position].thumbnail!!)
-            //titleToolbar.title = MyAdapter.items[position].imageTitle
-            //descriptionTextView.text = MyAdapter.items[position].imageDescription
+            imageView.setImageBitmap(imageData.thumbnail)
+            title.text = PhotosAdapter.items[position].imageTitle
+            descriptionTextView.text = PhotosAdapter.items[position].imageDescription
+            dateTextView.text = PhotosAdapter.locationDate
 
            /* val fabEdit: FloatingActionButton = findViewById(R.id.fab_edit)
             fabEdit.setOnClickListener(View.OnClickListener {

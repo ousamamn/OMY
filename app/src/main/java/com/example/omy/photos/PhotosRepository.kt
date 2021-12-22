@@ -2,15 +2,13 @@ package com.example.omy.photos
 
 import android.app.Application
 import android.util.Log
+import androidx.core.graphics.scaleMatrix
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.omy.MainRepository
 import com.example.omy.data.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class PhotosRepository(application: Application) {
     private var photosDBDao: ImageDao? = null
@@ -31,13 +29,10 @@ class PhotosRepository(application: Application) {
 
         private class InsertAsyncTask(private val dao: ImageDao?) : ViewModel() {
             suspend fun insertInBackground(param: Image): Int {
-                var insertedId = 0
-                scope.launch {
-                    insertedId =
-                        async { this@InsertAsyncTask.dao?.insert(param) }.await()?.toInt()!!
+                var insertJob=0
+                scope.async { insertJob = this@InsertAsyncTask.dao?.insert(param)!!.toInt()}.await()
+                return insertJob
                 }
-                return insertedId
-            }
         }
     }
 
@@ -49,6 +44,7 @@ class PhotosRepository(application: Application) {
 
 
     suspend fun createNewPhoto(photo : Image):Int {
-       return InsertAsyncTask(photosDBDao).insertInBackground(photo)
-    }
+        return  InsertAsyncTask(photosDBDao).insertInBackground(photo)
+        }
+
 }

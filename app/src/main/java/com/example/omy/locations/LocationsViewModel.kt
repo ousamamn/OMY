@@ -9,6 +9,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import androidx.lifecycle.viewModelScope
 import com.example.omy.data.*
+import kotlinx.coroutines.runBlocking
 
 
 class LocationsViewModel(application: Application): AndroidViewModel(application) {
@@ -28,9 +29,13 @@ class LocationsViewModel(application: Application): AndroidViewModel(application
         return this.locationsToDisplay
     }
 
-    fun createNewLocation(location: Location) {
-        viewModelScope.launch(Dispatchers.IO) { locationsRepository.createNewLocation(location) }
+    fun createNewLocation(location: Location): Int =
+        //viewModelScope.launch(Dispatchers.IO) { locationsRepository.createNewLocation(location) }
+        runBlocking {
+            var insertedID = locationsRepository.createNewLocation(location)
+            insertedID
         }
+
 
     fun getLocationPhotosToDisplay(): LiveData<List<LocationWithImages>>? {
         if (this.photosLocationToDisplay == null) {
@@ -39,7 +44,10 @@ class LocationsViewModel(application: Application): AndroidViewModel(application
         return this.photosLocationToDisplay
     }
 
-    fun createNewPhotoLocation(photo : ImageLocation) {
-        viewModelScope.launch(Dispatchers.IO) {locationsRepository.createNewPhotoLocation(photo) }
+    fun createNewPhotoLocation(location: ImageLocation) {
+        //viewModelScope.launch(Dispatchers.IO) { locationsRepository.createNewLocation(location) }
+        runBlocking {
+            locationsRepository.createNewPhotoLocation(location)
+        }
     }
-    }
+}

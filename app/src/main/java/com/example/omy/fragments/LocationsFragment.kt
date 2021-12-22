@@ -70,6 +70,7 @@ class LocationsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private fun initData() {
         this.locationsViewModel!!.getLocationsToDisplay()!!.observe(viewLifecycleOwner, { newValue ->
             locationsDataset = newValue
+            mAdapter = LocationsAdapter(locationsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
             mAdapter.notifyDataSetChanged()
             if (newValue.isEmpty()) recyclerEmpty.visibility = View.VISIBLE
             else recyclerEmpty.visibility = View.GONE

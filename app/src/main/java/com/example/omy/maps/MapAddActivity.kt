@@ -14,10 +14,16 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.example.omy.R
+import com.example.omy.data.Image
+import com.example.omy.data.ImageLocation
 import com.example.omy.data.Location
-import pl.aprilapps.easyphotopicker.ChooserType
-import pl.aprilapps.easyphotopicker.EasyImage
+import com.example.omy.locations.LocationsViewModel
+import com.example.omy.photos.PhotosViewModel
+import kotlinx.coroutines.runBlocking
+import pl.aprilapps.easyphotopicker.*
+import java.util.ArrayList
 
 class MapAddActivity : AppCompatActivity() {
     private lateinit var displayTitle: TextView
@@ -28,6 +34,10 @@ class MapAddActivity : AppCompatActivity() {
     private lateinit var addPhotoButton: View
     private lateinit var titleNameEditText: EditText
     private lateinit var descriptionEditText: EditText
+    private lateinit var easyImage: EasyImage
+    private var locationsViewModel: LocationsViewModel? = null
+    private var photosViewModel: PhotosViewModel? = null
+    val imageList: MutableList<Image> = ArrayList<Image>()
 
     private var tripLatitude: Double = 0.0
     private var tripLongitude: Double = 0.0
@@ -40,6 +50,9 @@ class MapAddActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.map_created_location)
 
+        locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
+        photosViewModel = ViewModelProvider(this)[PhotosViewModel::class.java]
+
         /* Receive information from MapCreatedActivity */
         val b: Bundle? = intent.extras
         if (b != null) {
@@ -51,7 +64,7 @@ class MapAddActivity : AppCompatActivity() {
         }
 
         // Set up easyImage for taking photos
-        val easyImage: EasyImage = EasyImage.Builder(this)
+        easyImage= EasyImage.Builder(this)
             .setChooserType(ChooserType.CAMERA_AND_GALLERY)
             .setCopyImagesToPublicGalleryFolder(false)
             .setFolderName("EasyImage sample")
@@ -88,6 +101,57 @@ class MapAddActivity : AppCompatActivity() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        easyImage.handleActivityResult(requestCode, resultCode, data, this, object : DefaultCallback() {
+            override fun onMediaFilesPicked(imageFiles: Array<MediaFile>, source: MediaSource) {
+                onPhotosReturned(imageFiles)
+            }
+            override fun onImagePickerError(error: Throwable, source: MediaSource) {
+                super.onImagePickerError(error, source)
+            }
+            override fun onCanceled(source: MediaSource) {
+                super.onCanceled(source)
+            }
+        })
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun onPhotosReturned(returnedPhotos: Array<MediaFile>):List<Image?> {
+
+
+
+        for (mediaFile in returnedPhotos) {
+            val fileNameAsTempTitle = mediaFile.file.name
+            var image = Image(
+                imageTitle = fileNameAsTempTitle,
+                imageUri = mediaFile.file.absolutePath
+            )
+
+            // Update the database with the newly created object
+            var id = insertData(image)
+            photosViewModel!!.getPhotosToDisplay()!!.observe(this,{newValue ->
+                if (newValue.isEmpty()){
+                    image.id = 1
+                }
+                else image.id = newValue.last().id
+                imageList.add(image)
+
+                //photosDataset.add(image)
+                //mPhotosAdapter.notifyDataSetChanged()
+            })
+        }
+        return imageList
+
+    }
+
+    private fun insertData(image: Image): Int = runBlocking {
+
+        val insertJob = photosViewModel!!.createNewPhoto(image)
+        insertJob
+    }
+
     private fun hideSoftKeyboard(mapAddActivity: MapAddActivity) {
         val inputMethodManager: InputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         if (inputMethodManager.isAcceptingText) {
@@ -100,5 +164,6 @@ class MapAddActivity : AppCompatActivity() {
             locationTitle = titleNameEditText.text.toString(), locationTripId = "",
             locationDescription = descriptionEditText.text.toString(), locationDate = locationDate)
         MapCreatedActivity.locations.add(location)
+        MapCreatedActivity.locationImages.add(Pair(location,imageList))
     }
 }

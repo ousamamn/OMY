@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
 import com.example.omy.data.*
+import com.example.omy.photos.LocationPhotosActivity
 import com.example.omy.photos.PhotosAdapter
 import com.example.omy.photos.PhotosViewModel
 import pl.aprilapps.easyphotopicker.*
@@ -76,7 +77,7 @@ class LocationShowActivity : AppCompatActivity() {
         mRecyclerViewPhotos = findViewById(R.id.location_photos)
         mPhotosLayoutManager = LinearLayoutManager(this)
         mRecyclerViewPhotos.layoutManager = mPhotosLayoutManager
-        mPhotosAdapter = LocationReviewsAdapter() as RecyclerView.Adapter<RecyclerView.ViewHolder>
+        mPhotosAdapter = PhotosAdapter() as RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
         //mRecyclerViewPhotos.adapter = mPhotosAdapter
@@ -148,10 +149,11 @@ class LocationShowActivity : AppCompatActivity() {
             //TODO("SAVE PICKED PHOTO")
         }
         seeAllPhotosButton.setOnClickListener {
-            val intentForTitle = Intent(this, LocationReviewsActivity::class.java)
+            val intentForTitle = Intent(this, LocationPhotosActivity::class.java)
             val textView = findViewById<TextView>(R.id.title_name)
             val reviewActivityTitle = textView.text.toString()
             intentForTitle.putExtra("locationTitle", reviewActivityTitle)
+            intentForTitle.putExtra("locationPosition", position)
             startActivity(intentForTitle)
         }
     }
@@ -187,48 +189,17 @@ class LocationShowActivity : AppCompatActivity() {
 
             // Update the database with the newly created object
             var id = insertData(image)
-            photosViewModel!!.getPhotosToDisplay()!!.observe(this,{newValue ->
-                if (newValue.isEmpty()){
-                    image.id = 1
-                }
-                else image.id = newValue.last().id
-                imageList.add(image)
-                var imageLocation = ImageLocation(imageId = image.id.toLong(), locationId = element!!.id.toLong())
-                locationsViewModel!!.createNewPhotoLocation(imageLocation)
-                photosDataset.add(image)
-                mPhotosAdapter.notifyDataSetChanged()
-                Log.i("HI","im happy")
-            })
 
-
+            image.id = id
+            imageList.add(image)
+            var imageLocation = ImageLocation(imageId = image.id.toLong(), locationId = element!!.id.toLong())
+            locationsViewModel!!.createNewPhotoLocation(imageLocation)
+            photosDataset.add(image)
+            mPhotosAdapter.notifyDataSetChanged()
         }
 
-        // we tell the adapter that the data is changed and hence the grid needs
-        //Log.i("TAG",returnedPhotos[0].file.absolutePath)
     }
 
-    private fun getImageData(returnedPhotos: Array<MediaFile>): List<Image> {
-        val imageList: MutableList<Image> = ArrayList<Image>()
-        for (mediaFile in returnedPhotos) {
-            val fileNameAsTempTitle = mediaFile.file.name
-            var image = Image(
-                imageTitle = fileNameAsTempTitle,
-                imageUri = mediaFile.file.absolutePath
-            )
-
-            // Update the database with the newly created object
-            var id = insertData(image)
-            photosViewModel!!.getPhotosToDisplay()!!.observe(this,{newValue ->
-                image.id = newValue.last().id +1
-                imageList.add(image)
-                var imageLocation = ImageLocation(imageId = image.id.toLong(), locationId = element!!.id.toLong())
-                locationsViewModel!!.createNewPhotoLocation(imageLocation)
-            })
-
-
-        }
-        return imageList
-    }
 
     private fun insertData(image: Image): Int = runBlocking {
 
@@ -251,20 +222,18 @@ class LocationShowActivity : AppCompatActivity() {
         })
 
         this.locationsViewModel!!.getLocationPhotosToDisplay()!!.observe(this,{newValue ->
-            //Log.i("HELP","success2")
             for (unit in newValue){
                 if (unit.location.id == element!!.id){
                      photosDataset = unit.imageIdList as MutableList<Image?>
                 }
             }
-            //photosDataset = newValue as MutableList<Image?>
+            PhotosAdapter.locationDate = element!!.locationDate!!
             mPhotosAdapter  = PhotosAdapter(photosDataset as List<Image>) as RecyclerView.Adapter<RecyclerView.ViewHolder>
             mPhotosAdapter.notifyDataSetChanged()
             mRecyclerViewPhotos.adapter = mPhotosAdapter
 
         })
 
-        //TODO("Not yet implemented  - PHOTOS")
     }
 
     companion object{

@@ -16,6 +16,8 @@ import android.view.View
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
+import com.example.omy.data.Image
+import com.example.omy.data.ImageLocation
 import com.example.omy.data.Trip
 import com.example.omy.locations.LocationsViewModel
 import com.example.omy.trips.TripShowActivity
@@ -107,6 +109,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
                     val intent = Intent(this, TripShowActivity::class.java)
                     val extras = Bundle()
                     extras.putString("position", uuid.toString())
+                    extras.putInt("numOfLocations", locationImages.size)
                     intent.putExtras(extras)
                     for(i in 1..10000){
                         var i =0
@@ -114,15 +117,20 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
                     /* Pass parameters to the TripShowActivity */
-                    for (location  in locations){
-                        location!!.locationTripId = uuid.toString()
-                        locationsViewModel!!.createNewLocation(location)
-
+                    for (pair  in locationImages){
+                        pair.first.locationTripId = uuid.toString()
+                        val locationID = locationsViewModel!!.createNewLocation(pair.first)
+                        for (image in pair.second){
+                            var imageLocation = ImageLocation(imageId = image.id.toLong(), locationId = locationID.toLong())
+                            locationsViewModel!!.createNewPhotoLocation(imageLocation)
+                        }
                     }
-
+                    locations.clear()
+                    locationImages.clear()
                     startActivity(intent)
                     finish()
                 }.show()
+
         }
 
         addButton = findViewById(R.id.add_picture)
@@ -275,6 +283,8 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             return mMap
         }
         var locations:MutableList<com.example.omy.data.Location?> = ArrayList()
+
+        var locationImages:MutableList<Pair<com.example.omy.data.Location,List<Image>>> = ArrayList()
     }
 
     private fun saveTripToDB() {

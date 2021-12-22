@@ -82,36 +82,4 @@ class PhotosFragment : Fragment() {
         })
     }
 
-    private fun insertData(imageData: Image): Int = runBlocking {
-        val insertJob = photosViewModel!!.createNewPhoto(imageData)
-        insertJob
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun onPhotosReturned(returnedPhotos: Array<MediaFile>) {
-        photoDataset.addAll(getImageData(returnedPhotos))
-
-        // we tell the adapter that the data is changed and hence the grid needs
-        mAdapter.notifyDataSetChanged()
-        mRecyclerView.scrollToPosition(returnedPhotos.size - 1)
-    }
-
-    /**
-     * given a list of photos, it creates a list of ImageData objects
-     * we do not know how many elements we will have
-     * @param returnedPhotos
-     * @return
-     */
-    private fun getImageData(returnedPhotos: Array<MediaFile>): List<Image> {
-        val imageDataList: MutableList<Image> = ArrayList<Image>()
-        for (mediaFile in returnedPhotos) {
-            val fileNameAsTempTitle = mediaFile.file.name
-            var imageData = Image(imageTitle = fileNameAsTempTitle, imageUri = mediaFile.file.absolutePath)
-            // Update the database with the newly created object
-            var id = insertData(imageData)
-            imageData.id = id.toString().toInt()
-            imageDataList.add(imageData)
-        }
-        return imageDataList
-    }
 }

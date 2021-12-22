@@ -72,6 +72,7 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
     companion object {
         lateinit var items: MutableList<Image>
         private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+        lateinit var locationDate: String
 
         suspend fun decodeSampledBitmapFromResource(filePath: String, reqWidth: Int, reqHeight: Int): Bitmap {
             // First decode with inJustDecodeBounds=true to check dimensions

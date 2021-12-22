@@ -27,14 +27,13 @@ class LocationsRepository(application: Application) {
     companion object {
         private val scope = CoroutineScope(Dispatchers.IO)
         private class InsertAsyncTask(private val dao: LocationDao?) : ViewModel() {
-            suspend fun insertInBackground(vararg params: Location) {
-                scope.launch {
-                    for(param in params) {
-                        val insertedId = this@InsertAsyncTask.dao?.insert(param)
-                    }
-                }
+            suspend fun insertInBackground(param: Location):Int {
+                var insertJob=0
+                scope.async { insertJob = this@InsertAsyncTask.dao?.insert(param)!!.toInt()}.await()
+                return insertJob
             }
         }
+
 
         private class InsertAsyncTask2(private val dao: ImageLocationDao?) : ViewModel() {
             suspend fun insertInBackground2(param: ImageLocation) {
@@ -52,9 +51,9 @@ class LocationsRepository(application: Application) {
         return locationsDBDao?.getAll()
     }
 
-    suspend fun createNewLocation(location : Location) {
+    suspend fun createNewLocation(location : Location):Int {
         // somehow create a new trip
-        InsertAsyncTask(locationsDBDao).insertInBackground(location)
+        return InsertAsyncTask(locationsDBDao).insertInBackground(location)
     }
     fun getLocationPhotos():LiveData<List<LocationWithImages>>? {
         return photosLocationDBDao?.getLocationWithImages()
