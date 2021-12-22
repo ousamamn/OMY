@@ -66,16 +66,12 @@ class LocationPhotosActivity : AppCompatActivity() {
         }
     }
 
-    // Function to initiate photo data from the database
+    /**
+     * Function to initiate photo data from the database
+     *
+     * @return the list of reviews
+     */
     private fun initDataPhotos() {
-        /*this.reviewsViewModel!!.getReviewsToDisplay()!!.observe(this, { newValue ->
-            reviewsDataset = newValue
-            mReviewsAdapter = LocationReviewsAdapter(reviewsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
-            mReviewsAdapter.notifyDataSetChanged()
-            if (newValue.isEmpty()) reviewsRecyclerEmpty.visibility = View.VISIBLE
-            else reviewsRecyclerEmpty.visibility = View.GONE
-        })*/
-
         this.locationsViewModel!!.getLocationPhotosToDisplay()!!.observe(this, { newValue ->
             for (unit in newValue){
                 if (unit.location.id == locationId){

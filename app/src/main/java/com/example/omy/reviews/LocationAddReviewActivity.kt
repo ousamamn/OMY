@@ -92,6 +92,10 @@ class LocationAddReviewActivity : AppCompatActivity() {
         setupUI(findViewById(R.id.on_touch_review))
     }
 
+    /**
+     * Used for filtering the number or alphabet that can be put in the text box
+     *
+     */
     inner class MinMaxFilter() : InputFilter {
         private var intMin: Int = 0
         private var intMax: Int = 0

@@ -46,16 +46,6 @@ class PhotoShowActivity : FragmentActivity() {
         if (b != null) {
             // this is the image position in the itemList
             position = b.getInt("position")
-            /*if (position != -1) {
-                val imageView = findViewById<ImageView>(R.id.image)
-                val element = PhotosAdapter.items[position]
-                if (element.fileValid != -1) {
-                    imageView.setImageResource(element.fileValid)
-                } else if (element.imagePath != null) {
-                    val myBitmap = BitmapFactory.decodeFile(element.imagePath)
-                    imageView.setImageBitmap(myBitmap)
-                }
-            }*/
         }
         displayData(position)
 
@@ -68,7 +58,11 @@ class PhotoShowActivity : FragmentActivity() {
 
     }
 
-    // Function to set and display photo and its details
+    /**
+     * Function to set and display photo and its details
+     *
+     * @return all the photos data
+     */
     private fun displayData(position: Int){
         if (position != -1) {
             val imageView = findViewById<ImageView>(R.id.photo_image)
@@ -76,21 +70,11 @@ class PhotoShowActivity : FragmentActivity() {
             val descriptionTextView = findViewById<TextView>(R.id.description_detail)
             val dateTextView = findViewById<TextView>(R.id.photo_date)
             val imageData = PhotosAdapter.items[position]
-            //Log.i("PHOTOS", imageData.thumbnail.toString())
 
             imageView.setImageBitmap(imageData.thumbnail)
             title.text = PhotosAdapter.items[position].imageTitle
             descriptionTextView.text = PhotosAdapter.items[position].imageDescription
             dateTextView.text = PhotosAdapter.locationDate
-
-           /* val fabEdit: FloatingActionButton = findViewById(R.id.fab_edit)
-            fabEdit.setOnClickListener(View.OnClickListener {
-                startForResult.launch(
-                    Intent( this, EditActivity::class.java).apply {
-                        putExtra("position", position)
-                    }
-                )
-            })*/
         }
     }
 }

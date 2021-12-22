@@ -75,9 +75,9 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     }
 
     /**
-     * Function to get item size
+     * Function to get item number count
      *
-     * @return the item size
+     * @return the number count of item
      */
     override fun getItemCount(): Int {
         return items.size

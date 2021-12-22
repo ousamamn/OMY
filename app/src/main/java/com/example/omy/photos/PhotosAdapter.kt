@@ -39,7 +39,11 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
         return holder
     }
 
-
+    /**
+     * Function to get and display the photos
+     *
+     * @return the list of photos
+     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //Use the provided View Holder on the onCreateViewHolder method to populate the
         // current row on the RecyclerView
@@ -61,6 +65,11 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
         }
     }
 
+    /**
+     * Function to get item number count
+     *
+     * @return the number count of item
+     */
     override fun getItemCount(): Int {
         return items.size
     }
@@ -90,6 +99,12 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
             return BitmapFactory.decodeFile(filePath, options);
         }
 
+        /**
+         * Function to calculate the width and height of photo
+         *
+         * @param the height and width of image
+         * @return the size of the image
+         */
         private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
             // Raw height and width of image
             val height = options.outHeight;

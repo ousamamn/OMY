@@ -51,9 +51,9 @@ class LocationReviewsAdapter: RecyclerView.Adapter<LocationReviewsAdapter.ViewHo
     }
 
     /**
-     * Function to get review size
+     * Function to get review number count
      *
-     * @return the size of reviews
+     * @return the number count of reviews
      */
     override fun getItemCount(): Int {
         return reviews.size
