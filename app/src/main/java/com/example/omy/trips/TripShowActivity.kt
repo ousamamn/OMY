@@ -27,10 +27,12 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
         super.onCreate(savedInstanceState)
         setContentView(R.layout.trip_activity)
 
+        /* Display a Google map in the activity */
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
-        val b: Bundle? = intent.extras
 
+        /* Get the data from the database and pass it into the activity */
+        val b: Bundle? = intent.extras
         if (b != null) {
             val tripTitle = findViewById<TextView>(R.id.trip_title)
             val tripDate = findViewById<TextView>(R.id.trip_date)
@@ -62,6 +64,7 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
             Log.e("COORDS", element.tripListCoords!!)
         }
 
+        /* Back to the previous activity function */
         backButton = findViewById(R.id.back_to_previous_button)
         backButton.setOnClickListener {
             onBackPressed()
@@ -69,6 +72,7 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
         }
     }
 
+    // Function to create Google map
     override fun onMapReady(googleMap: GoogleMap) {
         val locations = TripsAdapter.tripAndLocation[element.id]
         val latLngLocations = convertToLatLng(tripRoute)
@@ -91,6 +95,7 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
                 .position(LatLng(loc!!.locationLatitude, loc.locationLongitude))
                 .title(loc.locationTitle).snippet(tripMapTitle))
         }
+
         // Add a marker for the first and very last latlong value positions
         mMap.addMarker(MarkerOptions()
             .position(latLngLocations.first())
@@ -107,10 +112,13 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
         return false
     }
 
+    // Function to convert the latitude and longitude
     private fun convertToLatLng(array: MutableList<Pair<Double,Double>>): MutableList<LatLng> {
         return array.map { val (latitude, longitude) = it
             LatLng(latitude, longitude) } as MutableList<LatLng>
     }
+
+    // Function to store the coordinates based on the longitude and latitude
     private fun parseCoords(coords:String): MutableList<Pair<Double, Double>> {
         val coordListPairs: MutableList<Pair<Double,Double>> = ArrayList()
         val coordsList = coords.split("!")
