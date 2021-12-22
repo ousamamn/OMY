@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.forEach
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
@@ -66,9 +67,7 @@ class LocationShowActivity : AppCompatActivity() {
         reviewsRecyclerEmpty = findViewById(R.id.no_reviews)
         mRecyclerViewReviews = findViewById(R.id.location_reviews)
         mReviewsLayoutManager = LinearLayoutManager(this)
-        //mRecyclerViewReviews.layoutManager = mReviewsLayoutManager
-        mRecyclerViewReviews.layoutManager =
-            LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        mRecyclerViewReviews.layoutManager = mReviewsLayoutManager
         mReviewsAdapter = LocationReviewsAdapter(reviewsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
         initData()
         mReviewsAdapter.notifyDataSetChanged()
@@ -80,7 +79,7 @@ class LocationShowActivity : AppCompatActivity() {
         photosRecyclerEmpty = findViewById(R.id.no_photos)
         mRecyclerViewPhotos = findViewById(R.id.location_photos)
         mPhotosLayoutManager = LinearLayoutManager(this)
-        mRecyclerViewPhotos.layoutManager = mPhotosLayoutManager
+        mRecyclerViewPhotos.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         mPhotosAdapter = PhotosAdapter() as RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         val b: Bundle? = intent.extras
