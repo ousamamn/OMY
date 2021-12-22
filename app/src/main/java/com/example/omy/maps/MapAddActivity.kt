@@ -41,7 +41,7 @@ class MapAddActivity : AppCompatActivity() {
 
     private var tripLatitude: Double = 0.0
     private var tripLongitude: Double = 0.0
-    private var locationDate: String = ""
+    //private var locationDate: String = ""
 
     private val intentPhoto = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
@@ -59,7 +59,7 @@ class MapAddActivity : AppCompatActivity() {
             displayTitle.text = b.getString("trip_title")
             tripLatitude = b.getDouble("trip_latitude")
             tripLongitude = b.getDouble("trip_longitude")
-            locationDate = b.getString("location_date").toString()
+            //locationDate = b.getString("location_date").toString()
         }
 
         /* Set up easyImage for taking photos */
@@ -161,7 +161,7 @@ class MapAddActivity : AppCompatActivity() {
     private fun saveLocationToDB() {
         val location = Location(locationLongitude = tripLongitude, locationLatitude = tripLatitude,
             locationTitle = titleNameEditText.text.toString(), locationTripId = "",
-            locationDescription = descriptionEditText.text.toString(), locationDate = locationDate)
+            locationDescription = descriptionEditText.text.toString(), locationDate = "")//locationDate)
         MapCreatedActivity.locations.add(location)
         MapCreatedActivity.locationImages.add(Pair(location,imageList))
     }

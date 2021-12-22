@@ -99,7 +99,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         /* End and save the trip to database button */
-        endTripButton = findViewById<Button>(R.id.map_end_trip)
+        endTripButton = findViewById(R.id.map_end_trip)
         endTripButton.setOnClickListener {
             MaterialAlertDialogBuilder(this)
                 .setTitle("Are you sure to finish and save the trip?")

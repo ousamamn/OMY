@@ -53,7 +53,7 @@ class LocationsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
 
         /*  Get list of locations */
-        mRecyclerView = view.findViewById<RecyclerView>(R.id.locations_list)
+        mRecyclerView = view.findViewById(R.id.locations_list)
         mLayoutManager = LinearLayoutManager(requireContext())
         mRecyclerView.layoutManager = mLayoutManager
         mAdapter = LocationsAdapter(locationsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>

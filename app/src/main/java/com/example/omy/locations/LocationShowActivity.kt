@@ -42,7 +42,9 @@ class LocationShowActivity : AppCompatActivity() {
     private lateinit var mPhotosLayoutManager: RecyclerView.LayoutManager
     //private var photosDataset: List<Photo?> = ArrayList<Review?>()
     private var locationsViewModel: LocationsViewModel? = null
-     var element: Location? = null
+    private lateinit var photosRecyclerEmpty: TextView
+
+    var element: Location? = null
 
 
     private lateinit var backButton: ImageView
@@ -60,29 +62,26 @@ class LocationShowActivity : AppCompatActivity() {
         reviewsViewModel = ViewModelProvider(this)[ReviewsViewModel::class.java]
         photosViewModel = ViewModelProvider(this)[PhotosViewModel::class.java]
         locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
+
         reviewsRecyclerEmpty = findViewById(R.id.no_reviews)
         mRecyclerViewReviews = findViewById(R.id.location_reviews)
         mReviewsLayoutManager = LinearLayoutManager(this)
-        mRecyclerViewReviews.layoutManager = mReviewsLayoutManager
+        //mRecyclerViewReviews.layoutManager = mReviewsLayoutManager
+        mRecyclerViewReviews.layoutManager =
+            LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         mReviewsAdapter = LocationReviewsAdapter(reviewsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
         initData()
-
         mReviewsAdapter.notifyDataSetChanged()
 
         if (reviewsDataset.isNotEmpty()) {
             LocationReviewsAdapter(reviewsDataset)
         }
 
-
+        photosRecyclerEmpty = findViewById(R.id.no_photos)
         mRecyclerViewPhotos = findViewById(R.id.location_photos)
         mPhotosLayoutManager = LinearLayoutManager(this)
         mRecyclerViewPhotos.layoutManager = mPhotosLayoutManager
         mPhotosAdapter = PhotosAdapter() as RecyclerView.Adapter<RecyclerView.ViewHolder>
-
-
-        //mRecyclerViewPhotos.adapter = mPhotosAdapter
-
-
 
         val b: Bundle? = intent.extras
         if (b != null) {
@@ -146,7 +145,6 @@ class LocationShowActivity : AppCompatActivity() {
                 //.allowMultiple(true)
                 .build()
             easyImage.openGallery(this)
-            //TODO("SAVE PICKED PHOTO")
         }
         seeAllPhotosButton.setOnClickListener {
             val intentForTitle = Intent(this, LocationPhotosActivity::class.java)
@@ -176,17 +174,13 @@ class LocationShowActivity : AppCompatActivity() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun onPhotosReturned(returnedPhotos: Array<MediaFile>) {
-
-
         val imageList: MutableList<Image> = ArrayList<Image>()
         for (mediaFile in returnedPhotos) {
-            Log.i("HI","im happy too")
             val fileNameAsTempTitle = mediaFile.file.name
             var image = Image(
                 imageTitle = fileNameAsTempTitle,
                 imageUri = mediaFile.file.absolutePath
             )
-
             // Update the database with the newly created object
             var id = insertData(image)
 
@@ -197,12 +191,9 @@ class LocationShowActivity : AppCompatActivity() {
             photosDataset.add(image)
             mPhotosAdapter.notifyDataSetChanged()
         }
-
     }
 
-
     private fun insertData(image: Image): Int = runBlocking {
-
         val insertJob = photosViewModel!!.createNewPhoto(image)
         insertJob
     }
@@ -227,13 +218,17 @@ class LocationShowActivity : AppCompatActivity() {
                      photosDataset = unit.imageIdList as MutableList<Image?>
                 }
             }
+            val howManyDisplayed = 5
+            if (photosDataset.size >= howManyDisplayed){
+                photosDataset = photosDataset.takeLast(howManyDisplayed) as MutableList<Image?>
+            }
             PhotosAdapter.locationDate = element!!.locationDate!!
             mPhotosAdapter  = PhotosAdapter(photosDataset as List<Image>) as RecyclerView.Adapter<RecyclerView.ViewHolder>
             mPhotosAdapter.notifyDataSetChanged()
+            if (newValue.isEmpty()) photosRecyclerEmpty.visibility = View.VISIBLE
+            else photosRecyclerEmpty.visibility = View.GONE
             mRecyclerViewPhotos.adapter = mPhotosAdapter
-
         })
-
     }
 
     companion object{

@@ -74,7 +74,7 @@ class PhotoShowActivity : FragmentActivity() {
             imageView.setImageBitmap(imageData.thumbnail)
             title.text = PhotosAdapter.items[position].imageTitle
             descriptionTextView.text = PhotosAdapter.items[position].imageDescription
-            dateTextView.text = PhotosAdapter.locationDate
+            //dateTextView.text = PhotosAdapter.locationDate
         }
     }
 }

@@ -50,7 +50,7 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
         if (items[position].thumbnail == null) {
             items[position].let {
                 scope.launch {
-                    val bitmap = decodeSampledBitmapFromResource(it.imageUri, 150, 150)
+                    val bitmap = decodeSampledBitmapFromResource(it.imageUri, 300, 300)
                     bitmap.let {
                         items[position].thumbnail = it
                         holder.imageView.setImageBitmap(items[position].thumbnail)
