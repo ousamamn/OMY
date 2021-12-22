@@ -195,6 +195,7 @@ class LocationShowActivity : AppCompatActivity() {
             var imageLocation = ImageLocation(imageId = image.id.toLong(), locationId = element!!.id.toLong())
             locationsViewModel!!.createNewPhotoLocation(imageLocation)
             photosDataset.add(image)
+            PhotosAdapter.locationWithPhotos.add(Pair(id,Pair(element!!.locationTitle,element!!.locationDate)))
             mPhotosAdapter.notifyDataSetChanged()
         }
 
@@ -227,7 +228,7 @@ class LocationShowActivity : AppCompatActivity() {
                      photosDataset = unit.imageIdList as MutableList<Image?>
                 }
             }
-            PhotosAdapter.locationDate = element!!.locationDate!!
+
             mPhotosAdapter  = PhotosAdapter(photosDataset as List<Image>) as RecyclerView.Adapter<RecyclerView.ViewHolder>
             mPhotosAdapter.notifyDataSetChanged()
             mRecyclerViewPhotos.adapter = mPhotosAdapter

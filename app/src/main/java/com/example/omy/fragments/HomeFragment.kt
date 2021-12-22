@@ -37,11 +37,13 @@ import com.example.omy.data.Trip
 import com.example.omy.locations.LocationsAdapter
 import com.example.omy.locations.LocationsViewModel
 import com.example.omy.maps.MapCreatedActivity
+import com.example.omy.photos.PhotosAdapter
 import com.example.omy.trips.TripsAdapter
 import com.example.omy.trips.TripsViewModel
 import com.google.android.gms.location.LocationRequest
 import java.text.DateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class HomeFragment : Fragment() {
     private lateinit var mLocationRequest: LocationRequest
@@ -70,6 +72,15 @@ class HomeFragment : Fragment() {
         this.locationsViewModel!!.getLocationsToDisplay()!!.observe(viewLifecycleOwner,{ newValue ->
             locations = newValue as MutableList<com.example.omy.data.Location?>
             val locationsAdapter = LocationsAdapter(newValue)
+        })
+        this.locationsViewModel!!.getLocationPhotosToDisplay()!!.observe(viewLifecycleOwner,{ newValue ->
+            val locationsWithPhotos:MutableList<Pair<Int,Pair<String?,String?>>> = ArrayList()
+            for (item in newValue){
+                for (photo in item.imageIdList){
+                    locationsWithPhotos.add(Pair(photo.id,Pair(item.location.locationTitle,item.location.locationDate)))
+                }
+            }
+            PhotosAdapter.locationWithPhotos = locationsWithPhotos
         })
         tripsViewModel!!.getTripsToDisplay()!!.observe(viewLifecycleOwner, {
             newValue ->

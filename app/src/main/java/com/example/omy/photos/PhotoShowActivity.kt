@@ -72,13 +72,15 @@ class PhotoShowActivity : FragmentActivity() {
             val title = findViewById<TextView>(R.id.photo_title)
             val descriptionTextView = findViewById<TextView>(R.id.description_detail)
             val dateTextView = findViewById<TextView>(R.id.photo_date)
+            val locationTextView = findViewById<TextView>(R.id.location_detail)
             val imageData = PhotosAdapter.items[position]
             //Log.i("PHOTOS", imageData.thumbnail.toString())
 
             imageView.setImageBitmap(imageData.thumbnail)
             title.text = PhotosAdapter.items[position].imageTitle
             descriptionTextView.text = PhotosAdapter.items[position].imageDescription
-            dateTextView.text = PhotosAdapter.locationDate
+            dateTextView.text = PhotosAdapter.locationWithPhotos[PhotosAdapter.items[position].id-1].second.second
+            locationTextView.text = PhotosAdapter.locationWithPhotos[PhotosAdapter.items[position].id-1].second.first
 
            /* val fabEdit: FloatingActionButton = findViewById(R.id.fab_edit)
             fabEdit.setOnClickListener(View.OnClickListener {

@@ -106,7 +106,7 @@ class MapAddActivity : AppCompatActivity() {
 
         easyImage.handleActivityResult(requestCode, resultCode, data, this, object : DefaultCallback() {
             override fun onMediaFilesPicked(imageFiles: Array<MediaFile>, source: MediaSource) {
-                onPhotosReturned(imageFiles)
+                imageList.add(onPhotosReturned(imageFiles)!!)
             }
             override fun onImagePickerError(error: Throwable, source: MediaSource) {
                 super.onImagePickerError(error, source)
@@ -118,31 +118,30 @@ class MapAddActivity : AppCompatActivity() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun onPhotosReturned(returnedPhotos: Array<MediaFile>):List<Image?> {
+    private fun onPhotosReturned(returnedPhotos: Array<MediaFile>):Image? {
 
 
-
+        var list : Image?=null
         for (mediaFile in returnedPhotos) {
+            Log.i("LETSSEE", mediaFile.file.name)
             val fileNameAsTempTitle = mediaFile.file.name
-            var image = Image(
+            val image = Image(
                 imageTitle = fileNameAsTempTitle,
                 imageUri = mediaFile.file.absolutePath
             )
 
             // Update the database with the newly created object
             var id = insertData(image)
-            photosViewModel!!.getPhotosToDisplay()!!.observe(this,{newValue ->
-                if (newValue.isEmpty()){
-                    image.id = 1
-                }
-                else image.id = newValue.last().id
-                imageList.add(image)
+            image.id = id
+            list = image
+        }
+
 
                 //photosDataset.add(image)
                 //mPhotosAdapter.notifyDataSetChanged()
-            })
-        }
-        return imageList
+
+
+        return list
 
     }
 

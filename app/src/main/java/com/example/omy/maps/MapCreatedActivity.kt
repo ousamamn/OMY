@@ -20,6 +20,7 @@ import com.example.omy.data.Image
 import com.example.omy.data.ImageLocation
 import com.example.omy.data.Trip
 import com.example.omy.locations.LocationsViewModel
+import com.example.omy.photos.PhotosAdapter
 import com.example.omy.trips.TripShowActivity
 import com.example.omy.trips.TripsAdapter
 import com.example.omy.trips.TripsViewModel
@@ -121,8 +122,10 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
                         pair.first.locationTripId = uuid.toString()
                         val locationID = locationsViewModel!!.createNewLocation(pair.first)
                         for (image in pair.second){
+                            Log.i("TRYUNG","GOTCHA"+pair.first.locationTitle)
                             var imageLocation = ImageLocation(imageId = image.id.toLong(), locationId = locationID.toLong())
                             locationsViewModel!!.createNewPhotoLocation(imageLocation)
+                            PhotosAdapter.locationWithPhotos.add(Pair(image.id,Pair(pair.first.locationTitle,pair.first.locationDate)))
                         }
                     }
                     locations.clear()
