@@ -84,7 +84,7 @@ class PhotosFragment : Fragment() {
 
     private fun insertData(imageData: Image): Int = runBlocking {
         val insertJob = photosViewModel!!.createNewPhoto(imageData)
-        insertJob.toString().toInt()
+        insertJob
     }
 
     @SuppressLint("NotifyDataSetChanged")

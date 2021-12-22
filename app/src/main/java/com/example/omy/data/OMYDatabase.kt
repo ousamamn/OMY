@@ -12,7 +12,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
-@Database(entities = [Trip::class,Location::class,ImageLocation::class,Review::class,Image::class], version =1, exportSchema = false)
+@Database(entities = [Trip::class,Location::class,ImageLocation::class,Review::class,Image::class], version =5, exportSchema = false)
 abstract class OMYDatabase: RoomDatabase() {
     abstract fun TripDao(): TripDao
     abstract fun ImageLocationDao(): ImageLocationDao

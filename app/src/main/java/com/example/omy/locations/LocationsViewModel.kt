@@ -4,21 +4,21 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.omy.data.Trip
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import androidx.lifecycle.viewModelScope
-import com.example.omy.data.Image
-import com.example.omy.data.Location
+import com.example.omy.data.*
 
 
 class LocationsViewModel(application: Application): AndroidViewModel(application) {
     private var locationsRepository: LocationsRepository = LocationsRepository(application)
     private var locationsToDisplay: LiveData<List<Location?>>? = null
+    private var photosLocationToDisplay: LiveData<List<LocationWithImages>>? = null
 
     init {
         this.locationsToDisplay = this.locationsRepository.getLocations()
+        this.photosLocationToDisplay = this.locationsRepository.getLocationPhotos()
     }
 
     fun getLocationsToDisplay(): LiveData<List<Location?>>? {
@@ -31,4 +31,15 @@ class LocationsViewModel(application: Application): AndroidViewModel(application
     fun createNewLocation(location: Location) {
         viewModelScope.launch(Dispatchers.IO) { locationsRepository.createNewLocation(location) }
         }
+
+    fun getLocationPhotosToDisplay(): LiveData<List<LocationWithImages>>? {
+        if (this.photosLocationToDisplay == null) {
+            this.photosLocationToDisplay = MutableLiveData()
+        }
+        return this.photosLocationToDisplay
+    }
+
+    fun createNewPhotoLocation(photo : ImageLocation) {
+        viewModelScope.launch(Dispatchers.IO) {locationsRepository.createNewPhotoLocation(photo) }
+    }
     }

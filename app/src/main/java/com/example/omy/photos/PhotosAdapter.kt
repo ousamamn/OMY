@@ -72,38 +72,40 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
     companion object {
         lateinit var items: MutableList<Image>
         private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-    }
-    suspend fun decodeSampledBitmapFromResource(filePath: String, reqWidth: Int, reqHeight: Int): Bitmap {
-        // First decode with inJustDecodeBounds=true to check dimensions
-        val options = BitmapFactory.Options()
 
-        options.inJustDecodeBounds = true
-        BitmapFactory.decodeFile(filePath, options);
+        suspend fun decodeSampledBitmapFromResource(filePath: String, reqWidth: Int, reqHeight: Int): Bitmap {
+            // First decode with inJustDecodeBounds=true to check dimensions
+            val options = BitmapFactory.Options()
 
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+            options.inJustDecodeBounds = true
+            BitmapFactory.decodeFile(filePath, options);
 
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false
-        return BitmapFactory.decodeFile(filePath, options);
-    }
+            // Calculate inSampleSize
+            options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
 
-    private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
-        // Raw height and width of image
-        val height = options.outHeight;
-        val width = options.outWidth
-        var inSampleSize = 1
-
-        if (height > reqHeight || width > reqWidth) {
-            val halfHeight = (height / 2)
-            val halfWidth = (width / 2)
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) >= reqHeight && (halfWidth / inSampleSize) >= reqWidth) {
-                inSampleSize *= 2;
-            }
+            // Decode bitmap with inSampleSize set
+            options.inJustDecodeBounds = false
+            return BitmapFactory.decodeFile(filePath, options);
         }
-        return inSampleSize
+
+        private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+            // Raw height and width of image
+            val height = options.outHeight;
+            val width = options.outWidth
+            var inSampleSize = 1
+
+            if (height > reqHeight || width > reqWidth) {
+                val halfHeight = (height / 2)
+                val halfWidth = (width / 2)
+
+                // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+                // height and width larger than the requested height and width.
+                while ((halfHeight / inSampleSize) >= reqHeight && (halfWidth / inSampleSize) >= reqWidth) {
+                    inSampleSize *= 2;
+                }
+            }
+            return inSampleSize
+        }
     }
+
 }

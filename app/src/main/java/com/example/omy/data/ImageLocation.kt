@@ -1,9 +1,8 @@
 package com.example.omy.data
 import androidx.room.*
 
-@Entity(tableName = "image_location")
+@Entity(tableName = "image_location", primaryKeys = ["locationId","imageId"])
 data class ImageLocation(
-    @PrimaryKey(autoGenerate = true) val id: Int=0,
-    val locationId: Int,
-    val imageId: Int
+    val locationId: Long,
+    val imageId: Long
 )

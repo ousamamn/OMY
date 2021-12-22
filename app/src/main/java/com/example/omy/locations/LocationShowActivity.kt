@@ -13,18 +13,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
-import com.example.omy.data.Image
-import com.example.omy.data.Location
-import com.example.omy.data.Review
-import com.example.omy.data.Trip
+import com.example.omy.data.*
+import com.example.omy.photos.PhotosAdapter
 import com.example.omy.photos.PhotosViewModel
-import kotlinx.coroutines.runBlocking
 import pl.aprilapps.easyphotopicker.*
 import java.util.ArrayList
 import com.example.omy.reviews.LocationAddReviewActivity
 import com.example.omy.reviews.LocationReviewsActivity
 import com.example.omy.reviews.LocationReviewsAdapter
 import com.example.omy.reviews.ReviewsViewModel
+import kotlinx.coroutines.*
 import pl.aprilapps.easyphotopicker.ChooserType
 import pl.aprilapps.easyphotopicker.EasyImage
 
@@ -33,7 +31,9 @@ class LocationShowActivity : AppCompatActivity() {
     private lateinit var mReviewsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
     private lateinit var mReviewsLayoutManager: RecyclerView.LayoutManager
     private var reviewsDataset: List<Review?> = ArrayList<Review?>()
+    private var photosDataset: MutableList<Image?> = ArrayList<Image?>()
     private var reviewsViewModel: ReviewsViewModel? = null
+    private var photosViewModel: PhotosViewModel? = null
     private lateinit var reviewsRecyclerEmpty: TextView
 
     private lateinit var mRecyclerViewPhotos: RecyclerView
@@ -57,7 +57,8 @@ class LocationShowActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.location_activity)
         reviewsViewModel = ViewModelProvider(this)[ReviewsViewModel::class.java]
-
+        photosViewModel = ViewModelProvider(this)[PhotosViewModel::class.java]
+        locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
         reviewsRecyclerEmpty = findViewById(R.id.no_reviews)
         mRecyclerViewReviews = findViewById(R.id.location_reviews)
         mReviewsLayoutManager = LinearLayoutManager(this)
@@ -72,15 +73,15 @@ class LocationShowActivity : AppCompatActivity() {
         }
 
 
-        //mRecyclerViewPhotos = findViewById(R.id.location_photos)
-        //mPhotosLayoutManager = LinearLayoutManager(this)
-        //mRecyclerViewPhotos.layoutManager = mPhotosLayoutManager
-        //mPhotosAdapter = LocationReviewsAdapter()
+        mRecyclerViewPhotos = findViewById(R.id.location_photos)
+        mPhotosLayoutManager = LinearLayoutManager(this)
+        mRecyclerViewPhotos.layoutManager = mPhotosLayoutManager
+        mPhotosAdapter = LocationReviewsAdapter() as RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
         //mRecyclerViewPhotos.adapter = mPhotosAdapter
 
-        imagesViewModel = ViewModelProvider(this)[PhotosViewModel::class.java]
+
 
         val b: Bundle? = intent.extras
         if (b != null) {
@@ -136,8 +137,8 @@ class LocationShowActivity : AppCompatActivity() {
             intentAllReviews.putExtra("locationPosition", position)
             startActivity(intentAllReviews)
         }
-        /*addPhotoButton.setOnClickListener {
-            val easyImage: EasyImage = EasyImage.Builder(this)
+        addPhotoButton.setOnClickListener {
+            easyImage = EasyImage.Builder(this)
                 .setChooserType(ChooserType.CAMERA_AND_GALLERY)
                 .setCopyImagesToPublicGalleryFolder(false)
                 .setFolderName("EasyImage sample")
@@ -152,7 +153,7 @@ class LocationShowActivity : AppCompatActivity() {
             val reviewActivityTitle = textView.text.toString()
             intentForTitle.putExtra("locationTitle", reviewActivityTitle)
             startActivity(intentForTitle)
-        }*/
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -173,10 +174,37 @@ class LocationShowActivity : AppCompatActivity() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun onPhotosReturned(returnedPhotos: Array<MediaFile>) {
-       // myDataset.addAll(getImageData(returnedPhotos))
+
+
+        val imageList: MutableList<Image> = ArrayList<Image>()
+        for (mediaFile in returnedPhotos) {
+            Log.i("HI","im happy too")
+            val fileNameAsTempTitle = mediaFile.file.name
+            var image = Image(
+                imageTitle = fileNameAsTempTitle,
+                imageUri = mediaFile.file.absolutePath
+            )
+
+            // Update the database with the newly created object
+            var id = insertData(image)
+            photosViewModel!!.getPhotosToDisplay()!!.observe(this,{newValue ->
+                if (newValue.isEmpty()){
+                    image.id = 1
+                }
+                else image.id = newValue.last().id
+                imageList.add(image)
+                var imageLocation = ImageLocation(imageId = image.id.toLong(), locationId = element!!.id.toLong())
+                locationsViewModel!!.createNewPhotoLocation(imageLocation)
+                photosDataset.add(image)
+                mPhotosAdapter.notifyDataSetChanged()
+                Log.i("HI","im happy")
+            })
+
+
+        }
 
         // we tell the adapter that the data is changed and hence the grid needs
-        Log.i("TAG",returnedPhotos[0].file.absolutePath)
+        //Log.i("TAG",returnedPhotos[0].file.absolutePath)
     }
 
     private fun getImageData(returnedPhotos: Array<MediaFile>): List<Image> {
@@ -187,16 +215,24 @@ class LocationShowActivity : AppCompatActivity() {
                 imageTitle = fileNameAsTempTitle,
                 imageUri = mediaFile.file.absolutePath
             )
+
             // Update the database with the newly created object
             var id = insertData(image)
-            image.id = id
-            imageList.add(image)
+            photosViewModel!!.getPhotosToDisplay()!!.observe(this,{newValue ->
+                image.id = newValue.last().id +1
+                imageList.add(image)
+                var imageLocation = ImageLocation(imageId = image.id.toLong(), locationId = element!!.id.toLong())
+                locationsViewModel!!.createNewPhotoLocation(imageLocation)
+            })
+
+
         }
         return imageList
     }
 
     private fun insertData(image: Image): Int = runBlocking {
-        val insertJob = imagesViewModel!!.createNewPhoto(image)
+
+        val insertJob = photosViewModel!!.createNewPhoto(image)
         insertJob
     }
 
@@ -212,6 +248,20 @@ class LocationShowActivity : AppCompatActivity() {
             if (newValue.isEmpty()) reviewsRecyclerEmpty.visibility = View.VISIBLE
             else reviewsRecyclerEmpty.visibility = View.GONE
             mRecyclerViewReviews.adapter = mReviewsAdapter
+        })
+
+        this.locationsViewModel!!.getLocationPhotosToDisplay()!!.observe(this,{newValue ->
+            //Log.i("HELP","success2")
+            for (unit in newValue){
+                if (unit.location.id == element!!.id){
+                     photosDataset = unit.imageIdList as MutableList<Image?>
+                }
+            }
+            //photosDataset = newValue as MutableList<Image?>
+            mPhotosAdapter  = PhotosAdapter(photosDataset as List<Image>) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+            mPhotosAdapter.notifyDataSetChanged()
+            mRecyclerViewPhotos.adapter = mPhotosAdapter
+
         })
 
         //TODO("Not yet implemented  - PHOTOS")

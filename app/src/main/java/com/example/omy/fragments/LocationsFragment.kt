@@ -58,7 +58,7 @@ class LocationsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         mRecyclerView.layoutManager = mLayoutManager
         mAdapter = LocationsAdapter(locationsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
         initData()
-        mRecyclerView.adapter = mAdapter
+
 
         if (locationsDataset.isNotEmpty()) {
             Log.i("TAG", locationsDataset[0]!!.locationTitle!!)
@@ -73,6 +73,8 @@ class LocationsFragment : Fragment(), AdapterView.OnItemSelectedListener {
             mAdapter.notifyDataSetChanged()
             if (newValue.isEmpty()) recyclerEmpty.visibility = View.VISIBLE
             else recyclerEmpty.visibility = View.GONE
+
+            mRecyclerView.adapter = mAdapter
         })
     }
 

@@ -108,6 +108,9 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
                     val extras = Bundle()
                     extras.putString("position", uuid.toString())
                     intent.putExtras(extras)
+                    for(i in 1..10000){
+                        var i =0
+                    }
 
 
                     /* Pass parameters to the TripShowActivity */

@@ -1,6 +1,7 @@
 package com.example.omy.photos
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,6 +19,8 @@ class PhotosRepository(application: Application) {
     init {
         if (databaseObj != null) {
             photosDBDao = databaseObj.ImageDao()
+
+            photosLocationDBDao = databaseObj.ImageLocationDao()
         }
     }
 
@@ -25,25 +28,25 @@ class PhotosRepository(application: Application) {
 
     companion object {
         private val scope = CoroutineScope(Dispatchers.IO)
+
         private class InsertAsyncTask(private val dao: ImageDao?) : ViewModel() {
-            suspend fun insertInBackground(param: Image):Int {
+            suspend fun insertInBackground(param: Image): Int {
                 var insertedId = 0
                 scope.launch {
-                    insertedId = async{this@InsertAsyncTask.dao?.insert(param)}.await()?.toInt()!!
-
+                    insertedId =
+                        async { this@InsertAsyncTask.dao?.insert(param) }.await()?.toInt()!!
                 }
                 return insertedId
             }
         }
     }
 
+
+
     fun getPhotos(): LiveData<List<Image>>? {
         return photosDBDao?.getAll()
     }
 
-    fun getLocationPhotos():LiveData<List<LocationWithImages>>? {
-        return photosLocationDBDao?.getLocationWithImages()
-    }
 
     suspend fun createNewPhoto(photo : Image):Int {
        return InsertAsyncTask(photosDBDao).insertInBackground(photo)
