@@ -34,6 +34,7 @@ class LocationReviewsAdapter: RecyclerView.Adapter<LocationReviewsAdapter.ViewHo
         return holder
     }
 
+    // Get and display the detail of the reviews
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = reviews[position]?.reviewTitle
         holder.description.text = reviews[position]?.reviewDescription

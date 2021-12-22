@@ -29,6 +29,7 @@ class LocationReviewsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.location_reviews_activity)
 
+        /* Display the review data*/
         reviewsViewModel = ViewModelProvider(this)[ReviewsViewModel::class.java]
 
         reviewsRecyclerEmpty = findViewById(R.id.no_reviews)
@@ -43,16 +44,17 @@ class LocationReviewsActivity : AppCompatActivity() {
         }
         mRecyclerViewReviews.adapter = mReviewsAdapter
 
+        /* Get the data from the database and pass it into the activity */
         val b: Bundle? = intent.extras
-
         var locationTitle: String? = "Title"
-
         if (b != null) {
             locationTitle = b.getString("locationTitle")
             locationId = b.getInt("locationPosition")
             displayTitle = findViewById(R.id.title_name)
             displayTitle.text = locationTitle
         }
+
+        /* Back to the previous activity function */
         backToPrevious = findViewById(R.id.back_to_previous)
         backToPrevious.setOnClickListener {
             onBackPressed()
@@ -60,6 +62,7 @@ class LocationReviewsActivity : AppCompatActivity() {
         }
     }
 
+    // Function to initiate review data from the database
     private fun initDataReviews() {
         /*this.reviewsViewModel!!.getReviewsToDisplay()!!.observe(this, { newValue ->
             reviewsDataset = newValue

@@ -18,6 +18,7 @@ class ReviewsViewModel(application: Application): AndroidViewModel(application) 
         this.reviewsToDisplay = this.reviewsRepository.getReviews()
     }
 
+    // Function for getting the reviews
     fun getReviewsToDisplay(): LiveData<List<Review?>>? {
         if (this.reviewsToDisplay == null) {
             this.reviewsToDisplay = MutableLiveData()
@@ -25,6 +26,7 @@ class ReviewsViewModel(application: Application): AndroidViewModel(application) 
         return this.reviewsToDisplay
     }
 
+    // Function for creating the review
     fun createNewReview(review: Review) {
         viewModelScope.launch(Dispatchers.IO) { reviewsRepository.createNewReview(review) }
         }

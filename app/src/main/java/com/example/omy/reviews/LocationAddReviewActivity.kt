@@ -35,9 +35,9 @@ class LocationAddReviewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.location_add_review_acitivity)
 
+        /* Get the data from the database and pass it into the activity */
         val b: Bundle? = intent.extras
         reviewsViewModel = ViewModelProvider(this)[ReviewsViewModel::class.java]
-
         if (b != null) {
             locationTitle = b.getString("locationTitle").toString()
             locationPosition = b.getInt("locationPosition")
@@ -45,17 +45,20 @@ class LocationAddReviewActivity : AppCompatActivity() {
             displayHeading = findViewById(R.id.review_heading)
             displayHeading.text = getString(R.string.add_review, locationTitle)
         }
-
         titleEditText = findViewById(R.id.review_title)
         ratingEditText = findViewById(R.id.review_rating)
         descriptionEditText = findViewById(R.id.review_description)
         cancelButton = findViewById(R.id.review_cancel_button)
         sendButton = findViewById(R.id.review_send_button)
         ratingEditText.filters = arrayOf<InputFilter>(MinMaxFilter(1,5))
+
+        /* Cancel the review adding activity and go back to previous page */
         cancelButton.setOnClickListener {
             onBackPressed()
             finish()
         }
+
+        /* Send and save the review to database */
         sendButton.setOnClickListener {
             if (TextUtils.isEmpty(titleEditText.text.toString())) {
                 Toast.makeText(
@@ -115,6 +118,7 @@ class LocationAddReviewActivity : AppCompatActivity() {
         }
     }
 
+    // Function to hide the soft keyboard when not in use
     private fun hideSoftKeyboard(locationAddReviewActivity: LocationAddReviewActivity) {
         val inputMethodManager: InputMethodManager = getSystemService(
             INPUT_METHOD_SERVICE
@@ -147,6 +151,7 @@ class LocationAddReviewActivity : AppCompatActivity() {
         }
     }
 
+    // Function to save review to database
     private fun saveReviewToDB() {
         val review = Review(reviewTitle = titleEditText.text.toString(),
             reviewDescription = descriptionEditText.text.toString(),
