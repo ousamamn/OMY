@@ -37,7 +37,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Function for switching the fragments
+    /**
+     * Function to switch between the fragments
+     *
+     * @return new fragment page
+     */
     private fun replaceFragment(fragment: Fragment) {
         if (fragment !== null) {
             val transaction =  supportFragmentManager.beginTransaction()

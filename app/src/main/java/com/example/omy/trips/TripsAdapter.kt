@@ -38,14 +38,29 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         return holder
     }
 
+    /**
+     * Function to update the list of trips
+     *
+     * @return the list of trips data
+     */
     fun updateTripList(tripList: MutableList<Trip?>) {
         items = tripList
     }
 
+    /**
+     * Function to add trip
+     *
+     * @return the trip data
+     */
     fun addTrip(trip:Trip){
         items.add(trip)
     }
 
+    /**
+     * Function to get detail of the trips data
+     *
+     * @return the trips data list
+     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = items[position]?.tripTitle
         holder.date.text = items[position]?.tripDate
@@ -59,6 +74,11 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         }
     }
 
+    /**
+     * Function to get item size
+     *
+     * @return the item size
+     */
     override fun getItemCount(): Int {
         return items.size
     }

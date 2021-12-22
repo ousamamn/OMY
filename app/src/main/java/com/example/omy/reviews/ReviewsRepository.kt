@@ -33,12 +33,22 @@ class ReviewsRepository(application: Application) {
         }
     }
 
+    /**
+     * Function to get reviews from database
+     *
+     * @return the list of trips data
+     */
     fun getReviews(): LiveData<List<Review?>>? {
         return reviewsDBDao?.getAll()
     }
 
+    /**
+     * Function to create review and save it in database
+     *
+     * @return new review data
+     */
     suspend fun createNewReview(review: Review) {
-        // somehow create a new trip
+        // somehow create a new review
         InsertAsyncTask(reviewsDBDao).insertInBackground(review)
     }
 }

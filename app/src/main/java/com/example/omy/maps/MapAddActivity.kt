@@ -45,7 +45,6 @@ class MapAddActivity : AppCompatActivity() {
 
     private val intentPhoto = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.map_created_location)
@@ -119,9 +118,6 @@ class MapAddActivity : AppCompatActivity() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun onPhotosReturned(returnedPhotos: Array<MediaFile>):List<Image?> {
-
-
-
         for (mediaFile in returnedPhotos) {
             val fileNameAsTempTitle = mediaFile.file.name
             var image = Image(
@@ -143,11 +139,9 @@ class MapAddActivity : AppCompatActivity() {
             })
         }
         return imageList
-
     }
 
     private fun insertData(image: Image): Int = runBlocking {
-
         val insertJob = photosViewModel!!.createNewPhoto(image)
         insertJob
     }

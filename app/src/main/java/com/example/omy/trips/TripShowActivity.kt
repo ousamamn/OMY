@@ -72,7 +72,9 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
         }
     }
 
-    // Function to create Google map
+    /**
+     * Function to set up the Google map
+     */
     override fun onMapReady(googleMap: GoogleMap) {
         val locations = TripsAdapter.tripAndLocation[element.id]
         val latLngLocations = convertToLatLng(tripRoute)
@@ -112,13 +114,21 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
         return false
     }
 
-    // Function to convert the latitude and longitude
+    /**
+     * Function to convert the latitude and longitude
+     *
+     * @return an array list of latitude and longitude
+     */
     private fun convertToLatLng(array: MutableList<Pair<Double,Double>>): MutableList<LatLng> {
         return array.map { val (latitude, longitude) = it
             LatLng(latitude, longitude) } as MutableList<LatLng>
     }
 
-    // Function to store the coordinates based on the longitude and latitude
+    /**
+     * Function to store the coordinates based on the longitude and latitude
+     *
+     * @return the list of coordinates
+     */
     private fun parseCoords(coords:String): MutableList<Pair<Double, Double>> {
         val coordListPairs: MutableList<Pair<Double,Double>> = ArrayList()
         val coordsList = coords.split("!")

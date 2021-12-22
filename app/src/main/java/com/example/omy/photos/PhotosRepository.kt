@@ -35,10 +35,20 @@ class PhotosRepository(application: Application) {
         }
     }
 
+    /**
+     * Function to get photos from database
+     *
+     * @return the list of photos data
+     */
     fun getPhotos(): LiveData<List<Image>>? {
         return photosDBDao?.getAll()
     }
 
+    /**
+     * Function to create new photo and store it in database
+     *
+     * @return the new photo data
+     */
     suspend fun createNewPhoto(photo : Image):Int {
         return  InsertAsyncTask(photosDBDao).insertInBackground(photo)
         }

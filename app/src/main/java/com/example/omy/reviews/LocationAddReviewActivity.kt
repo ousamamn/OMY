@@ -118,7 +118,9 @@ class LocationAddReviewActivity : AppCompatActivity() {
         }
     }
 
-    // Function to hide the soft keyboard when not in use
+    /**
+     * Function to hide soft keyboard when not in use
+     */
     private fun hideSoftKeyboard(locationAddReviewActivity: LocationAddReviewActivity) {
         val inputMethodManager: InputMethodManager = getSystemService(
             INPUT_METHOD_SERVICE
@@ -151,7 +153,9 @@ class LocationAddReviewActivity : AppCompatActivity() {
         }
     }
 
-    // Function to save review to database
+    /**
+     * Function to save review to database
+     */
     private fun saveReviewToDB() {
         val review = Review(reviewTitle = titleEditText.text.toString(),
             reviewDescription = descriptionEditText.text.toString(),

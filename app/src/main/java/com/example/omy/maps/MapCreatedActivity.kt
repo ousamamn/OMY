@@ -77,6 +77,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             visitedLongLatLocations.add(Pair(b.getDouble("base_latitude"),b.getDouble("base_longitude")))
         }
 
+
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
         startLocatingButton = findViewById<View>(R.id.map_start_location) as Button
@@ -313,6 +314,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         return "%.2f".format(sumOfDistances / 1000).toDouble()
     }
+
     private fun makeCoords(visitedLongLatLocations: List<Pair<Double, Double>>):String{
         var result =""
         for (coordinates in visitedLongLatLocations){

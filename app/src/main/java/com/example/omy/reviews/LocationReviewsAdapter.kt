@@ -34,7 +34,11 @@ class LocationReviewsAdapter: RecyclerView.Adapter<LocationReviewsAdapter.ViewHo
         return holder
     }
 
-    // Get and display the detail of the reviews
+    /**
+     * Function to get and display the detail of reviews
+     *
+     * @return the list of reviews
+     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = reviews[position]?.reviewTitle
         holder.description.text = reviews[position]?.reviewDescription
@@ -46,6 +50,11 @@ class LocationReviewsAdapter: RecyclerView.Adapter<LocationReviewsAdapter.ViewHo
         }
     }
 
+    /**
+     * Function to get review size
+     *
+     * @return the size of reviews
+     */
     override fun getItemCount(): Int {
         return reviews.size
     }

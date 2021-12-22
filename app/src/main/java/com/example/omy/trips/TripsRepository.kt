@@ -38,18 +38,32 @@ class TripsRepository(application: Application) {
         }
     }
 
+    /**
+     * Function to get trips from database
+     *
+     * @return the list of trips data
+     */
     fun getTrips(): LiveData<List<Trip?>>? {
         return tripsDBDao?.getAll()
     }
 
+    /**
+     * Function to get the last trip from database
+     *
+     * @return the last trip data
+     */
     fun getLastTrip(): LiveData<Trip?>? {
         return tripsDBDao?.getLastTrip()
     }
 
+    /**
+     * Function to create new trip and save database
+     *
+     * @return new trip data in database
+     */
     suspend fun createNewTrip(trip : Trip){
         // somehow create a new trip
         InsertAsyncTask(tripsDBDao).insertInBackground(trip)
-
     }
 
 }

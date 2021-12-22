@@ -21,10 +21,10 @@ class LocationReviewsActivity : AppCompatActivity() {
     private var reviewsDataset: List<Review?> = ArrayList<Review?>()
     private var reviewsViewModel: ReviewsViewModel? = null
     private lateinit var reviewsRecyclerEmpty: TextView
-
     private lateinit var displayTitle: TextView
     private lateinit var backToPrevious: ImageView
     var locationId: Int? = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.location_reviews_activity)
@@ -62,7 +62,11 @@ class LocationReviewsActivity : AppCompatActivity() {
         }
     }
 
-    // Function to initiate review data from the database
+    /**
+     * Function to initialize the reviews data from database
+     *
+     * @return list of reviews data
+     */
     private fun initDataReviews() {
         /*this.reviewsViewModel!!.getReviewsToDisplay()!!.observe(this, { newValue ->
             reviewsDataset = newValue
