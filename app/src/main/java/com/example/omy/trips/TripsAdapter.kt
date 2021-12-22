@@ -3,6 +3,7 @@ package com.example.omy.trips
 import android.content.Context
 import android.content.Intent
 import android.media.Image
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -53,6 +54,7 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         holder.itemView.setOnClickListener {
             val intent = Intent(context, TripShowActivity::class.java)
             intent.putExtra("position", position)
+            intent.putExtra("numOfLocations",tripAndLocation[items[position]?.id]!!.size)
             context.startActivity(intent)
         }
     }
