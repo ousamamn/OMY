@@ -4,8 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
+import com.example.omy.data.Location
 import com.example.omy.data.Trip
+import com.example.omy.locations.LocationsAdapter
+import com.example.omy.photos.PhotosAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -22,6 +27,10 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
     private lateinit var backButton: FloatingActionButton
     private lateinit var selectedTrip: Trip
     private lateinit var tripRoute : MutableList<Pair<Double, Double>>
+
+    private lateinit var mRecyclerViewLocations: RecyclerView
+    private lateinit var mLocationsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
+    private lateinit var mLocationsLayoutManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +70,13 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
             tripWeather.text = element.tripWeather.toString()
             tripLocation.text = b.getInt("numOfLocations").toString()
             tripRoute = parseCoords(element.tripListCoords!!)
-            Log.e("COORDS", element.tripListCoords!!)
+
+
+            mRecyclerViewLocations = findViewById(R.id.trip_locations)
+            mLocationsLayoutManager = LinearLayoutManager(this)
+            mRecyclerViewLocations.layoutManager = mLocationsLayoutManager
+            mLocationsAdapter = LocationsAdapter(TripsAdapter.tripAndLocation[element.id] as List<Location?>) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+            mRecyclerViewLocations.adapter = mLocationsAdapter
         }
 
         /* Back to the previous activity function */
