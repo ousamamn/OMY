@@ -29,7 +29,7 @@ class LocationReviewsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.location_reviews_activity)
 
-        /* Display the review data*/
+        /* Display the review data */
         reviewsViewModel = ViewModelProvider(this)[ReviewsViewModel::class.java]
 
         reviewsRecyclerEmpty = findViewById(R.id.no_reviews)
