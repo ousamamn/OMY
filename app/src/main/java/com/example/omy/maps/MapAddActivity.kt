@@ -62,7 +62,7 @@ class MapAddActivity : AppCompatActivity() {
             locationDate = b.getString("location_date").toString()
         }
 
-        // Set up easyImage for taking photos
+        /* Set up easyImage for taking photos */
         easyImage= EasyImage.Builder(this)
             .setChooserType(ChooserType.CAMERA_AND_GALLERY)
             .setCopyImagesToPublicGalleryFolder(false)
@@ -78,11 +78,14 @@ class MapAddActivity : AppCompatActivity() {
         cancelButton = findViewById(R.id.location_cancel_button)
         saveButton = findViewById(R.id.location_add_button)
         addPhotoButton = findViewById(R.id.location_add_photo)
-        
+
+        /* Cancel the add new location and return to the previous page button */
         cancelButton.setOnClickListener {
             onBackPressed()
             finish()
         }
+
+        /* Save the new location to the database button */
         saveButton.setOnClickListener {
             if (TextUtils.isEmpty(titleNameEditText.text.toString())) {
                 Toast
@@ -95,6 +98,8 @@ class MapAddActivity : AppCompatActivity() {
                 finish()
             }
         }
+
+        /* Add photo button */
         addPhotoButton.setOnClickListener {
             easyImage.openCameraForImage(this)
         }
@@ -116,6 +121,11 @@ class MapAddActivity : AppCompatActivity() {
         })
     }
 
+    /**
+     * Function to update the photos list in the database
+     *
+     * @return the list of photos
+     */
     @SuppressLint("NotifyDataSetChanged")
     private fun onPhotosReturned(returnedPhotos: Array<MediaFile>):List<Image?> {
         for (mediaFile in returnedPhotos) {
@@ -133,9 +143,6 @@ class MapAddActivity : AppCompatActivity() {
                 }
                 else image.id = newValue.last().id
                 imageList.add(image)
-
-                //photosDataset.add(image)
-                //mPhotosAdapter.notifyDataSetChanged()
             })
         }
         return imageList
@@ -146,13 +153,11 @@ class MapAddActivity : AppCompatActivity() {
         insertJob
     }
 
-    private fun hideSoftKeyboard(mapAddActivity: MapAddActivity) {
-        val inputMethodManager: InputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        if (inputMethodManager.isAcceptingText) {
-            inputMethodManager.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
-        }
-    }
-
+    /**
+     * Function to save the location to the database
+     *
+     * @return new location and photos to database
+     */
     private fun saveLocationToDB() {
         val location = Location(locationLongitude = tripLongitude, locationLatitude = tripLatitude,
             locationTitle = titleNameEditText.text.toString(), locationTripId = "",

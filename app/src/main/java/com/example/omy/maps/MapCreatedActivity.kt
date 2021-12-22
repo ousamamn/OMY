@@ -77,9 +77,11 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             visitedLongLatLocations.add(Pair(b.getDouble("base_latitude"),b.getDouble("base_longitude")))
         }
 
-
+        /* Display the Google map */
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
+
+        /* Start the locating function button */
         startLocatingButton = findViewById<View>(R.id.map_start_location) as Button
         startLocatingButton.setOnClickListener {
             startLocationUpdates()
@@ -87,6 +89,8 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             startLocatingButton.visibility = View.GONE
             stopLocatingButton.visibility = View.VISIBLE
         }
+
+        /* Pause the locating function button */
         stopLocatingButton = findViewById<View>(R.id.map_pause_location) as Button
         stopLocatingButton.setOnClickListener {
             stopLocationUpdates()
@@ -94,6 +98,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             startLocatingButton.visibility = View.VISIBLE
         }
 
+        /* End and save the trip to database button */
         endTripButton = findViewById<Button>(R.id.map_end_trip)
         endTripButton.setOnClickListener {
             MaterialAlertDialogBuilder(this)
@@ -116,7 +121,6 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
                         var i =0
                     }
 
-
                     /* Pass parameters to the TripShowActivity */
                     for (pair  in locationImages){
                         pair.first.locationTripId = uuid.toString()
@@ -134,6 +138,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
 
         }
 
+        /* Add photo and its detail button */
         addButton = findViewById(R.id.add_picture)
         addButton.setOnClickListener() {
             /* Pass parameters to the MapAddActivity */
@@ -150,6 +155,9 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    /**
+     * Function to check permissions for the map
+     */
     @SuppressLint("MissingPermission")
     private fun checkpermission(){
         if (ActivityCompat.checkSelfPermission(
@@ -179,6 +187,9 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    /**
+     * Function to start updating the location
+     */
     @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
         Log.e("Location update", "Starting...")
@@ -196,9 +207,11 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         locationTask.addOnCompleteListener {
             Log.d("MapsActivity", "starting gps successful!")
         }
-
     }
 
+    /**
+     * Function to stop updating the location
+     */
     private fun stopLocationUpdates() {
         Log.e("Location", "update stop")
         mFusedLocationClient.removeLocationUpdates(mLocationPendingIntent!!)
@@ -288,6 +301,11 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         var locationImages:MutableList<Pair<com.example.omy.data.Location,List<Image>>> = ArrayList()
     }
 
+    /**
+     * Function to save the trip to the database
+     *
+     * @return the trip to database
+     */
     private fun saveTripToDB() {
         val tripTitle = displayTitle.text.toString()
         val tripDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MMM-dd HH:mm"))
@@ -302,6 +320,12 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         TripsAdapter.items.add(trip)
     }
 
+    /**
+     * Function to calculate the distance in a trip
+     *
+     * @param the latitude and longitude
+     * @return the total distance of the trip
+     */
     private fun calculateDistance(visitedLatLongs: List<Pair<Double,Double>>): Double {
         var sumOfDistances = 0.0F
         for (i in visitedLatLongs.indices) {
@@ -315,6 +339,11 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         return "%.2f".format(sumOfDistances / 1000).toDouble()
     }
 
+    /**
+     * Function to create the coordinate based on the latitude and longitude
+     *
+     * @return the coordinates of the location
+     */
     private fun makeCoords(visitedLongLatLocations: List<Pair<Double, Double>>):String{
         var result =""
         for (coordinates in visitedLongLatLocations){
