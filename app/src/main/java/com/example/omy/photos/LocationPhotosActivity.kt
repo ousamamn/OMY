@@ -24,14 +24,15 @@ class LocationPhotosActivity : AppCompatActivity() {
     private var photosViewModel: PhotosViewModel? = null
     private var locationsViewModel: LocationsViewModel? = null
     private lateinit var photosRecyclerEmpty: TextView
-
     private lateinit var displayTitle: TextView
     private lateinit var backToPrevious: ImageView
     var locationId: Int? = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.location_photos_activity)
 
+        /* Display the photo data */
         photosViewModel = ViewModelProvider(this)[PhotosViewModel::class.java]
         locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
 
@@ -47,16 +48,17 @@ class LocationPhotosActivity : AppCompatActivity() {
         }
         mRecyclerViewPhotos.adapter = mPhotosAdapter
 
+        /* Get the data from the database and pass it into the activity */
         val b: Bundle? = intent.extras
-
         var locationTitle: String? = "Title"
-
         if (b != null) {
             locationTitle = b.getString("locationTitle")
             locationId = b.getInt("locationPosition") +1
             displayTitle = findViewById(R.id.title_name)
             displayTitle.text = locationTitle
         }
+
+        /* Back to previous page */
         backToPrevious = findViewById(R.id.back_to_previous)
         backToPrevious.setOnClickListener {
             onBackPressed()
@@ -64,6 +66,7 @@ class LocationPhotosActivity : AppCompatActivity() {
         }
     }
 
+    // Function to initiate photo data from the database
     private fun initDataPhotos() {
         /*this.reviewsViewModel!!.getReviewsToDisplay()!!.observe(this, { newValue ->
             reviewsDataset = newValue

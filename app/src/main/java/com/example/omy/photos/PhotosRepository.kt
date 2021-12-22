@@ -14,6 +14,7 @@ class PhotosRepository(application: Application) {
     private var photosDBDao: ImageDao? = null
     private var photosLocationDBDao: ImageLocationDao? = null
     private val databaseObj:OMYDatabase? = MainRepository(application).databaseObj
+
     init {
         if (databaseObj != null) {
             photosDBDao = databaseObj.ImageDao()
@@ -21,8 +22,6 @@ class PhotosRepository(application: Application) {
             photosLocationDBDao = databaseObj.ImageLocationDao()
         }
     }
-
-
 
     companion object {
         private val scope = CoroutineScope(Dispatchers.IO)
@@ -36,12 +35,9 @@ class PhotosRepository(application: Application) {
         }
     }
 
-
-
     fun getPhotos(): LiveData<List<Image>>? {
         return photosDBDao?.getAll()
     }
-
 
     suspend fun createNewPhoto(photo : Image):Int {
         return  InsertAsyncTask(photosDBDao).insertInBackground(photo)

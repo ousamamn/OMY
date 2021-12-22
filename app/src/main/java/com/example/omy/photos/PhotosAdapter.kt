@@ -69,6 +69,7 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
         var imageView: ImageView = itemView.findViewById<View>(R.id.photo_item) as ImageView
 
     }
+
     companion object {
         lateinit var items: MutableList<Image>
         private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())

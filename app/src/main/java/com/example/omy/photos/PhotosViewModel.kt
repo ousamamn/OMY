@@ -25,6 +25,7 @@ class PhotosViewModel(application: Application): AndroidViewModel(application) {
         this.photosToDisplay = this.photosRepository.getPhotos()
     }
 
+    // Function for getting the photos
     fun getPhotosToDisplay(): LiveData<List<Image>>? {
         if (this.photosToDisplay == null) {
             this.photosToDisplay = MutableLiveData()
@@ -32,6 +33,7 @@ class PhotosViewModel(application: Application): AndroidViewModel(application) {
         return this.photosToDisplay
     }
 
+    // Function to create a new photo
     fun createNewPhoto(photo : Image):Int =
         runBlocking {
         var insertedID = photosRepository.createNewPhoto(photo)

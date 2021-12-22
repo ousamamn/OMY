@@ -40,9 +40,9 @@ class PhotoShowActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.photo_activity)
 
+        /* Get the data from the database and pass it into the activity */
         val b: Bundle? = intent.extras
         var position = -1
-
         if (b != null) {
             // this is the image position in the itemList
             position = b.getInt("position")
@@ -58,6 +58,8 @@ class PhotoShowActivity : FragmentActivity() {
             }*/
         }
         displayData(position)
+
+        /* Back to previous page */
         backButton = findViewById(R.id.back_to_previous)
         backButton.setOnClickListener {
             onBackPressed()
@@ -66,6 +68,7 @@ class PhotoShowActivity : FragmentActivity() {
 
     }
 
+    // Function to set and display photo and its details
     private fun displayData(position: Int){
         if (position != -1) {
             val imageView = findViewById<ImageView>(R.id.photo_image)
