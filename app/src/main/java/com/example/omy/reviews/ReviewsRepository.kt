@@ -12,8 +12,8 @@ import kotlinx.coroutines.launch
 
 class ReviewsRepository(application: Application) {
     private var reviewsDBDao: ReviewDao? = null
-
     private val databaseObj:OMYDatabase? = MainRepository(application).databaseObj
+
     init {
         if (databaseObj != null) {
             reviewsDBDao = databaseObj.ReviewDao()

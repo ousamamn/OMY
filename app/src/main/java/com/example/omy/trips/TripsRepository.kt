@@ -18,6 +18,7 @@ class TripsRepository(application: Application) {
     private var tripsDBDao: TripDao? = null
     var id:Int? =0
     private val databaseObj:OMYDatabase? = MainRepository(application).databaseObj
+
     init {
         if (databaseObj != null) {
             tripsDBDao = databaseObj.TripDao()
