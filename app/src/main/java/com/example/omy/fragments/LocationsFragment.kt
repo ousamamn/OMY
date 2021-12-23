@@ -1,7 +1,6 @@
 package com.example.omy.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -93,19 +92,19 @@ class LocationsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         if(locationsDataset.isNotEmpty()) {
             when (position) {
                 0 -> {
-                    Log.e("p0","clicked a-z")
+                    // Sort trips A - Z
                     sortedLocationsDataset =
                         locationsDataset.sortedBy { it!!.locationTitle } as MutableList<Location>
                 } 1 -> {
-                    Log.e("p0","clicked z-a")
+                    // Sort trips Z - A
                     sortedLocationsDataset =
                         locationsDataset.sortedByDescending { it!!.locationTitle } as MutableList<Location>
                 } 2 -> {
-                    Log.e("p0","clicked newest")
+                    // Sort by date, from the newest
                     sortedLocationsDataset =
                         locationsDataset.sortedByDescending { it!!.locationLatitude } as MutableList<Location>
                 } 3 -> {
-                    Log.e("p0","clicked oldest")
+                    // Sort by date, from oldest
                     sortedLocationsDataset =
                         locationsDataset.sortedBy { it!!.locationLatitude } as MutableList<Location>
                 } else -> {

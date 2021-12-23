@@ -2,7 +2,6 @@ package com.example.omy.photos
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -11,8 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
 import com.example.omy.data.Image
-import com.example.omy.data.Review
-import com.example.omy.locations.LocationShowActivity
 import com.example.omy.locations.LocationsViewModel
 import java.util.ArrayList
 
@@ -75,7 +72,6 @@ class LocationPhotosActivity : AppCompatActivity() {
         this.locationsViewModel!!.getLocationPhotosToDisplay()!!.observe(this, { newValue ->
             for (unit in newValue){
                 if (unit.location.id == locationId){
-                    Log.i("TAGELLOO",locationId.toString())
                     photosDataset = unit.imageIdList as MutableList<Image?>
                 }
             }

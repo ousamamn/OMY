@@ -25,7 +25,6 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import java.util.concurrent.Executors
-import android.util.Log
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import android.content.Intent
@@ -77,7 +76,6 @@ class HomeFragment : Fragment() {
                 tripandLocations[trip!!.id] = getSpecificTrip(trip,locations)
             }
             val tripsAdapter = TripsAdapter(newValue, mutableMapOf())
-            Log.i("HOME_TAG", "called")
         })
 
         mLocationRequest = LocationRequest.create()
@@ -186,7 +184,6 @@ class HomeFragment : Fragment() {
             super.onLocationResult(locationResult)
             mCurrentLocation = locationResult.getLastLocation()
             mLastUpdateTime = DateFormat.getTimeInstance().format(Date())
-            Log.i("MAP", "new location " + mCurrentLocation.toString())
             goButton.visibility = View.VISIBLE
             locationWarningView.visibility = View.GONE
 

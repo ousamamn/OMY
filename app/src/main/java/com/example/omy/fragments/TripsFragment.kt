@@ -1,7 +1,6 @@
 package com.example.omy.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -109,19 +108,19 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         if(tripsDataset.isNotEmpty()) {
             when (position) {
                 0 -> {
-                    Log.e("p0", "clicked a-z")
+                    // Sort trips A - Z
                     sortedTripsDataset =
                         tripsDataset.sortedBy { it!!.tripTitle } as MutableList<Trip>
                 } 1 -> {
-                    Log.e("p0", "clicked z-a")
+                    // Sort trips Z - A
                     sortedTripsDataset =
                         tripsDataset.sortedByDescending { it!!.tripTitle } as MutableList<Trip>
                 } 2 -> {
-                    Log.e("p0", "clicked newest")
+                    // Sort by date, from the newest
                     sortedTripsDataset =
                         tripsDataset.sortedByDescending { it!!.tripDate } as MutableList<Trip>
                 } 3 -> {
-                    Log.e("p0", "clicked oldest")
+                    // Sort by date, from oldest
                     sortedTripsDataset =
                         tripsDataset.sortedBy { it!!.tripDate } as MutableList<Trip>
                 } else -> {
@@ -137,7 +136,7 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     /**
      * Select for nothing
      *
-     * @param p0 A AdapterView for nothing selected
+     * @param parent A AdapterView for nothing selected
      * @return void
      */
     override fun onNothingSelected(parent: AdapterView<*>?) {

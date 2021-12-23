@@ -196,12 +196,8 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
-        Log.e("Location update", "Starting...")
-
         val intent = Intent(ctx, LocationService::class.java)
         mLocationPendingIntent = PendingIntent.getService(ctx, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        Log.e("IntentService", "Getting...")
 
         val locationTask = mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationPendingIntent!!)
         locationTask.addOnFailureListener { e ->
@@ -219,7 +215,6 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
      * @return void
      */
     private fun stopLocationUpdates() {
-        Log.e("Location", "update stop")
         mFusedLocationClient.removeLocationUpdates(mLocationPendingIntent!!)
     }
 
@@ -255,7 +250,6 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             super.onLocationResult(locationResult)
             mCurrentLocation = locationResult.lastLocation
             mLastUpdateTime = DateFormat.getTimeInstance().format(Date())
-            Log.i("MAP", "new location lol" + mCurrentLocation.toString())
             val currentLongitude = mCurrentLocation!!.longitude
             val currentLatitude = mCurrentLocation!!.latitude
 
@@ -267,7 +261,6 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             )
 
             visitedLongLatLocations.add(Pair(currentLatitude, currentLongitude))
-            Log.i("Locations", visitedLongLatLocations.toString())
         }
     }
 

@@ -3,14 +3,11 @@ package com.example.omy.locations
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.forEach
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
@@ -26,7 +23,6 @@ import com.example.omy.reviews.ReviewsViewModel
 import kotlinx.coroutines.*
 import pl.aprilapps.easyphotopicker.ChooserType
 import pl.aprilapps.easyphotopicker.EasyImage
-import java.text.DateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -88,7 +84,6 @@ class LocationShowActivity : AppCompatActivity() {
         if (b != null) {
             position = b.getInt("position")
             if (position != -1) {
-                Log.e("loc_position", position.toString())
                 val textView = findViewById<TextView>(R.id.title_name)
                 val textViewTitleInfo = findViewById<TextView>(R.id.location_title)
                 val textViewLongitudeInfo = findViewById<TextView>(R.id.location_longitude)

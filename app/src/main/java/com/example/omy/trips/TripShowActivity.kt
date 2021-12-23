@@ -2,7 +2,6 @@ package com.example.omy.trips
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import com.example.omy.R
 import com.example.omy.data.Trip
@@ -61,7 +60,6 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
             tripWeather.text = element.tripWeather.toString()
             tripLocation.text = b.getInt("numOfLocations").toString()
             tripRoute = parseCoords(element.tripListCoords!!)
-            Log.e("COORDS", element.tripListCoords!!)
         }
 
         // Back to the previous activity function

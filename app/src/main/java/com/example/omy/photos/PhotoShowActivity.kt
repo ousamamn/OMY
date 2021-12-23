@@ -2,24 +2,17 @@ package com.example.omy.photos
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentActivity
-import com.example.omy.MainActivity
 import com.example.omy.R
 import com.example.omy.data.ImageDao
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class PhotoShowActivity : FragmentActivity() {
     private lateinit var backButton: ImageView
-    lateinit var daoObj: ImageDao
 
     val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->

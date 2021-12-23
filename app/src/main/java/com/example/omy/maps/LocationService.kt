@@ -27,7 +27,6 @@ class LocationService : Service {
     constructor() : super()
 
     override fun onCreate() {
-        Log.e("Location Service", "onCreate finished")
     }
 
     /**
@@ -43,10 +42,8 @@ class LocationService : Service {
             val locResults = LocationResult.extractResult(intent)
             for (location in locResults.locations) {
                 if (location == null) continue
-                Log.i("This is in service, New Location", "Current location: $location")
                 mCurrentLocation = location
                 mLastUpdateTime = DateFormat.getTimeInstance().format(Date())
-                Log.i("This is in service, MAP", "new location " + mCurrentLocation.toString())
                 if (MapCreatedActivity.getActivity() != null)
                     MapCreatedActivity.getActivity()?.runOnUiThread(Runnable {
                         try {

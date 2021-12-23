@@ -1,12 +1,9 @@
 package com.example.omy.trips
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.omy.MainRepository
-import com.example.omy.data.Location
 import com.example.omy.data.OMYDatabase
 import com.example.omy.data.Trip
 import com.example.omy.data.TripDao

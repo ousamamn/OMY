@@ -2,7 +2,6 @@ package com.example.omy.fragments
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -85,17 +84,15 @@ class PhotosFragment : Fragment() {
             }
 
             override fun onQueryTextChange(query: String?): Boolean {
+                query!!.trim()
                 var filteredPhotos = photosDataset as ArrayList<Image>
                 filteredPhotos.filter {
                     val allData = StringBuilder()
                         .append(it.id).append(it.imageDate)
                         .append(it.imageTitle).append(it.imageUri)
                         .toString().trim()
-                    Log.e("pdzzzzX", allData)
                     allData.replace(" ", "")
                         .contains(query!!, ignoreCase = true) }
-
-                Log.e("pdzzzz", filteredPhotos.toString())
 
                 mAdapter = PhotosAdapter(filteredPhotos) as RecyclerView.Adapter<RecyclerView.ViewHolder>
                 mRecyclerView.adapter = mAdapter
@@ -117,10 +114,8 @@ class PhotosFragment : Fragment() {
             if (newValue.isEmpty()) recyclerEmpty.visibility = View.VISIBLE
             else recyclerEmpty.visibility = View.GONE
 
-            Log.e("pdzzzz", photosDataset.toString())
-            val idx = photosDataset.get(0).id
-            val a = PhotosAdapter.items
-            //Log.e("pdaaa", a.toString())
+            //val idx = photosDataset.get(0).id
+            //val elems = PhotosAdapter.items
         })
     }
 
@@ -128,11 +123,9 @@ class PhotosFragment : Fragment() {
     /*private fun initSearchData() {
         this.locationsViewModel!!.getLocationPhotosToDisplay()!!.observe(viewLifecycleOwner, { newValueLocations ->
             locationsWithPhotosDataset = newValueLocations
-            Log.e("ococho", newValueLocations.toString())
 
             this.tripsViewModel!!.getTripsToDisplay()!!.observe(viewLifecycleOwner, { newValueTrip ->
                 //trips = newValue
-                Log.e("ococho2", newValueTrip.toString())
 
                 for (photo in photosDataset) {
                     val photoId = photo.id
