@@ -3,16 +3,21 @@ package com.example.omy.photos
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.omy.R
-import com.example.omy.data.ImageDao
+import com.example.omy.data.Image
+import com.example.omy.locations.LocationsViewModel
+import kotlinx.coroutines.runBlocking
 
 class PhotoShowActivity : FragmentActivity() {
     private lateinit var backButton: ImageView
+    private var locationsViewModel: LocationsViewModel? = null
 
     val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -27,11 +32,13 @@ class PhotoShowActivity : FragmentActivity() {
                     this.finish()
                 }
             }
-        }
+        }//location_detail
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.photo_activity)
+
+        locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
 
         // Get the data from the database and pass it into the activity
         val b: Bundle? = intent.extras
@@ -51,21 +58,52 @@ class PhotoShowActivity : FragmentActivity() {
     }
 
     /**
-     * Set up the data for a Photo
+     * Retrieve location names, populate PhotoDetail activity with Photo's data from the database
      *
      * @param position Photo's position/id
      * @return void
      */
-    private fun displayData(position: Int){
-        if (position != -1) {
-            val imageView = findViewById<ImageView>(R.id.photo_image)
-            val title = findViewById<TextView>(R.id.photo_title)
-            val dateTextView = findViewById<TextView>(R.id.photo_date)
-            val imageData = PhotosAdapter.items[position]
+    private fun displayData(position: Int) {
+        var photoLocationsList = ArrayList<Pair<Image, String?>>()
+        this.locationsViewModel!!.getLocationPhotosToDisplay()!!.observe(this, { newValueLocations ->
+            Log.v("bb", PhotosAdapter.items.toString())
+            for (loc in newValueLocations) {
+                val locationTitle = loc.location.locationTitle
+                val imageList = loc.imageIdList
+                for (image in imageList) {
+                    photoLocationsList.add(Pair(image, locationTitle))
+                }
+            }
 
-            imageView.setImageBitmap(imageData.thumbnail)
-            title.text = PhotosAdapter.items[position].imageTitle
-            dateTextView.text = PhotosAdapter.items[position].imageDate
+            if (position != -1) {
+                val imageView = findViewById<ImageView>(R.id.photo_image)
+                val title = findViewById<TextView>(R.id.photo_title)
+                val dateTextView = findViewById<TextView>(R.id.photo_date)
+                val imageLocationName = findViewById<TextView>(R.id.location_detail)
+                val imageData = PhotosAdapter.items[position]
+
+                imageView.setImageBitmap(imageData.thumbnail)
+                title.text = PhotosAdapter.items[position].imageTitle
+                dateTextView.text = PhotosAdapter.items[position].imageDate
+                imageLocationName.text = getLocationName(PhotosAdapter.items[position], photoLocationsList)
+            }
+        })
+    }
+
+    /**
+     * Based on the photo details, return its location's name (helper function)
+     *
+     * @param photo Image object
+     * @param photoLocPairs A pair list of photos and location names
+     * @return Name of the location the photo belongs to
+     */
+    private fun getLocationName(photo: Image, photoLocPairs: ArrayList<Pair<Image, String?>>): String {
+        var locationTitle = ""
+        for (pair in photoLocPairs) {
+            if (photo == pair.first) {
+                locationTitle = pair.second.toString()
+            }
         }
+        return locationTitle
     }
 }

@@ -34,7 +34,7 @@ class PhotosFragment : Fragment() {
     private var photosExtraInfoDataset: List<String> = ArrayList<String>()
 
     private var photosViewModel: PhotosViewModel? = null
-    private var locationsViewModel: LocationsViewModel? = null
+    //private var locationsViewModel: LocationsViewModel? = null
     private var tripsViewModel: TripsViewModel? = null
 
     val startForResult =
@@ -63,8 +63,8 @@ class PhotosFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
-        tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
+        //locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
+        //tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
 
         searchView = view.findViewById(R.id.photos_search_bar)
         recyclerEmpty = view.findViewById(R.id.no_photos)
