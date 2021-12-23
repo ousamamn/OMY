@@ -45,6 +45,4 @@ class PhotosViewModel(application: Application): AndroidViewModel(application) {
         var insertedID = photosRepository.createNewPhoto(photo)
         insertedID
         }
-
-
 }
