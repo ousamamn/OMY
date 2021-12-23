@@ -19,7 +19,6 @@ import com.example.omy.photos.LocationPhotosActivity
 import com.example.omy.photos.PhotosAdapter
 import com.example.omy.photos.PhotosViewModel
 import pl.aprilapps.easyphotopicker.*
-import java.util.ArrayList
 import com.example.omy.reviews.LocationAddReviewActivity
 import com.example.omy.reviews.LocationReviewsActivity
 import com.example.omy.reviews.LocationReviewsAdapter
@@ -27,6 +26,8 @@ import com.example.omy.reviews.ReviewsViewModel
 import kotlinx.coroutines.*
 import pl.aprilapps.easyphotopicker.ChooserType
 import pl.aprilapps.easyphotopicker.EasyImage
+import java.text.DateFormat
+import java.util.*
 
 class LocationShowActivity : AppCompatActivity() {
     private lateinit var mRecyclerViewReviews: RecyclerView
@@ -178,7 +179,8 @@ class LocationShowActivity : AppCompatActivity() {
             val fileNameAsTempTitle = mediaFile.file.name
             var image = Image(
                 imageTitle = fileNameAsTempTitle,
-                imageUri = mediaFile.file.absolutePath
+                imageUri = mediaFile.file.absolutePath,
+                imageDate = DateFormat.getTimeInstance().format(Date().toString().replace("-"," "))
             )
             // Update the database with the newly created object
             var id = insertData(image)

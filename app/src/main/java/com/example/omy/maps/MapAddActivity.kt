@@ -23,7 +23,8 @@ import com.example.omy.locations.LocationsViewModel
 import com.example.omy.photos.PhotosViewModel
 import kotlinx.coroutines.runBlocking
 import pl.aprilapps.easyphotopicker.*
-import java.util.ArrayList
+import java.text.DateFormat
+import java.util.*
 
 class MapAddActivity : AppCompatActivity() {
     private lateinit var displayTitle: TextView
@@ -132,7 +133,8 @@ class MapAddActivity : AppCompatActivity() {
             val fileNameAsTempTitle = mediaFile.file.name
             var image = Image(
                 imageTitle = fileNameAsTempTitle,
-                imageUri = mediaFile.file.absolutePath
+                imageUri = mediaFile.file.absolutePath,
+                imageDate = DateFormat.getTimeInstance().format(Date().toString().replace("-"," "))
             )
 
             // Update the database with the newly created object

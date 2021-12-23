@@ -28,10 +28,10 @@ class PhotosRepository(application: Application) {
 
         private class InsertAsyncTask(private val dao: ImageDao?) : ViewModel() {
             suspend fun insertInBackground(param: Image): Int {
-                var insertJob=0
+                var insertJob = 0
                 scope.async { insertJob = this@InsertAsyncTask.dao?.insert(param)!!.toInt()}.await()
                 return insertJob
-                }
+            }
         }
     }
 
@@ -51,6 +51,6 @@ class PhotosRepository(application: Application) {
      */
     suspend fun createNewPhoto(photo : Image):Int {
         return  InsertAsyncTask(photosDBDao).insertInBackground(photo)
-        }
+    }
 
 }

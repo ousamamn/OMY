@@ -61,9 +61,7 @@ class LocationsFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
 
         if (locationsDataset.isNotEmpty()) {
-            Log.i("TAG", locationsDataset[0]!!.locationTitle!!)
             LocationsAdapter(locationsDataset)
-            Log.i("another", TripsAdapter.items[0]!!.tripTitle!!)
         }
     }
 

@@ -3,6 +3,7 @@ package com.example.omy.fragments
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,8 +31,7 @@ class PhotosFragment : Fragment() {
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var recyclerEmpty: TextView
     private lateinit var mAdapter: Adapter<RecyclerView.ViewHolder>
-    private val photoDataset: MutableList<Image> = ArrayList<Image>()
-    private lateinit var easyImage: EasyImage
+    private var photosDataset: List<Image> = ArrayList<Image>()
     private var photosViewModel: PhotosViewModel? = null
 
     val startForResult =
@@ -52,9 +52,7 @@ class PhotosFragment : Fragment() {
         }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_photos, container, false)
     }
@@ -62,24 +60,39 @@ class PhotosFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        searchView = view.findViewById(R.id.photos_search_bar)
         recyclerEmpty = view.findViewById(R.id.no_photos)
         this.photosViewModel = ViewModelProvider(this)[PhotosViewModel::class.java]
-        mAdapter = PhotosAdapter(photoDataset) as Adapter<RecyclerView.ViewHolder>
+        mAdapter = PhotosAdapter(photosDataset) as Adapter<RecyclerView.ViewHolder>
         initData()
         mRecyclerView = view.findViewById(R.id.photos_list)
         val numberOfColumns = 4
         mRecyclerView.layoutManager = GridLayoutManager(requireContext(), numberOfColumns)
 
         mRecyclerView.adapter = mAdapter
+        Log.e("pd", PhotosAdapter.items.toString())
+        //Log.e("pd2", photosDataset[0].toString())
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(query: String?): Boolean {
+                return false
+            }
+        })
     }
 
     private fun initData() {
         this.photosViewModel!!.getPhotosToDisplay()?.observe(viewLifecycleOwner, {newValue ->
+            photosDataset = newValue
             mAdapter.notifyDataSetChanged()
-            mAdapter = PhotosAdapter(newValue) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+            mAdapter = PhotosAdapter(photosDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (newValue.isEmpty()) recyclerEmpty.visibility = View.VISIBLE
             else recyclerEmpty.visibility = View.GONE
+            //Log.e("pd", mAdapter.items)
+
         })
     }
-
 }

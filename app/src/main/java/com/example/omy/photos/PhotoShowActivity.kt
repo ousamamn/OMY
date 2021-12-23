@@ -55,7 +55,6 @@ class PhotoShowActivity : FragmentActivity() {
             onBackPressed()
             finish()
         }
-
     }
 
     /**
@@ -67,14 +66,12 @@ class PhotoShowActivity : FragmentActivity() {
         if (position != -1) {
             val imageView = findViewById<ImageView>(R.id.photo_image)
             val title = findViewById<TextView>(R.id.photo_title)
-            val descriptionTextView = findViewById<TextView>(R.id.description_detail)
             val dateTextView = findViewById<TextView>(R.id.photo_date)
             val imageData = PhotosAdapter.items[position]
 
             imageView.setImageBitmap(imageData.thumbnail)
             title.text = PhotosAdapter.items[position].imageTitle
-            descriptionTextView.text = PhotosAdapter.items[position].imageDescription
-            //dateTextView.text = PhotosAdapter.locationDate
+            dateTextView.text = PhotosAdapter.items[position].imageDate
         }
     }
 }
