@@ -1,10 +1,7 @@
 package com.example.omy.photos
 
 import android.app.Application
-import android.util.Log
-import androidx.core.graphics.scaleMatrix
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.omy.MainRepository
 import com.example.omy.data.*

@@ -135,5 +135,4 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
             return inSampleSize
         }
     }
-
 }
