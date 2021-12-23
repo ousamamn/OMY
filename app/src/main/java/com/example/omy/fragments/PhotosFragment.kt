@@ -70,8 +70,6 @@ class PhotosFragment : Fragment() {
         mRecyclerView.layoutManager = GridLayoutManager(requireContext(), numberOfColumns)
 
         mRecyclerView.adapter = mAdapter
-        Log.e("pd", PhotosAdapter.items.toString())
-        //Log.e("pd2", photosDataset[0].toString())
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -87,12 +85,11 @@ class PhotosFragment : Fragment() {
     private fun initData() {
         this.photosViewModel!!.getPhotosToDisplay()?.observe(viewLifecycleOwner, {newValue ->
             photosDataset = newValue
+            Log.e("pdzzzz", photosDataset.toString())
             mAdapter.notifyDataSetChanged()
-            mAdapter = PhotosAdapter(photosDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+            mAdapter = PhotosAdapter(newValue) as RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (newValue.isEmpty()) recyclerEmpty.visibility = View.VISIBLE
             else recyclerEmpty.visibility = View.GONE
-            //Log.e("pd", mAdapter.items)
-
         })
     }
 }

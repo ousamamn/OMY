@@ -24,6 +24,9 @@ import com.example.omy.photos.PhotosViewModel
 import kotlinx.coroutines.runBlocking
 import pl.aprilapps.easyphotopicker.*
 import java.text.DateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.*
 
 class MapAddActivity : AppCompatActivity() {
@@ -134,7 +137,7 @@ class MapAddActivity : AppCompatActivity() {
             var image = Image(
                 imageTitle = fileNameAsTempTitle,
                 imageUri = mediaFile.file.absolutePath,
-                imageDate = DateFormat.getTimeInstance().format(Date().toString().replace("-"," "))
+                imageDate = LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM))
             )
 
             // Update the database with the newly created object

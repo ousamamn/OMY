@@ -27,6 +27,9 @@ import kotlinx.coroutines.*
 import pl.aprilapps.easyphotopicker.ChooserType
 import pl.aprilapps.easyphotopicker.EasyImage
 import java.text.DateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.*
 
 class LocationShowActivity : AppCompatActivity() {
@@ -180,7 +183,7 @@ class LocationShowActivity : AppCompatActivity() {
             var image = Image(
                 imageTitle = fileNameAsTempTitle,
                 imageUri = mediaFile.file.absolutePath,
-                imageDate = DateFormat.getTimeInstance().format(Date().toString().replace("-"," "))
+                imageDate = LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM))
             )
             // Update the database with the newly created object
             var id = insertData(image)
