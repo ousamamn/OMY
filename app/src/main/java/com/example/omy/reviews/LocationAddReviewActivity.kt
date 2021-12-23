@@ -35,7 +35,7 @@ class LocationAddReviewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.location_add_review_acitivity)
 
-        /* Get the data from the database and pass it into the activity */
+        // Get the data from the database and pass it into the activity
         val b: Bundle? = intent.extras
         reviewsViewModel = ViewModelProvider(this)[ReviewsViewModel::class.java]
         if (b != null) {
@@ -52,13 +52,13 @@ class LocationAddReviewActivity : AppCompatActivity() {
         sendButton = findViewById(R.id.review_send_button)
         ratingEditText.filters = arrayOf<InputFilter>(MinMaxFilter(1,5))
 
-        /* Cancel the review adding activity and go back to previous page */
+        // Cancel the review adding activity and go back to previous page
         cancelButton.setOnClickListener {
             onBackPressed()
             finish()
         }
 
-        /* Send and save the review to database */
+        // Send and save the review to database
         sendButton.setOnClickListener {
             if (TextUtils.isEmpty(titleEditText.text.toString())) {
                 Toast.makeText(
@@ -93,8 +93,9 @@ class LocationAddReviewActivity : AppCompatActivity() {
     }
 
     /**
-     * Used for filtering the number or alphabet that can be put in the text box
+     * Filtering and limit the number or alphabet that can be put in the text box
      *
+     * @return void
      */
     inner class MinMaxFilter() : InputFilter {
         private var intMin: Int = 0
@@ -123,7 +124,10 @@ class LocationAddReviewActivity : AppCompatActivity() {
     }
 
     /**
-     * Function to hide soft keyboard when not in use
+     * Hide soft keyboard when not in use
+     *
+     * @param locationAddReviewActivity A LocationAddReviewActivity element
+     * @return void
      */
     private fun hideSoftKeyboard(locationAddReviewActivity: LocationAddReviewActivity) {
         val inputMethodManager: InputMethodManager = getSystemService(
@@ -137,6 +141,12 @@ class LocationAddReviewActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Set up the view to touch listener
+     *
+     * @param view A view
+     * @return void
+     */
     @SuppressLint("ClickableViewAccessibility")
     private fun setupUI(view: View) {
 
@@ -158,7 +168,9 @@ class LocationAddReviewActivity : AppCompatActivity() {
     }
 
     /**
-     * Function to save review to database
+     * Save review to database
+     *
+     * @return void
      */
     private fun saveReviewToDB() {
         val review = Review(reviewTitle = titleEditText.text.toString(),

@@ -30,6 +30,13 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
         context = cont
     }
 
+    /**
+     * Function to update the list of photos
+     *
+     * @param parent A ViewGroup for photos
+     * @param viewType Adapter's position
+     * @return the list of photos
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         //Inflate the layout, initialize the View Holder
         val v: View = LayoutInflater.from(parent.context)
@@ -40,9 +47,11 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
     }
 
     /**
-     * Function to get and display the photos
+     * Sets up the view holder for a Photo
      *
-     * @return the list of photos
+     * @param holder Photo's ViewHolder
+     * @param position Photo's position/id
+     * @return void
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //Use the provided View Holder on the onCreateViewHolder method to populate the
@@ -100,9 +109,11 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
         }
 
         /**
-         * Function to calculate the width and height of photo
+         * Calculate the width and height of photo
          *
-         * @param the height and width of image
+         * @param options BitmapFactory.Options
+         * @param reqHeight Photo's height
+         * @param reqWidth Photo's width
          * @return the size of the image
          */
         private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
