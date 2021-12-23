@@ -26,7 +26,6 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var tripsSortSpinner: Spinner
     private var tripsDataset: List<Trip?> = ArrayList<Trip?>()
     private var sortedTripsDataset: List<Trip?> = ArrayList<Trip?>()
-
     private var tripsViewModel: TripsViewModel? = null
     private var locationsViewModel: LocationsViewModel? = null
     private lateinit var mRecyclerView: RecyclerView
@@ -49,7 +48,7 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
         //val location = Location(id=55,locationTitle = "title",locationDescription = "description",locationLatitude = 1.2,locationLongitude = 1.1,locationTripId = 34)
 
-        /*  Get list of trips */
+        //  Get list of trips
         mRecyclerView = view.findViewById(R.id.trips_list)
         mLayoutManager = LinearLayoutManager(requireContext())
         mRecyclerView.layoutManager = mLayoutManager
@@ -61,7 +60,7 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
             TripsAdapter(tripsDataset,tripandLocations)
         }
 
-        /*  Locations Sort Functionality */
+        //  Locations Sort Functionality
         tripsSortSpinner = view.findViewById(R.id.trips_filters_spinner)
         tripsSortSpinner.onItemSelectedListener = this
         ArrayAdapter.createFromResource(requireContext(), R.array.sort_array,
@@ -72,6 +71,11 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
+    /**
+     * Initialize the trips data from database
+     *
+     * @return List of trips data
+     */
     private fun initData() {
         this.locationsViewModel!!.getLocationsToDisplay()!!.observe(viewLifecycleOwner,{ newValue ->
             locations = newValue as MutableList<Location?>
@@ -92,6 +96,15 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         })
     }
 
+    /**
+     * Select a specific item from a list
+     *
+     * @param parent A AdapterView for filter item
+     * @param view Filter view box
+     * @param position filter item's position
+     * @param id trip's id
+     * @return void
+     */
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         if(tripsDataset.isNotEmpty()) {
             when (position) {
@@ -121,6 +134,12 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         mRecyclerView.adapter = mAdapter
     }
 
+    /**
+     * Select for nothing
+     *
+     * @param p0 A AdapterView for nothing selected
+     * @return void
+     */
     override fun onNothingSelected(parent: AdapterView<*>?) {
         mAdapter = TripsAdapter(tripsDataset,tripandLocations) as RecyclerView.Adapter<RecyclerView.ViewHolder>
         mRecyclerView.adapter = mAdapter

@@ -34,7 +34,6 @@ class PhotosFragment : Fragment() {
     private var tripsDataset: List<LocationWithImages> = ArrayList<LocationWithImages>()
     private var photosExtraInfoDataset: List<String> = ArrayList<String>()
 
-
     private var photosViewModel: PhotosViewModel? = null
     private var locationsViewModel: LocationsViewModel? = null
     private var tripsViewModel: TripsViewModel? = null
@@ -98,7 +97,6 @@ class PhotosFragment : Fragment() {
 
                 Log.e("pdzzzz", filteredPhotos.toString())
 
-                //if ()
                 mAdapter = PhotosAdapter(filteredPhotos) as RecyclerView.Adapter<RecyclerView.ViewHolder>
                 mRecyclerView.adapter = mAdapter
                 return true
@@ -106,6 +104,11 @@ class PhotosFragment : Fragment() {
         })
     }
 
+    /**
+     * Initialize the photos data from database
+     *
+     * @return List of photos data
+     */
     private fun initData() {
         this.photosViewModel!!.getPhotosToDisplay()?.observe(viewLifecycleOwner, {newValue ->
             photosDataset = newValue
@@ -118,7 +121,6 @@ class PhotosFragment : Fragment() {
             val idx = photosDataset.get(0).id
             val a = PhotosAdapter.items
             //Log.e("pdaaa", a.toString())
-
         })
     }
 

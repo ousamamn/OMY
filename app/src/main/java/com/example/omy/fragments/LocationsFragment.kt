@@ -23,12 +23,12 @@ class LocationsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var locationsSortSpinner: Spinner
     private var locationsDataset: List<Location?> = ArrayList<Location?>()
     private var sortedLocationsDataset: List<Location?> = ArrayList<Location?>()
-
-    private var locationsViewModel: LocationsViewModel? = null
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var recyclerEmpty: TextView
     private lateinit var mAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
     private lateinit var mLayoutManager: RecyclerView.LayoutManager
+
+    private var locationsViewModel: LocationsViewModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -40,7 +40,7 @@ class LocationsFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         recyclerEmpty = view.findViewById(R.id.no_locations)
 
-        /*  Locations Sort Functionality */
+        //  Locations Sort Functionality
         locationsSortSpinner = view.findViewById(R.id.locations_filters_spinner)
         locationsSortSpinner.onItemSelectedListener = this
         ArrayAdapter.createFromResource(requireContext(), R.array.sort_array,
@@ -52,19 +52,22 @@ class LocationsFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
 
-        /*  Get list of locations */
+        //  Get list of locations
         mRecyclerView = view.findViewById(R.id.locations_list)
         mLayoutManager = LinearLayoutManager(requireContext())
         mRecyclerView.layoutManager = mLayoutManager
         mAdapter = LocationsAdapter(locationsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
         initData()
-
-
         if (locationsDataset.isNotEmpty()) {
             LocationsAdapter(locationsDataset)
         }
     }
 
+    /**
+     * Initialize the locations data from database
+     *
+     * @return List of locations data
+     */
     private fun initData() {
         this.locationsViewModel!!.getLocationsToDisplay()!!.observe(viewLifecycleOwner, { newValue ->
             locationsDataset = newValue
@@ -77,6 +80,15 @@ class LocationsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         })
     }
 
+    /**
+     * Select a specific item from a list
+     *
+     * @param parent A AdapterView for filter item
+     * @param view Filter view box
+     * @param position filter item's position
+     * @param id location's id
+     * @return void
+     */
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         if(locationsDataset.isNotEmpty()) {
             when (position) {
@@ -106,6 +118,12 @@ class LocationsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         mRecyclerView.adapter = mAdapter
     }
 
+    /**
+     * Select for nothing
+     *
+     * @param p0 A AdapterView for nothing selected
+     * @return void
+     */
     override fun onNothingSelected(p0: AdapterView<*>?) {
         mAdapter = LocationsAdapter(locationsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
         mRecyclerView.adapter = mAdapter
