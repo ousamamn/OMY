@@ -13,8 +13,11 @@ import java.text.DateFormat
 import java.util.*
 
 /*
- * Implementation of service
- */
+* LocationService.kt
+* Implementation of service
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class LocationService : Service {
     private var mCurrentLocation: Location? = null
     private var mLastUpdateTime: String? = null
@@ -27,18 +30,23 @@ class LocationService : Service {
     constructor() : super()
 
     override fun onCreate() {
-        Log.e("Location Service", "onCreate finished")
     }
 
+    /**
+     * Initialize the activity
+     *
+     * @param intent the parameters passed from previous activity or fragment
+     * @param flags integer
+     * @param startId integer/id
+     * @return startMode
+     */
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (LocationResult.hasResult(intent!!)) {
             val locResults = LocationResult.extractResult(intent)
             for (location in locResults.locations) {
                 if (location == null) continue
-                Log.i("This is in service, New Location", "Current location: $location")
                 mCurrentLocation = location
                 mLastUpdateTime = DateFormat.getTimeInstance().format(Date())
-                Log.i("This is in service, MAP", "new location " + mCurrentLocation.toString())
                 if (MapCreatedActivity.getActivity() != null)
                     MapCreatedActivity.getActivity()?.runOnUiThread(Runnable {
                         try {

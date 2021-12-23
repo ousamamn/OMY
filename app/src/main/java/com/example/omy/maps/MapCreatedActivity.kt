@@ -41,7 +41,16 @@ import java.util.*
 import kotlin.collections.ArrayList
 import java.util.UUID
 
-
+/*
+* MapCreatedActivity.kt
+* This file provides the users a Google map plus
+  self-tracking function along with
+  end the trip button, stop self-tracking button,
+  title for the trip, temperature and add
+  location name button.
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     private var defaultLocation: Array<Double> = arrayOf(53.38, -1.48)
     private lateinit var mLocationRequest: LocationRequest
@@ -65,7 +74,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         setActivity(this)
         setContext(this)
 
-        /* Receive information from HomeFragment */
+        // Receive information from HomeFragment
         tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
         locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
         val b: Bundle? = intent.extras
@@ -78,8 +87,11 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             visitedLongLatLocations.add(Pair(b.getDouble("base_latitude"),b.getDouble("base_longitude")))
         }
 
+        // Display the Google map
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
+
+        // Start the locating function button
         startLocatingButton = findViewById<View>(R.id.map_start_location) as Button
         startLocatingButton.setOnClickListener {
             startLocationUpdates()
@@ -87,6 +99,8 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             startLocatingButton.visibility = View.GONE
             stopLocatingButton.visibility = View.VISIBLE
         }
+
+        // Pause the locating function button
         stopLocatingButton = findViewById<View>(R.id.map_pause_location) as Button
         stopLocatingButton.setOnClickListener {
             stopLocationUpdates()
@@ -94,7 +108,8 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             startLocatingButton.visibility = View.VISIBLE
         }
 
-        endTripButton = findViewById<Button>(R.id.map_end_trip)
+        // End and save the trip to database button
+        endTripButton = findViewById(R.id.map_end_trip)
         endTripButton.setOnClickListener {
             MaterialAlertDialogBuilder(this)
                 .setTitle("Are you sure to finish and save the trip?")
@@ -116,8 +131,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
                         var i =0
                     }
 
-
-                    /* Pass parameters to the TripShowActivity */
+                    // Pass parameters to the TripShowActivity
                     for (pair  in locationImages){
                         pair.first.locationTripId = uuid.toString()
                         val locationID = locationsViewModel!!.createNewLocation(pair.first)
@@ -136,9 +150,10 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
 
         }
 
+        // Add photo and its detail button
         addButton = findViewById(R.id.add_picture)
         addButton.setOnClickListener() {
-            /* Pass parameters to the MapAddActivity */
+            // Pass parameters to the MapAddActivity
             val intent = Intent(this, MapAddActivity::class.java)
             val extras = Bundle()
             extras.putString("trip_title", displayTitle.text.toString())
@@ -152,6 +167,11 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    /**
+     * Check permissions for the map
+     *
+     * @return void
+     */
     @SuppressLint("MissingPermission")
     private fun checkpermission(){
         if (ActivityCompat.checkSelfPermission(
@@ -181,14 +201,15 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    /**
+     * Start updating the location
+     *
+     * @return void
+     */
     @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
-        Log.e("Location update", "Starting...")
-
         val intent = Intent(ctx, LocationService::class.java)
         mLocationPendingIntent = PendingIntent.getService(ctx, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        Log.e("IntentService", "Getting...")
 
         val locationTask = mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationPendingIntent!!)
         locationTask.addOnFailureListener { e ->
@@ -198,14 +219,22 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         locationTask.addOnCompleteListener {
             Log.d("MapsActivity", "starting gps successful!")
         }
-
     }
 
+    /**
+     * Stop updating the location
+     *
+     * @return void
+     */
     private fun stopLocationUpdates() {
-        Log.e("Location", "update stop")
         mFusedLocationClient.removeLocationUpdates(mLocationPendingIntent!!)
     }
 
+    /**
+     * Continue using the page
+     *
+     * @return void
+     */
     override fun onResume() {
         super.onResume()
         mLocationRequest = create()
@@ -223,11 +252,16 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     private val ACCESS_FINE_LOCATION = 123
 
     private var mLocationCallback: LocationCallback = object : LocationCallback() {
+        /**
+         * Give the information of the current location
+         *
+         * @param locationResult LocationResult's element
+         * @return void
+         */
         override fun onLocationResult(locationResult: LocationResult) {
             super.onLocationResult(locationResult)
             mCurrentLocation = locationResult.lastLocation
             mLastUpdateTime = DateFormat.getTimeInstance().format(Date())
-            Log.i("MAP", "new location lol" + mCurrentLocation.toString())
             val currentLongitude = mCurrentLocation!!.longitude
             val currentLatitude = mCurrentLocation!!.latitude
 
@@ -239,10 +273,17 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             )
 
             visitedLongLatLocations.add(Pair(currentLatitude, currentLongitude))
-            Log.i("Locations", visitedLongLatLocations.toString())
         }
     }
 
+    /**
+     * Initialize the reviews data from database
+     *
+     * @param requestCode integer
+     * @param permissions array of permissions
+     * @param grantResults array of integer
+     * @return void
+     */
     @SuppressLint("MissingPermission")
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -259,12 +300,24 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    /**
+     * Display a map
+     *
+     * @param GoogleMap A GoogleMap object
+     * @return void
+     */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         val sheffield = LatLng(defaultLocation[0], defaultLocation[1])
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sheffield, 16.0f))
     }
 
+    /**
+     * Set a context
+     *
+     * @param context A Context object
+     * @return context
+     */
     private fun setContext(context: Context) {
         ctx = context
     }
@@ -274,14 +327,30 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         private lateinit var mMap: GoogleMap
         var visitedLongLatLocations = ArrayList<Pair<Double, Double>>()
 
+        /**
+         * Fetch a specific activity
+         *
+         * @return activity
+         */
         fun getActivity(): AppCompatActivity? {
             return activity
         }
 
+        /**
+         * Set up a specific activity
+         *
+         * @param newActivity an AppCompatActivity activity
+         * @return activity
+         */
         fun setActivity(newActivity: AppCompatActivity) {
             activity = newActivity
         }
 
+        /**
+         * Fetch a Google map
+         *
+         * @return a Google map
+         */
         fun getMap(): GoogleMap {
             return mMap
         }
@@ -290,6 +359,11 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         var locationImages:MutableList<Pair<com.example.omy.data.Location,List<Image>>> = ArrayList()
     }
 
+    /**
+     * Save trip to database
+     *
+     * @return void
+     */
     private fun saveTripToDB() {
         val tripTitle = displayTitle.text.toString()
         val tripDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MMM-dd HH:mm"))
@@ -304,6 +378,12 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         TripsAdapter.items.add(trip)
     }
 
+    /**
+     * Calculate the distance in a trip
+     *
+     * @param visitedLatLongs List of latitude and longitude
+     * @return the total distance of the trip
+     */
     private fun calculateDistance(visitedLatLongs: List<Pair<Double,Double>>): Double {
         var sumOfDistances = 0.0F
         for (i in visitedLatLongs.indices) {
@@ -316,6 +396,13 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         return "%.2f".format(sumOfDistances / 1000).toDouble()
     }
+
+    /**
+     * Create the coordinate based on the latitude and longitude
+     *
+     * @param visitedLongLatLocations List of latitude and longitude
+     * @return the coordinates of the location
+     */
     private fun makeCoords(visitedLongLatLocations: List<Pair<Double, Double>>):String{
         var result =""
         for (coordinates in visitedLongLatLocations){

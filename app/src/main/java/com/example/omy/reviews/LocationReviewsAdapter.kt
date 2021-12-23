@@ -10,6 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
 import com.example.omy.data.Review
 
+/*
+* LocationReviewsAdapter.kt
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class LocationReviewsAdapter: RecyclerView.Adapter<LocationReviewsAdapter.ViewHolder> {
     private lateinit var context: Context
     private var rating: Int = 0
@@ -25,6 +30,13 @@ class LocationReviewsAdapter: RecyclerView.Adapter<LocationReviewsAdapter.ViewHo
         context = cont
     }
 
+    /**
+     * Function to update the list of reviews
+     *
+     * @param parent A ViewGroup for reviews
+     * @param viewType Adapter's position
+     * @return List of reviews
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         //Inflate the layout, initialize the View Holder
         val v: View = LayoutInflater.from(parent.context).inflate(R.layout.location_review_list_item,
@@ -34,6 +46,13 @@ class LocationReviewsAdapter: RecyclerView.Adapter<LocationReviewsAdapter.ViewHo
         return holder
     }
 
+    /**
+     * Sets up the view holder for a Review
+     *
+     * @param holder Review's ViewHolder
+     * @param position Review's position/id
+     * @return void
+     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = reviews[position]?.reviewTitle
         holder.description.text = reviews[position]?.reviewDescription
@@ -45,6 +64,11 @@ class LocationReviewsAdapter: RecyclerView.Adapter<LocationReviewsAdapter.ViewHo
         }
     }
 
+    /**
+     * Function to get review number count
+     *
+     * @return the number count of reviews
+     */
     override fun getItemCount(): Int {
         return reviews.size
     }

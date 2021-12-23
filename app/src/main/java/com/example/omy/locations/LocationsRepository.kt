@@ -2,16 +2,19 @@ package com.example.omy.locations
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.omy.MainRepository
 import com.example.omy.data.*
-import com.example.omy.photos.PhotosRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
+/*
+* LocationsRepository.kt
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class LocationsRepository(application: Application) {
     private var locationsDBDao: LocationDao? = null
     private var photosLocationDBDao: ImageLocationDao? = null
@@ -46,20 +49,41 @@ class LocationsRepository(application: Application) {
         }
     }
 
-
+    /**
+     * Get all the existing locations
+     *
+     * @return all locations
+     */
     fun getLocations(): LiveData<List<Location?>>? {
         return locationsDBDao?.getAll()
     }
 
+    /**
+     * Creates a new location, saving it to the database
+     *
+     * @param location A location to be saved
+     * @return void
+     */
     suspend fun createNewLocation(location : Location):Int {
         // somehow create a new trip
         return InsertAsyncTask(locationsDBDao).insertInBackground(location)
     }
+
+    /**
+     * Get all the existing locations' photos
+     *
+     * @return all locations' photos
+     */
     fun getLocationPhotos():LiveData<List<LocationWithImages>>? {
         return photosLocationDBDao?.getLocationWithImages()
     }
 
-
+    /**
+     * Creates a new photo for a specific location, saving it to the database
+     *
+     * @param photoLocation A photo for a specific location to be saved
+     * @return void
+     */
     suspend fun createNewPhotoLocation(photoLocation : ImageLocation) {
         InsertAsyncTask2(photosLocationDBDao).insertInBackground2(photoLocation)
     }

@@ -2,7 +2,6 @@ package com.example.omy.reviews
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.omy.MainRepository
 import com.example.omy.data.*
@@ -10,10 +9,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/*
+* ReviewsRepository.kt
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class ReviewsRepository(application: Application) {
     private var reviewsDBDao: ReviewDao? = null
-
     private val databaseObj:OMYDatabase? = MainRepository(application).databaseObj
+
     init {
         if (databaseObj != null) {
             reviewsDBDao = databaseObj.ReviewDao()
@@ -33,12 +37,23 @@ class ReviewsRepository(application: Application) {
         }
     }
 
+    /**
+     * Get all the existing reviews
+     *
+     * @return all reviews
+     */
     fun getReviews(): LiveData<List<Review?>>? {
         return reviewsDBDao?.getAll()
     }
 
+    /**
+     * Creates a new review, saving it to the database
+     *
+     * @param review A review to be saved
+     * @return void
+     */
     suspend fun createNewReview(review: Review) {
-        // somehow create a new trip
+        // somehow create a new review
         InsertAsyncTask(reviewsDBDao).insertInBackground(review)
     }
 }

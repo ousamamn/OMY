@@ -6,6 +6,7 @@
     android:layout_marginBottom="20dp"
     android:background="@drawable/rounded_corners_white_background"
     android:orientation="vertical"
+    android:clickable="false"
     android:padding="20dp">
 
     <LinearLayout

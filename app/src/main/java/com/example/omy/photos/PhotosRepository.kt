@@ -1,19 +1,22 @@
 package com.example.omy.photos
 
 import android.app.Application
-import android.util.Log
-import androidx.core.graphics.scaleMatrix
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.omy.MainRepository
 import com.example.omy.data.*
 import kotlinx.coroutines.*
 
+/*
+* PhotosRepository.kt
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class PhotosRepository(application: Application) {
     private var photosDBDao: ImageDao? = null
     private var photosLocationDBDao: ImageLocationDao? = null
     private val databaseObj:OMYDatabase? = MainRepository(application).databaseObj
+
     init {
         if (databaseObj != null) {
             photosDBDao = databaseObj.ImageDao()
@@ -21,8 +24,6 @@ class PhotosRepository(application: Application) {
             photosLocationDBDao = databaseObj.ImageLocationDao()
         }
     }
-
-
 
     companion object {
         private val scope = CoroutineScope(Dispatchers.IO)
@@ -36,13 +37,21 @@ class PhotosRepository(application: Application) {
         }
     }
 
-
-
+    /**
+     * Get all the existing photos
+     *
+     * @return all photos
+     */
     fun getPhotos(): LiveData<List<Image>>? {
         return photosDBDao?.getAll()
     }
 
-
+    /**
+     * Creates a new photo, saving it to the database
+     *
+     * @param photo A photo to be saved
+     * @return void
+     */
     suspend fun createNewPhoto(photo : Image):Int {
         return  InsertAsyncTask(photosDBDao).insertInBackground(photo)
         }

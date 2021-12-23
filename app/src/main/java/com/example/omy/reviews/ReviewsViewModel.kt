@@ -9,7 +9,11 @@ import kotlinx.coroutines.launch
 import androidx.lifecycle.viewModelScope
 import com.example.omy.data.Review
 
-
+/*
+* ReviewsViewModel.kt
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class ReviewsViewModel(application: Application): AndroidViewModel(application) {
     private var reviewsRepository: ReviewsRepository = ReviewsRepository(application)
     private var reviewsToDisplay: LiveData<List<Review?>>? = null
@@ -18,6 +22,11 @@ class ReviewsViewModel(application: Application): AndroidViewModel(application) 
         this.reviewsToDisplay = this.reviewsRepository.getReviews()
     }
 
+    /**
+     * Fetch specific reviews
+     *
+     * @return List of reviews data
+     */
     fun getReviewsToDisplay(): LiveData<List<Review?>>? {
         if (this.reviewsToDisplay == null) {
             this.reviewsToDisplay = MutableLiveData()
@@ -25,6 +34,12 @@ class ReviewsViewModel(application: Application): AndroidViewModel(application) 
         return this.reviewsToDisplay
     }
 
+    /**
+     * Launches a new review and creates it in the database
+     *
+     * @param review A review
+     * @return void
+     */
     fun createNewReview(review: Review) {
         viewModelScope.launch(Dispatchers.IO) { reviewsRepository.createNewReview(review) }
         }

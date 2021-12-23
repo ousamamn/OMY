@@ -2,7 +2,6 @@ package com.example.omy.trips
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +18,14 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 
+/*
+* TripShowActivity.kt
+* This file shows the detail of a trip
+  and provides with Google map
+  that will show the location's photo.
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListener {
     private lateinit var mMap: GoogleMap
     private lateinit var element: Trip
@@ -36,11 +43,11 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
         super.onCreate(savedInstanceState)
         setContentView(R.layout.trip_activity)
 
-        /* Display a Google map in the activity */
+        // Display a Google map in the activity
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
 
-        /* Get the data from the database and pass it into the activity */
+        // Get the data from the database and pass it into the activity
         val b: Bundle? = intent.extras
         if (b != null) {
             val tripTitle = findViewById<TextView>(R.id.trip_title)
@@ -71,15 +78,15 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
             tripLocation.text = b.getInt("numOfLocations").toString()
             tripRoute = parseCoords(element.tripListCoords!!)
 
-
             mRecyclerViewLocations = findViewById(R.id.trip_locations)
             mLocationsLayoutManager = LinearLayoutManager(this)
             mRecyclerViewLocations.layoutManager = mLocationsLayoutManager
             mLocationsAdapter = LocationsAdapter(TripsAdapter.tripAndLocation[element.id] as List<Location?>) as RecyclerView.Adapter<RecyclerView.ViewHolder>
             mRecyclerViewLocations.adapter = mLocationsAdapter
+
         }
 
-        /* Back to the previous activity function */
+        // Back to the previous activity function
         backButton = findViewById(R.id.back_to_previous_button)
         backButton.setOnClickListener {
             onBackPressed()
@@ -87,7 +94,12 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
         }
     }
 
-    // Function to create Google map
+     /**
+     * Display a map and the trips route on a map
+     *
+     * @param GoogleMap A GoogleMap object
+     * @return void
+     */
     override fun onMapReady(googleMap: GoogleMap) {
         val locations = TripsAdapter.tripAndLocation[element.id]
         val latLngLocations = convertToLatLng(tripRoute)
@@ -122,18 +134,34 @@ class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickL
             .title("Ending point").snippet(tripMapTitle))
     }
 
+    /**
+     * Specify behaviour of the app after a location's marker is clicked
+     *
+     * @param marker A marker element
+     * @return false
+     */
     override fun onMarkerClick(marker: Marker): Boolean {
         // TODO: (Maybe I should add it too, but not sure since we'll have a list of locations down below)
         return false
     }
 
-    // Function to convert the latitude and longitude
+    /**
+     * Converts pairs of double values to LatLng pairs
+     *
+     * @param array List of Pairs of Doubles
+     * @return an array list of latitude and longitude
+     */
     private fun convertToLatLng(array: MutableList<Pair<Double,Double>>): MutableList<LatLng> {
         return array.map { val (latitude, longitude) = it
             LatLng(latitude, longitude) } as MutableList<LatLng>
     }
 
-    // Function to store the coordinates based on the longitude and latitude
+    /**
+     * Parses a string of corrdinates and returns pairs of LatLng values
+     *
+     * @param coords A string of coordinates (latitudes and longitudes) separated by "!"
+     * @return list of coordinates
+     */
     private fun parseCoords(coords:String): MutableList<Pair<Double, Double>> {
         val coordListPairs: MutableList<Pair<Double,Double>> = ArrayList()
         val coordsList = coords.split("!")

@@ -2,21 +2,20 @@ package com.example.omy.trips
 
 import android.content.Context
 import android.content.Intent
-import android.media.Image
-import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
 import com.example.omy.data.Location
 import com.example.omy.data.Trip
-import com.example.omy.photos.PhotosAdapter
-import org.w3c.dom.Text
 
+/*
+* TripsAdapter.kt
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     private lateinit var context: Context
 
@@ -29,6 +28,13 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         context = cont
     }
 
+    /**
+     * Function to update the list of trips
+     *
+     * @param parent A ViewGroup for trips
+     * @param viewType Adapter's position
+     * @return the list of trips
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         //Inflate the layout, initialize the View Holder
         val v: View = LayoutInflater.from(parent.context).inflate(R.layout.trip_list_item,
@@ -38,14 +44,33 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         return holder
     }
 
+    /**
+     * Function to update the list of trips
+     *
+     * @param tripList A list of trips
+     * @return the list of trips data
+     */
     fun updateTripList(tripList: MutableList<Trip?>) {
         items = tripList
     }
 
-    fun addTrip(trip:Trip){
+    /**
+     * Function to add trip
+     *
+     * @param trip A Trip
+     * @return the trip data
+     */
+    fun addTrip(trip: Trip){
         items.add(trip)
     }
 
+    /**
+     * Sets up the view holder for a trip
+     *
+     * @param holder Trip's ViewHolder
+     * @param position Trip's position/id
+     * @return void
+     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = items[position]?.tripTitle
         holder.date.text = items[position]?.tripDate
@@ -59,6 +84,11 @@ class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
         }
     }
 
+    /**
+     * Function to get item number count
+     *
+     * @return the number count of item
+     */
     override fun getItemCount(): Int {
         return items.size
     }

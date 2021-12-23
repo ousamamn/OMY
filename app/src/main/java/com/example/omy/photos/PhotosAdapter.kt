@@ -16,6 +16,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
+/*
+* PhotosAdapter.kt
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
     private lateinit var context: Context
 
@@ -30,6 +35,13 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
         context = cont
     }
 
+    /**
+     * Function to update the list of photos
+     *
+     * @param parent A ViewGroup for photos
+     * @param viewType Adapter's position
+     * @return the list of photos
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         //Inflate the layout, initialize the View Holder
         val v: View = LayoutInflater.from(parent.context)
@@ -39,14 +51,20 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
         return holder
     }
 
-
+    /**
+     * Sets up the view holder for a Photo
+     *
+     * @param holder Photo's ViewHolder
+     * @param position Photo's position/id
+     * @return void
+     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //Use the provided View Holder on the onCreateViewHolder method to populate the
         // current row on the RecyclerView
         if (items[position].thumbnail == null) {
             items[position].let {
                 scope.launch {
-                    val bitmap = decodeSampledBitmapFromResource(it.imageUri, 150, 150)
+                    val bitmap = decodeSampledBitmapFromResource(it.imageUri, 300, 300)
                     bitmap.let {
                         items[position].thumbnail = it
                         holder.imageView.setImageBitmap(items[position].thumbnail)
@@ -61,6 +79,11 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
         }
     }
 
+    /**
+     * Function to get item number count
+     *
+     * @return the number count of item
+     */
     override fun getItemCount(): Int {
         return items.size
     }
@@ -69,6 +92,7 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
         var imageView: ImageView = itemView.findViewById<View>(R.id.photo_item) as ImageView
 
     }
+
     companion object {
         lateinit var items: MutableList<Image>
         private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
@@ -89,6 +113,14 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
             return BitmapFactory.decodeFile(filePath, options);
         }
 
+        /**
+         * Calculate the width and height of photo
+         *
+         * @param options BitmapFactory.Options
+         * @param reqHeight Photo's height
+         * @param reqWidth Photo's width
+         * @return the size of the image
+         */
         private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
             // Raw height and width of image
             val height = options.outHeight;
@@ -108,5 +140,4 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
             return inSampleSize
         }
     }
-
 }

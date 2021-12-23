@@ -1,18 +1,19 @@
 package com.example.omy.trips
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.omy.data.Trip
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import androidx.lifecycle.viewModelScope
-import com.example.omy.data.Location
 
-
+/*
+* TripsViewModel.kt
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class TripsViewModel(application: Application): AndroidViewModel(application) {
     private var tripsRepository: TripsRepository = TripsRepository(application)
     private var tripsToDisplay: LiveData<List<Trip?>>? = null
@@ -23,7 +24,11 @@ class TripsViewModel(application: Application): AndroidViewModel(application) {
         this.lastTrip = tripsRepository.getLastTrip()
     }
 
-    // Function for getting the trips
+    /**
+     * Fetch specific trips
+     *
+     * @return List of trips
+     */
     fun getTripsToDisplay(): LiveData<List<Trip?>>? {
         if (this.tripsToDisplay == null) {
             this.tripsToDisplay = MutableLiveData()
@@ -31,7 +36,12 @@ class TripsViewModel(application: Application): AndroidViewModel(application) {
         return this.tripsToDisplay
     }
 
-    // Function for creating the trip
+    /**
+     * Launches a new trip and creates it in the database
+     *
+     * @param trip A trip
+     * @return void
+     */
     fun createNewTrip(trip : Trip) {
         viewModelScope.launch(Dispatchers.IO) {tripsRepository.createNewTrip(trip) }
         }

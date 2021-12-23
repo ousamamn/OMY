@@ -25,7 +25,6 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import java.util.concurrent.Executors
-import android.util.Log
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import android.content.Intent
@@ -45,10 +44,16 @@ import java.text.DateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
+/*
+* TripsFragment.kt
+* This file provides the users with a
+  title field input to create a new trip.
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class HomeFragment : Fragment() {
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
-
     private lateinit var goButton: Button
     private lateinit var locationWarningView: View
     private lateinit var tnEditText: EditText
@@ -56,6 +61,7 @@ class HomeFragment : Fragment() {
     private lateinit var weatherTemperatureText: TextView
     private lateinit var weatherIconView: ImageView
     private lateinit var baseLocation: Pair<Double, Double>
+
     private var tripsViewModel: TripsViewModel? = null
     private var locationsViewModel: LocationsViewModel? = null
 
@@ -88,7 +94,6 @@ class HomeFragment : Fragment() {
                 tripandLocations[trip!!.id] = getSpecificTrip(trip,locations)
             }
             val tripsAdapter = TripsAdapter(newValue, mutableMapOf())
-            Log.i("HOME_TAG", "called")
         })
 
         mLocationRequest = LocationRequest.create()
@@ -105,6 +110,8 @@ class HomeFragment : Fragment() {
             goButton.visibility = View.GONE
             locationWarningView.visibility = View.VISIBLE
         }
+
+        // Start a trip button
         goButton.setOnClickListener {
             if (TextUtils.isEmpty(tnEditText.text.toString())) {
                 Snackbar.make(view.findViewById(R.id.notification_view),
@@ -115,6 +122,7 @@ class HomeFragment : Fragment() {
                     R.string.successfully_created_trip, Snackbar.LENGTH_SHORT
                 ).show()
                 closeKeyboard(tnEditText)
+                // Pass the parameters to MapCreatedActivity
                 val intent = Intent(context, MapCreatedActivity::class.java)
                 val extras = Bundle()
                 extras.putString("trip_title", tnEditText.text.toString())
@@ -127,15 +135,18 @@ class HomeFragment : Fragment() {
                 resetEditText(tnEditText)
             }
         }
-
         tnEditText = view.findViewById(R.id.trip_name_edit_text)
         weatherWidget = view.findViewById(R.id.weather_widget)
-
-        closeKeyboard(tnEditText)
         weatherTemperatureText = view.findViewById(R.id.weather_temperature)
         weatherIconView = view.findViewById(R.id.weather_icon)
+        closeKeyboard(tnEditText)
     }
 
+    /**
+     * Start updating the location
+     *
+     * @return void
+     */
     @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -160,6 +171,11 @@ class HomeFragment : Fragment() {
         )
     }
 
+    /**
+     * Continue using the page
+     *
+     * @return void
+     */
     override fun onResume() {
         super.onResume()
         mLocationRequest = LocationRequest.create()
@@ -176,11 +192,16 @@ class HomeFragment : Fragment() {
     private lateinit var mCurrentLocation: Location
     private lateinit var mLastUpdateTime: String
     private var mLocationCallback: LocationCallback = object : LocationCallback() {
+        /**
+         * Give the information of the current location
+         *
+         * @param locationResult LocationResult's element
+         * @return void
+         */
         override fun onLocationResult(locationResult: LocationResult) {
             super.onLocationResult(locationResult)
             mCurrentLocation = locationResult.getLastLocation()
             mLastUpdateTime = DateFormat.getTimeInstance().format(Date())
-            Log.i("MAP", "new location " + mCurrentLocation.toString())
             goButton.visibility = View.VISIBLE
             locationWarningView.visibility = View.GONE
 
@@ -194,11 +215,17 @@ class HomeFragment : Fragment() {
         var locations: MutableList<com.example.omy.data.Location?> = mutableListOf()
         var tripandLocations: MutableMap<String,MutableList<com.example.omy.data.Location?>> = mutableMapOf()
 
+        /**
+         * Update the list of locations if new trip is not added
+         *
+         * @param trip A Trip
+         * @param locations List of locations
+         * @return List of locations
+         */
         fun getSpecificTrip(trip: Trip, locations:MutableList<com.example.omy.data.Location?>):MutableList<com.example.omy.data.Location?>{
             val result: MutableList<com.example.omy.data.Location?> = ArrayList()
             for (location in locations){
                 if (location!!.locationTripId == trip.id){
-
                     result.add(location)
                 }
             }
@@ -206,16 +233,34 @@ class HomeFragment : Fragment() {
         }
     }
 
+    /**
+     * Check whether a gps is enabled or not
+     *
+     * @param context A context
+     * @return true/false
+     */
     private fun isLocationEnabled(context: Context): Boolean {
         return LocationManagerCompat.isLocationEnabled(
             context.getSystemService(Context.LOCATION_SERVICE) as LocationManager)
     }
 
+    /**
+     * Hide the soft keyboard
+     *
+     * @param view A View's element
+     * @return void
+     */
     private fun closeKeyboard(view: View) {
         val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken,0)
     }
 
+    /**
+     * Show the soft keyboard
+     *
+     * @param view A View's element
+     * @return void
+     */
     private fun showSoftKeyboard(view: View) {
         if (view.requestFocus()) {
             val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -223,7 +268,15 @@ class HomeFragment : Fragment() {
         }
     }
 
-    /* --- Get weather and temperature --- */
+    /**
+     * Fetch the weather and temperature via online
+     *
+     * @param textView A TextView's element
+     * @param imageView A ImageView's element
+     * @param latitude Latitude of a specific location
+     * @param longitude Longitude of a specific location
+     * @return void
+     */
     private fun getCurrentWeather(textView: TextView, imageView: ImageView, latitude: Double, longitude: Double) {
         val url =
             "http://api.weatherapi.com/v1/current.json?key=" +
@@ -255,6 +308,13 @@ class HomeFragment : Fragment() {
         })
     }
 
+    /**
+     * Fetch a weather icon via online
+     *
+     * @param icon A weather icon
+     * @param url A weather website url
+     * @return void
+     */
     private fun loadImage(icon: ImageView, url: String) {
         val executor = Executors.newSingleThreadExecutor()
         val handler = Handler(Looper.getMainLooper())
@@ -269,6 +329,12 @@ class HomeFragment : Fragment() {
         weatherWidget.visibility = View.VISIBLE
     }
 
+    /**
+     * Clear the text in edit text box
+     *
+     * @param editText An edit text box
+     * @return void
+     */
     private fun resetEditText(editText: EditText) {
         editText.setText("")
         editText.clearFocus()

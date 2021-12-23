@@ -1,8 +1,6 @@
 package com.example.omy.fragments
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,25 +8,36 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
 import com.example.omy.data.Location
-import com.example.omy.locations.*
-import com.example.omy.trips.TripsAdapter
-import java.util.ArrayList
+import com.example.omy.locations.LocationsAdapter
+import com.example.omy.locations.LocationsViewModel
+import java.util.*
 
+/*
+* TripsFragment.kt
+* This file provides the users with a list
+  of locations that were stored in the database
+  and the locations are clickable to see the
+  detail of the selected location. Filter function
+  is also provided in this file.
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class LocationsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var locationsSortSpinner: Spinner
     private var locationsDataset: List<Location?> = ArrayList<Location?>()
     private var sortedLocationsDataset: List<Location?> = ArrayList<Location?>()
-
-    private var locationsViewModel: LocationsViewModel? = null
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var recyclerEmpty: TextView
     private lateinit var mAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
     private lateinit var mLayoutManager: RecyclerView.LayoutManager
+
+    private var locationsViewModel: LocationsViewModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -40,7 +49,7 @@ class LocationsFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         recyclerEmpty = view.findViewById(R.id.no_locations)
 
-        /*  Locations Sort Functionality */
+        //  Locations Sort Functionality
         locationsSortSpinner = view.findViewById(R.id.locations_filters_spinner)
         locationsSortSpinner.onItemSelectedListener = this
         ArrayAdapter.createFromResource(requireContext(), R.array.sort_array,
@@ -52,21 +61,22 @@ class LocationsFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
 
-        /*  Get list of locations */
-        mRecyclerView = view.findViewById<RecyclerView>(R.id.locations_list)
+        //  Get list of locations
+        mRecyclerView = view.findViewById(R.id.locations_list)
         mLayoutManager = LinearLayoutManager(requireContext())
         mRecyclerView.layoutManager = mLayoutManager
         mAdapter = LocationsAdapter(locationsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
         initData()
-
-
         if (locationsDataset.isNotEmpty()) {
-            Log.i("TAG", locationsDataset[0]!!.locationTitle!!)
             LocationsAdapter(locationsDataset)
-            Log.i("another", TripsAdapter.items[0]!!.tripTitle!!)
         }
     }
 
+    /**
+     * Initialize the locations data from database
+     *
+     * @return List of locations data
+     */
     private fun initData() {
         this.locationsViewModel!!.getLocationsToDisplay()!!.observe(viewLifecycleOwner, { newValue ->
             locationsDataset = newValue
@@ -79,23 +89,32 @@ class LocationsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         })
     }
 
+    /**
+     * Select a specific item from a list
+     *
+     * @param parent A AdapterView for filter item
+     * @param view Filter view box
+     * @param position filter item's position
+     * @param id location's id
+     * @return void
+     */
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         if(locationsDataset.isNotEmpty()) {
             when (position) {
                 0 -> {
-                    Log.e("p0","clicked a-z")
+                    // Sort trips A - Z
                     sortedLocationsDataset =
                         locationsDataset.sortedBy { it!!.locationTitle } as MutableList<Location>
                 } 1 -> {
-                    Log.e("p0","clicked z-a")
+                    // Sort trips Z - A
                     sortedLocationsDataset =
                         locationsDataset.sortedByDescending { it!!.locationTitle } as MutableList<Location>
                 } 2 -> {
-                    Log.e("p0","clicked newest")
+                    // Sort by date, from the newest
                     sortedLocationsDataset =
                         locationsDataset.sortedByDescending { it!!.locationLatitude } as MutableList<Location>
                 } 3 -> {
-                    Log.e("p0","clicked oldest")
+                    // Sort by date, from oldest
                     sortedLocationsDataset =
                         locationsDataset.sortedBy { it!!.locationLatitude } as MutableList<Location>
                 } else -> {
@@ -108,6 +127,12 @@ class LocationsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         mRecyclerView.adapter = mAdapter
     }
 
+    /**
+     * Select for nothing
+     *
+     * @param p0 A AdapterView for nothing selected
+     * @return void
+     */
     override fun onNothingSelected(p0: AdapterView<*>?) {
         mAdapter = LocationsAdapter(locationsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
         mRecyclerView.adapter = mAdapter

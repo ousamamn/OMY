@@ -1,7 +1,6 @@
 package com.example.omy.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,11 +21,20 @@ import com.example.omy.fragments.HomeFragment.Companion.locations
 import com.example.omy.fragments.HomeFragment.Companion.tripandLocations
 import com.example.omy.locations.LocationsViewModel
 
+/*
+* TripsFragment.kt
+* This file provides the users with a list
+  of trips that were stored in the database
+  and the trips are clickable to see the
+  detail of the selected trip. Filtering
+  function is also provided in this file.
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var tripsSortSpinner: Spinner
     private var tripsDataset: List<Trip?> = ArrayList<Trip?>()
     private var sortedTripsDataset: List<Trip?> = ArrayList<Trip?>()
-
     private var tripsViewModel: TripsViewModel? = null
     private var locationsViewModel: LocationsViewModel? = null
     private lateinit var mRecyclerView: RecyclerView
@@ -49,7 +57,7 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
         //val location = Location(id=55,locationTitle = "title",locationDescription = "description",locationLatitude = 1.2,locationLongitude = 1.1,locationTripId = 34)
 
-        /*  Get list of trips */
+        //  Get list of trips
         mRecyclerView = view.findViewById(R.id.trips_list)
         mLayoutManager = LinearLayoutManager(requireContext())
         mRecyclerView.layoutManager = mLayoutManager
@@ -61,7 +69,7 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
             TripsAdapter(tripsDataset,tripandLocations)
         }
 
-        /*  Locations Sort Functionality */
+        //  Locations Sort Functionality
         tripsSortSpinner = view.findViewById(R.id.trips_filters_spinner)
         tripsSortSpinner.onItemSelectedListener = this
         ArrayAdapter.createFromResource(requireContext(), R.array.sort_array,
@@ -72,6 +80,11 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
+    /**
+     * Initialize the trips data from database
+     *
+     * @return List of trips data
+     */
     private fun initData() {
         this.locationsViewModel!!.getLocationsToDisplay()!!.observe(viewLifecycleOwner,{ newValue ->
             locations = newValue as MutableList<Location?>
@@ -92,23 +105,32 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         })
     }
 
+    /**
+     * Select a specific item from a list
+     *
+     * @param parent A AdapterView for filter item
+     * @param view Filter view box
+     * @param position filter item's position
+     * @param id trip's id
+     * @return void
+     */
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         if(tripsDataset.isNotEmpty()) {
             when (position) {
                 0 -> {
-                    Log.e("p0", "clicked a-z")
+                    // Sort trips A - Z
                     sortedTripsDataset =
                         tripsDataset.sortedBy { it!!.tripTitle } as MutableList<Trip>
                 } 1 -> {
-                    Log.e("p0", "clicked z-a")
+                    // Sort trips Z - A
                     sortedTripsDataset =
                         tripsDataset.sortedByDescending { it!!.tripTitle } as MutableList<Trip>
                 } 2 -> {
-                    Log.e("p0", "clicked newest")
+                    // Sort by date, from the newest
                     sortedTripsDataset =
                         tripsDataset.sortedByDescending { it!!.tripDate } as MutableList<Trip>
                 } 3 -> {
-                    Log.e("p0", "clicked oldest")
+                    // Sort by date, from oldest
                     sortedTripsDataset =
                         tripsDataset.sortedBy { it!!.tripDate } as MutableList<Trip>
                 } else -> {
@@ -121,6 +143,12 @@ class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         mRecyclerView.adapter = mAdapter
     }
 
+    /**
+     * Select for nothing
+     *
+     * @param parent A AdapterView for nothing selected
+     * @return void
+     */
     override fun onNothingSelected(parent: AdapterView<*>?) {
         mAdapter = TripsAdapter(tripsDataset,tripandLocations) as RecyclerView.Adapter<RecyclerView.ViewHolder>
         mRecyclerView.adapter = mAdapter

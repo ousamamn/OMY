@@ -1,6 +1,5 @@
 package com.example.omy.fragments
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,22 +16,35 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.example.omy.R
 import com.example.omy.data.Image
-import com.example.omy.photos.*
-import kotlinx.coroutines.runBlocking
-import pl.aprilapps.easyphotopicker.ChooserType
-import pl.aprilapps.easyphotopicker.EasyImage
-import pl.aprilapps.easyphotopicker.MediaFile
+import com.example.omy.data.LocationWithImages
+import com.example.omy.photos.PhotosAdapter
+import com.example.omy.photos.PhotosViewModel
+import com.example.omy.trips.TripsViewModel
+import java.util.*
 
-import java.util.ArrayList
-
+/*
+* TripsFragment.kt
+* This file provides the users with a list
+  of photos that were stored in the database
+  and the photos are clickable to see the
+  detail of the selected photo. The browsing
+  function is also provided in this file.
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class PhotosFragment : Fragment() {
     private lateinit var searchView: SearchView
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var recyclerEmpty: TextView
     private lateinit var mAdapter: Adapter<RecyclerView.ViewHolder>
-    private val photoDataset: MutableList<Image> = ArrayList<Image>()
-    private lateinit var easyImage: EasyImage
+    private var photosDataset: List<Image> = ArrayList<Image>()
+    private var locationsWithPhotosDataset: List<LocationWithImages> = ArrayList<LocationWithImages>()
+    private var tripsDataset: List<LocationWithImages> = ArrayList<LocationWithImages>()
+    private var photosExtraInfoDataset: List<String> = ArrayList<String>()
+
     private var photosViewModel: PhotosViewModel? = null
+    //private var locationsViewModel: LocationsViewModel? = null
+    private var tripsViewModel: TripsViewModel? = null
 
     val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -52,9 +64,7 @@ class PhotosFragment : Fragment() {
         }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_photos, container, false)
     }
@@ -62,24 +72,77 @@ class PhotosFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
+        //tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
+
+        searchView = view.findViewById(R.id.photos_search_bar)
         recyclerEmpty = view.findViewById(R.id.no_photos)
         this.photosViewModel = ViewModelProvider(this)[PhotosViewModel::class.java]
-        mAdapter = PhotosAdapter(photoDataset) as Adapter<RecyclerView.ViewHolder>
+        mAdapter = PhotosAdapter(photosDataset) as Adapter<RecyclerView.ViewHolder>
         initData()
+        //initSearchData()
         mRecyclerView = view.findViewById(R.id.photos_list)
         val numberOfColumns = 4
         mRecyclerView.layoutManager = GridLayoutManager(requireContext(), numberOfColumns)
 
         mRecyclerView.adapter = mAdapter
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(query: String?): Boolean {
+                query!!.trim()
+                var filteredPhotos = photosDataset as ArrayList<Image>
+                filteredPhotos.filter {
+                    val allData = StringBuilder()
+                        .append(it.id).append(it.imageDate)
+                        .append(it.imageTitle).append(it.imageUri)
+                        .toString().trim()
+                    allData.replace(" ", "")
+                        .contains(query!!, ignoreCase = true) }
+
+                mAdapter = PhotosAdapter(filteredPhotos) as RecyclerView.Adapter<RecyclerView.ViewHolder>
+                mRecyclerView.adapter = mAdapter
+                return true
+            }
+        })
     }
 
+    /**
+     * Initialize the photos data from database
+     *
+     * @return List of photos data
+     */
     private fun initData() {
         this.photosViewModel!!.getPhotosToDisplay()?.observe(viewLifecycleOwner, {newValue ->
+            photosDataset = newValue
             mAdapter.notifyDataSetChanged()
             mAdapter = PhotosAdapter(newValue) as RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (newValue.isEmpty()) recyclerEmpty.visibility = View.VISIBLE
             else recyclerEmpty.visibility = View.GONE
+
+            //val idx = photosDataset.get(0).id
+            //val elems = PhotosAdapter.items
         })
     }
 
+    // Ahh not that far from finishing
+    /*private fun initSearchData() {
+        this.locationsViewModel!!.getLocationPhotosToDisplay()!!.observe(viewLifecycleOwner, { newValueLocations ->
+            locationsWithPhotosDataset = newValueLocations
+
+            this.tripsViewModel!!.getTripsToDisplay()!!.observe(viewLifecycleOwner, { newValueTrip ->
+                //trips = newValue
+
+                for (photo in photosDataset) {
+                    val photoId = photo.id
+                    for (imagePhoto in newValueLocations) {
+                        imagePhoto.imageIdList.
+                    }
+                }
+            })
+        })
+    }*/
 }
