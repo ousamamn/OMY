@@ -30,7 +30,7 @@ class LocationReviewsAdapter: RecyclerView.Adapter<LocationReviewsAdapter.ViewHo
      *
      * @param parent A ViewGroup for reviews
      * @param viewType Adapter's position
-     * @return the list of reviews
+     * @return List of reviews
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         //Inflate the layout, initialize the View Holder
