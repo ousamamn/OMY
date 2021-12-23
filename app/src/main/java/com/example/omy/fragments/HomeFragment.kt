@@ -4,9 +4,11 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.location.*
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -15,32 +17,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.*
 import androidx.core.app.ActivityCompat
+import androidx.core.location.LocationManagerCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.omy.BuildConfig.WEATHER_APIKEY
 import com.example.omy.R
-import com.google.android.material.snackbar.Snackbar
-import okhttp3.*
-import org.json.JSONException
-import org.json.JSONObject
-import java.io.IOException
-import java.util.concurrent.Executors
-import com.google.android.gms.location.*
-import com.google.android.gms.maps.*
-import android.content.Intent
-import android.location.*
-import android.widget.*
-import androidx.core.location.LocationManagerCompat
-import androidx.lifecycle.ViewModelProvider
 import com.example.omy.data.Trip
 import com.example.omy.locations.LocationsAdapter
 import com.example.omy.locations.LocationsViewModel
 import com.example.omy.maps.MapCreatedActivity
 import com.example.omy.trips.TripsAdapter
 import com.example.omy.trips.TripsViewModel
-import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.*
+import com.google.android.gms.maps.*
+import com.google.android.material.snackbar.Snackbar
+import okhttp3.*
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.IOException
 import java.text.DateFormat
 import java.util.*
+import java.util.concurrent.Executors
 
 class HomeFragment : Fragment() {
     private lateinit var mLocationRequest: LocationRequest

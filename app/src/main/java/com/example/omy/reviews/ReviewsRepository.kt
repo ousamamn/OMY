@@ -2,7 +2,6 @@ package com.example.omy.reviews
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.omy.MainRepository
 import com.example.omy.data.*

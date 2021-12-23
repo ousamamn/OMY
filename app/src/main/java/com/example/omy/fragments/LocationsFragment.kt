@@ -1,7 +1,6 @@
 package com.example.omy.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,14 +8,15 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
 import com.example.omy.data.Location
-import com.example.omy.locations.*
-import com.example.omy.trips.TripsAdapter
-import java.util.ArrayList
+import com.example.omy.locations.LocationsAdapter
+import com.example.omy.locations.LocationsViewModel
+import java.util.*
 
 class LocationsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var locationsSortSpinner: Spinner

@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.omy.R
 import com.example.omy.data.Image
 import com.example.omy.locations.LocationsViewModel
-import kotlinx.coroutines.runBlocking
 
 class PhotoShowActivity : FragmentActivity() {
     private lateinit var backButton: ImageView

@@ -2,11 +2,9 @@ package com.example.omy.locations
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.omy.MainRepository
 import com.example.omy.data.*
-import com.example.omy.photos.PhotosRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async

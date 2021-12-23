@@ -17,11 +17,10 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.example.omy.R
 import com.example.omy.data.Image
 import com.example.omy.data.LocationWithImages
-import com.example.omy.locations.LocationsViewModel
-import com.example.omy.photos.*
+import com.example.omy.photos.PhotosAdapter
+import com.example.omy.photos.PhotosViewModel
 import com.example.omy.trips.TripsViewModel
-
-import java.util.ArrayList
+import java.util.*
 
 class PhotosFragment : Fragment() {
     private lateinit var searchView: SearchView

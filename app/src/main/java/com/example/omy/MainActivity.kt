@@ -3,10 +3,11 @@ package com.example.omy
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.omy.data.OMYDatabase
-import com.google.android.gms.maps.GoogleMap
 import com.example.omy.databinding.MainActivityBinding
-import com.example.omy.fragments.*
+import com.example.omy.fragments.HomeFragment
+import com.example.omy.fragments.LocationsFragment
+import com.example.omy.fragments.PhotosFragment
+import com.example.omy.fragments.TripsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {

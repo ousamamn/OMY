@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.omy.R
 import com.example.omy.data.Review
-import com.example.omy.trips.TripsViewModel
 
 class LocationAddReviewActivity : AppCompatActivity() {
     private lateinit var titleEditText: EditText
