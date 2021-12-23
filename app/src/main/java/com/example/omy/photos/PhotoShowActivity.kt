@@ -67,73 +67,15 @@ class PhotoShowActivity : FragmentActivity() {
         if (position != -1) {
             val imageView = findViewById<ImageView>(R.id.photo_image)
             val title = findViewById<TextView>(R.id.photo_title)
-            val descriptionTextView = findViewById<TextView>(R.id.description_detail)
             val dateTextView = findViewById<TextView>(R.id.photo_date)
             val locationTextView = findViewById<TextView>(R.id.location_detail)
             val imageData = PhotosAdapter.items[position]
-            //Log.i("PHOTOS", imageData.thumbnail.toString())
 
             imageView.setImageBitmap(imageData.thumbnail)
             title.text = PhotosAdapter.items[position].imageTitle
-            descriptionTextView.text = PhotosAdapter.items[position].imageDescription
-            dateTextView.text =
-                PhotosAdapter.locationWithPhotos[PhotosAdapter.items[position].id - 1].second.second
+            dateTextView.text = PhotosAdapter.items[position].imageDate
             locationTextView.text =
                 PhotosAdapter.locationWithPhotos[PhotosAdapter.items[position].id - 1].second.first
         }
     }
-        /**
-         * Retrieve location names, populate PhotoDetail activity with Photo's data from the database
-         *
-         * @param position Photo's position/id
-         * @return void
-         */
-        private fun displayData(position: Int) {
-            var photoLocationsList = ArrayList<Pair<Image, String?>>()
-            this.locationsViewModel!!.getLocationPhotosToDisplay()!!
-                .observe(this, { newValueLocations ->
-                    Log.v("bb", PhotosAdapter.items.toString())
-                    for (loc in newValueLocations) {
-                        val locationTitle = loc.location.locationTitle
-                        val imageList = loc.imageIdList
-                        for (image in imageList) {
-                            photoLocationsList.add(Pair(image, locationTitle))
-                        }
-                    }
-
-                    if (position != -1) {
-                        val imageView = findViewById<ImageView>(R.id.photo_image)
-                        val title = findViewById<TextView>(R.id.photo_title)
-                        val dateTextView = findViewById<TextView>(R.id.photo_date)
-                        val imageLocationName = findViewById<TextView>(R.id.location_detail)
-                        val imageData = PhotosAdapter.items[position]
-
-                        imageView.setImageBitmap(imageData.thumbnail)
-                        title.text = PhotosAdapter.items[position].imageTitle
-                        dateTextView.text = PhotosAdapter.items[position].imageDate
-                        imageLocationName.text =
-                            getLocationName(PhotosAdapter.items[position], photoLocationsList)
-                    }
-                })
-        }
-
-        /**
-         * Based on the photo details, return its location's name (helper function)
-         *
-         * @param photo Image object
-         * @param photoLocPairs A pair list of photos and location names
-         * @return Name of the location the photo belongs to
-         */
-        private fun getLocationName(
-            photo: Image,
-            photoLocPairs: ArrayList<Pair<Image, String?>>
-        ): String {
-            var locationTitle = ""
-            for (pair in photoLocPairs) {
-                if (photo == pair.first) {
-                    locationTitle = pair.second.toString()
-                }
-            }
-            return locationTitle
-        }
-    }
+}

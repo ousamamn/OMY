@@ -51,7 +51,6 @@ class LocationShowActivity : AppCompatActivity() {
     private lateinit var mRecyclerViewPhotos: RecyclerView
     private lateinit var mPhotosAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
     private lateinit var mPhotosLayoutManager: RecyclerView.LayoutManager
-    //private var photosDataset: List<Photo?> = ArrayList<Review?>()
     private var locationsViewModel: LocationsViewModel? = null
     private lateinit var photosRecyclerEmpty: TextView
     var element: Location? = null
@@ -285,7 +284,7 @@ class LocationShowActivity : AppCompatActivity() {
             if (photosDataset.size >= howManyDisplayed){
                 photosDataset = photosDataset.takeLast(howManyDisplayed) as MutableList<Image?>
             }
-            PhotosAdapter.locationDate = element!!.locationDate!!
+            //PhotosAdapter.imageDate = element!!.locationDate!!
             mPhotosAdapter  = PhotosAdapter(photosDataset as List<Image>) as RecyclerView.Adapter<RecyclerView.ViewHolder>
             mPhotosAdapter.notifyDataSetChanged()
             if (newValue.isEmpty()) photosRecyclerEmpty.visibility = View.VISIBLE
