@@ -48,7 +48,7 @@ class LocationPhotosActivity : AppCompatActivity() {
         }
         mRecyclerViewPhotos.adapter = mPhotosAdapter
 
-        //Get the data from the database and pass it into the activity
+        // Get the data from the database and pass it into the activity
         val b: Bundle? = intent.extras
         var locationTitle: String? = "Title"
         if (b != null) {
