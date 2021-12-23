@@ -52,7 +52,7 @@ class MapAddActivity : AppCompatActivity() {
         locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
         photosViewModel = ViewModelProvider(this)[PhotosViewModel::class.java]
 
-        /* Receive information from MapCreatedActivity */
+        // Receive information from MapCreatedActivity
         val b: Bundle? = intent.extras
         if (b != null) {
             displayTitle = findViewById(R.id.trip_title)
@@ -62,7 +62,7 @@ class MapAddActivity : AppCompatActivity() {
             //locationDate = b.getString("location_date").toString()
         }
 
-        /* Set up easyImage for taking photos */
+        // Set up easyImage for taking photos
         easyImage= EasyImage.Builder(this)
             .setChooserType(ChooserType.CAMERA_AND_GALLERY)
             .setCopyImagesToPublicGalleryFolder(false)
@@ -79,13 +79,13 @@ class MapAddActivity : AppCompatActivity() {
         saveButton = findViewById(R.id.location_add_button)
         addPhotoButton = findViewById(R.id.location_add_photo)
 
-        /* Cancel the add new location and return to the previous page button */
+        // Cancel the add new location and return to the previous page button
         cancelButton.setOnClickListener {
             onBackPressed()
             finish()
         }
 
-        /* Save the new location to the database button */
+        // Save the new location to the database button
         saveButton.setOnClickListener {
             if (TextUtils.isEmpty(titleNameEditText.text.toString())) {
                 Toast
@@ -99,22 +99,50 @@ class MapAddActivity : AppCompatActivity() {
             }
         }
 
-        /* Add photo button */
+        // Add photo button
         addPhotoButton.setOnClickListener {
             easyImage.openCameraForImage(this)
         }
     }
 
+    /**
+     * Fetch current activity content
+     *
+     * @param requestCode integer
+     * @param resultCode integer
+     * @param data the parameters from previous activity or fragment
+     * @return void
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         easyImage.handleActivityResult(requestCode, resultCode, data, this, object : DefaultCallback() {
+            /**
+             * Fetch the list of photos
+             *
+             * @param imageFiles Array list of photos
+             * @param source The photos
+             * @return void
+             */
             override fun onMediaFilesPicked(imageFiles: Array<MediaFile>, source: MediaSource) {
                 onPhotosReturned(imageFiles)
             }
+            /**
+             * Error when fetching the photos list
+             *
+             * @param error Errors
+             * @param source The photos
+             * @return void
+             */
             override fun onImagePickerError(error: Throwable, source: MediaSource) {
                 super.onImagePickerError(error, source)
             }
+            /**
+             * Cancel the process of fetching photos
+             *
+             * @param source The photos
+             * @return void
+             */
             override fun onCanceled(source: MediaSource) {
                 super.onCanceled(source)
             }
@@ -124,7 +152,8 @@ class MapAddActivity : AppCompatActivity() {
     /**
      * Function to update the photos list in the database
      *
-     * @return the list of photos
+     * @param returnedPhotos Array list of photos
+     * @return List of photos
      */
     @SuppressLint("NotifyDataSetChanged")
     private fun onPhotosReturned(returnedPhotos: Array<MediaFile>):List<Image?> {
@@ -148,15 +177,21 @@ class MapAddActivity : AppCompatActivity() {
         return imageList
     }
 
+    /**
+     * Create and save the photo data
+     *
+     * @param image a photo
+     * @return void
+     */
     private fun insertData(image: Image): Int = runBlocking {
         val insertJob = photosViewModel!!.createNewPhoto(image)
         insertJob
     }
 
     /**
-     * Function to save the location to the database
+     * Save the location to the database
      *
-     * @return new location and photos to database
+     * @return void
      */
     private fun saveLocationToDB() {
         val location = Location(locationLongitude = tripLongitude, locationLatitude = tripLatitude,

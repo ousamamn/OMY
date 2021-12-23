@@ -64,7 +64,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         setActivity(this)
         setContext(this)
 
-        /* Receive information from HomeFragment */
+        // Receive information from HomeFragment
         tripsViewModel = ViewModelProvider(this)[TripsViewModel::class.java]
         locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
         val b: Bundle? = intent.extras
@@ -77,11 +77,11 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             visitedLongLatLocations.add(Pair(b.getDouble("base_latitude"),b.getDouble("base_longitude")))
         }
 
-        /* Display the Google map */
+        // Display the Google map
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
 
-        /* Start the locating function button */
+        // Start the locating function button
         startLocatingButton = findViewById<View>(R.id.map_start_location) as Button
         startLocatingButton.setOnClickListener {
             startLocationUpdates()
@@ -90,7 +90,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             stopLocatingButton.visibility = View.VISIBLE
         }
 
-        /* Pause the locating function button */
+        // Pause the locating function button
         stopLocatingButton = findViewById<View>(R.id.map_pause_location) as Button
         stopLocatingButton.setOnClickListener {
             stopLocationUpdates()
@@ -98,7 +98,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
             startLocatingButton.visibility = View.VISIBLE
         }
 
-        /* End and save the trip to database button */
+        // End and save the trip to database button
         endTripButton = findViewById(R.id.map_end_trip)
         endTripButton.setOnClickListener {
             MaterialAlertDialogBuilder(this)
@@ -121,7 +121,7 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
                         var i =0
                     }
 
-                    /* Pass parameters to the TripShowActivity */
+                    // Pass parameters to the TripShowActivity
                     for (pair  in locationImages){
                         pair.first.locationTripId = uuid.toString()
                         val locationID = locationsViewModel!!.createNewLocation(pair.first)
@@ -138,10 +138,10 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
 
         }
 
-        /* Add photo and its detail button */
+        // Add photo and its detail button
         addButton = findViewById(R.id.add_picture)
         addButton.setOnClickListener() {
-            /* Pass parameters to the MapAddActivity */
+            // Pass parameters to the MapAddActivity
             val intent = Intent(this, MapAddActivity::class.java)
             val extras = Bundle()
             extras.putString("trip_title", displayTitle.text.toString())
@@ -156,7 +156,9 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     /**
-     * Function to check permissions for the map
+     * Check permissions for the map
+     *
+     * @return void
      */
     @SuppressLint("MissingPermission")
     private fun checkpermission(){
@@ -188,7 +190,9 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     /**
-     * Function to start updating the location
+     * Start updating the location
+     *
+     * @return void
      */
     @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
@@ -210,13 +214,20 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     /**
-     * Function to stop updating the location
+     * Stop updating the location
+     *
+     * @return void
      */
     private fun stopLocationUpdates() {
         Log.e("Location", "update stop")
         mFusedLocationClient.removeLocationUpdates(mLocationPendingIntent!!)
     }
 
+    /**
+     * Continue using the page
+     *
+     * @return void
+     */
     override fun onResume() {
         super.onResume()
         mLocationRequest = create()
@@ -234,6 +245,12 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     private val ACCESS_FINE_LOCATION = 123
 
     private var mLocationCallback: LocationCallback = object : LocationCallback() {
+        /**
+         * Give the information of the current location
+         *
+         * @param locationResult LocationResult's element
+         * @return void
+         */
         override fun onLocationResult(locationResult: LocationResult) {
             super.onLocationResult(locationResult)
             mCurrentLocation = locationResult.lastLocation
@@ -254,6 +271,14 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    /**
+     * Initialize the reviews data from database
+     *
+     * @param requestCode integer
+     * @param permissions array of permissions
+     * @param grantResults array of integer
+     * @return void
+     */
     @SuppressLint("MissingPermission")
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -270,12 +295,24 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    /**
+     * Display a map
+     *
+     * @param GoogleMap A GoogleMap object
+     * @return void
+     */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         val sheffield = LatLng(defaultLocation[0], defaultLocation[1])
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sheffield, 16.0f))
     }
 
+    /**
+     * Set a context
+     *
+     * @param context A Context object
+     * @return context
+     */
     private fun setContext(context: Context) {
         ctx = context
     }
@@ -285,14 +322,30 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
         private lateinit var mMap: GoogleMap
         var visitedLongLatLocations = ArrayList<Pair<Double, Double>>()
 
+        /**
+         * Fetch a specific activity
+         *
+         * @return activity
+         */
         fun getActivity(): AppCompatActivity? {
             return activity
         }
 
+        /**
+         * Set up a specific activity
+         *
+         * @param newActivity an AppCompatActivity activity
+         * @return activity
+         */
         fun setActivity(newActivity: AppCompatActivity) {
             activity = newActivity
         }
 
+        /**
+         * Fetch a Google map
+         *
+         * @return a Google map
+         */
         fun getMap(): GoogleMap {
             return mMap
         }
@@ -302,9 +355,9 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     /**
-     * Function to save the trip to the database
+     * Save trip to database
      *
-     * @return the trip to database
+     * @return void
      */
     private fun saveTripToDB() {
         val tripTitle = displayTitle.text.toString()
@@ -321,9 +374,9 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     /**
-     * Function to calculate the distance in a trip
+     * Calculate the distance in a trip
      *
-     * @param the latitude and longitude
+     * @param visitedLatLongs List of latitude and longitude
      * @return the total distance of the trip
      */
     private fun calculateDistance(visitedLatLongs: List<Pair<Double,Double>>): Double {
@@ -340,8 +393,9 @@ class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     /**
-     * Function to create the coordinate based on the latitude and longitude
+     * Create the coordinate based on the latitude and longitude
      *
+     * @param visitedLongLatLocations List of latitude and longitude
      * @return the coordinates of the location
      */
     private fun makeCoords(visitedLongLatLocations: List<Pair<Double, Double>>):String{

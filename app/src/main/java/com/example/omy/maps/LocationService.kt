@@ -30,6 +30,14 @@ class LocationService : Service {
         Log.e("Location Service", "onCreate finished")
     }
 
+    /**
+     * Initialize the activity
+     *
+     * @param intent the parameters passed from previous activity or fragment
+     * @param flags integer
+     * @param startId integer/id
+     * @return startMode
+     */
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (LocationResult.hasResult(intent!!)) {
             val locResults = LocationResult.extractResult(intent)
