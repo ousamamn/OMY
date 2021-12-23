@@ -126,7 +126,7 @@ class LocationAddReviewActivity : AppCompatActivity() {
     /**
      * Hide soft keyboard when not in use
      *
-     * @param LocationAddReviewActivity A LocationAddReviewActivity element
+     * @param locationAddReviewActivity A LocationAddReviewActivity element
      * @return void
      */
     private fun hideSoftKeyboard(locationAddReviewActivity: LocationAddReviewActivity) {
@@ -144,7 +144,7 @@ class LocationAddReviewActivity : AppCompatActivity() {
     /**
      * Set up the view to touch listener
      *
-     * @param View A view
+     * @param view A view
      * @return void
      */
     @SuppressLint("ClickableViewAccessibility")
