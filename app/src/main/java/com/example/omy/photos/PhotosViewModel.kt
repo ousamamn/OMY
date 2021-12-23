@@ -26,9 +26,9 @@ class PhotosViewModel(application: Application): AndroidViewModel(application) {
     }
 
     /**
-     * Function to get photo
+     * Fetch specific photos
      *
-     * @return the list of photos data
+     * @return List of photos data
      */
     fun getPhotosToDisplay(): LiveData<List<Image>>? {
         if (this.photosToDisplay == null) {
@@ -38,7 +38,10 @@ class PhotosViewModel(application: Application): AndroidViewModel(application) {
     }
 
     /**
-     * Function to create new photo
+     * Launches a new photo and creates it in the database
+     *
+     * @param photo A photo
+     * @return void
      */
     fun createNewPhoto(photo : Image):Int =
         runBlocking {
