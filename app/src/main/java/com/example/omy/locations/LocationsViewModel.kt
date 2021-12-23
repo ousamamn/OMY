@@ -22,6 +22,11 @@ class LocationsViewModel(application: Application): AndroidViewModel(application
         this.photosLocationToDisplay = this.locationsRepository.getLocationPhotos()
     }
 
+    /**
+     * Fetch specific locations
+     *
+     * @return List of locations data
+     */
     fun getLocationsToDisplay(): LiveData<List<Location?>>? {
         if (this.locationsToDisplay == null) {
             this.locationsToDisplay = MutableLiveData()
@@ -29,6 +34,12 @@ class LocationsViewModel(application: Application): AndroidViewModel(application
         return this.locationsToDisplay
     }
 
+    /**
+     * Launches a new location and creates it in the database
+     *
+     * @param location A location
+     * @return void
+     */
     fun createNewLocation(location: Location): Int =
         //viewModelScope.launch(Dispatchers.IO) { locationsRepository.createNewLocation(location) }
         runBlocking {
@@ -36,7 +47,11 @@ class LocationsViewModel(application: Application): AndroidViewModel(application
             insertedID
         }
 
-
+    /**
+     * Fetch specific photos for a specific location
+     *
+     * @return List of photos data
+     */
     fun getLocationPhotosToDisplay(): LiveData<List<LocationWithImages>>? {
         if (this.photosLocationToDisplay == null) {
             this.photosLocationToDisplay = MutableLiveData()
@@ -44,6 +59,12 @@ class LocationsViewModel(application: Application): AndroidViewModel(application
         return this.photosLocationToDisplay
     }
 
+    /**
+     * Launches a new photo for a specific location and creates it in the database
+     *
+     * @param location A photo's location
+     * @return void
+     */
     fun createNewPhotoLocation(location: ImageLocation) {
         //viewModelScope.launch(Dispatchers.IO) { locationsRepository.createNewLocation(location) }
         runBlocking {

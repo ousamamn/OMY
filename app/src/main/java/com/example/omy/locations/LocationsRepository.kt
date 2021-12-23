@@ -46,20 +46,41 @@ class LocationsRepository(application: Application) {
         }
     }
 
-
+    /**
+     * Get all the existing locations
+     *
+     * @return all locations
+     */
     fun getLocations(): LiveData<List<Location?>>? {
         return locationsDBDao?.getAll()
     }
 
+    /**
+     * Creates a new location, saving it to the database
+     *
+     * @param location A location to be saved
+     * @return void
+     */
     suspend fun createNewLocation(location : Location):Int {
         // somehow create a new trip
         return InsertAsyncTask(locationsDBDao).insertInBackground(location)
     }
+
+    /**
+     * Get all the existing locations' photos
+     *
+     * @return all locations' photos
+     */
     fun getLocationPhotos():LiveData<List<LocationWithImages>>? {
         return photosLocationDBDao?.getLocationWithImages()
     }
 
-
+    /**
+     * Creates a new photo for a specific location, saving it to the database
+     *
+     * @param photoLocation A photo for a specific location to be saved
+     * @return void
+     */
     suspend fun createNewPhotoLocation(photoLocation : ImageLocation) {
         InsertAsyncTask2(photosLocationDBDao).insertInBackground2(photoLocation)
     }

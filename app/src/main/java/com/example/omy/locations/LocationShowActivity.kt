@@ -41,17 +41,13 @@ class LocationShowActivity : AppCompatActivity() {
     private var reviewsViewModel: ReviewsViewModel? = null
     private var photosViewModel: PhotosViewModel? = null
     private lateinit var reviewsRecyclerEmpty: TextView
-
     private lateinit var mRecyclerViewPhotos: RecyclerView
     private lateinit var mPhotosAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
     private lateinit var mPhotosLayoutManager: RecyclerView.LayoutManager
     //private var photosDataset: List<Photo?> = ArrayList<Review?>()
     private var locationsViewModel: LocationsViewModel? = null
     private lateinit var photosRecyclerEmpty: TextView
-
     var element: Location? = null
-
-
     private lateinit var backButton: ImageView
     private lateinit var addReviewButton: TextView
     private lateinit var addPhotoButton: TextView
@@ -64,6 +60,8 @@ class LocationShowActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.location_activity)
+
+        // Display the location data
         reviewsViewModel = ViewModelProvider(this)[ReviewsViewModel::class.java]
         photosViewModel = ViewModelProvider(this)[PhotosViewModel::class.java]
         locationsViewModel = ViewModelProvider(this)[LocationsViewModel::class.java]
@@ -75,7 +73,6 @@ class LocationShowActivity : AppCompatActivity() {
         mReviewsAdapter = LocationReviewsAdapter(reviewsDataset) as RecyclerView.Adapter<RecyclerView.ViewHolder>
         initData()
         mReviewsAdapter.notifyDataSetChanged()
-
         if (reviewsDataset.isNotEmpty()) {
             LocationReviewsAdapter(reviewsDataset)
         }
@@ -86,6 +83,7 @@ class LocationShowActivity : AppCompatActivity() {
         mRecyclerViewPhotos.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         mPhotosAdapter = PhotosAdapter() as RecyclerView.Adapter<RecyclerView.ViewHolder>
 
+        // Get the data from the database and pass it into the activity
         val b: Bundle? = intent.extras
         if (b != null) {
             position = b.getInt("position")
@@ -120,10 +118,13 @@ class LocationShowActivity : AppCompatActivity() {
         seeAllPhotosButton = findViewById(R.id.location_photos_see_all)
         addPhotoButton = findViewById(R.id.location_photo_add)
 
+        // Back to the previous activity function
         backButton.setOnClickListener {
             onBackPressed()
             finish()
         }
+
+        // Add new review function
         addReviewButton.setOnClickListener {
             val intentNewReview = Intent(this, LocationAddReviewActivity::class.java)
             val textView = findViewById<TextView>(R.id.title_name)
@@ -132,6 +133,8 @@ class LocationShowActivity : AppCompatActivity() {
             intentNewReview.putExtra("locationPosition", position)
             startActivity(intentNewReview)
         }
+
+        // See all review functions
         seeAllReviewsButton.setOnClickListener {
             val intentAllReviews = Intent(this, LocationReviewsActivity::class.java)
             val textView = findViewById<TextView>(R.id.title_name)
@@ -140,6 +143,8 @@ class LocationShowActivity : AppCompatActivity() {
             intentAllReviews.putExtra("locationPosition", position)
             startActivity(intentAllReviews)
         }
+
+        // Add new photo function
         addPhotoButton.setOnClickListener {
             easyImage = EasyImage.Builder(this)
                 .setChooserType(ChooserType.CAMERA_AND_GALLERY)
@@ -149,6 +154,8 @@ class LocationShowActivity : AppCompatActivity() {
                 .build()
             easyImage.openGallery(this)
         }
+
+        // See all photos function
         seeAllPhotosButton.setOnClickListener {
             val intentForTitle = Intent(this, LocationPhotosActivity::class.java)
             val textView = findViewById<TextView>(R.id.title_name)
@@ -159,22 +166,56 @@ class LocationShowActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Fetch current activity content
+     *
+     * @param requestCode integer
+     * @param resultCode integer
+     * @param data the parameters from previous activity or fragment
+     * @return void
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         easyImage.handleActivityResult(requestCode, resultCode, data, this, object : DefaultCallback() {
+            /**
+             * Fetch the list of photos
+             *
+             * @param imageFiles Array list of photos
+             * @param source The photos
+             * @return void
+             */
             override fun onMediaFilesPicked(imageFiles: Array<MediaFile>, source: MediaSource) {
                 onPhotosReturned(imageFiles)
             }
+            /**
+             * Error when fetching the photos list
+             *
+             * @param error Errors
+             * @param source The photos
+             * @return void
+             */
             override fun onImagePickerError(error: Throwable, source: MediaSource) {
                 super.onImagePickerError(error, source)
             }
+            /**
+             * Cancel the process of fetching photos
+             *
+             * @param source The photos
+             * @return void
+             */
             override fun onCanceled(source: MediaSource) {
                 super.onCanceled(source)
             }
         })
     }
 
+    /**
+     * Function to update the photos list in the database
+     *
+     * @param returnedPhotos Array list of photos
+     * @return List of photos
+     */
     @SuppressLint("NotifyDataSetChanged")
     private fun onPhotosReturned(returnedPhotos: Array<MediaFile>) {
         val imageList: MutableList<Image> = ArrayList<Image>()
@@ -187,9 +228,9 @@ class LocationShowActivity : AppCompatActivity() {
             )
             // Update the database with the newly created object
             var id = insertData(image)
-
             image.id = id
             imageList.add(image)
+
             var imageLocation = ImageLocation(imageId = image.id.toLong(), locationId = element!!.id.toLong())
             locationsViewModel!!.createNewPhotoLocation(imageLocation)
             photosDataset.add(image)
@@ -197,11 +238,22 @@ class LocationShowActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Create and save the photo data
+     *
+     * @param image a photo
+     * @return void
+     */
     private fun insertData(image: Image): Int = runBlocking {
         val insertJob = photosViewModel!!.createNewPhoto(image)
         insertJob
     }
 
+    /**
+     * Initialize the locations data from database
+     *
+     * @return List of locations data
+     */
     private fun initData() {
         this.reviewsViewModel!!.getReviewsToDisplay()!!.observe(this, { newValue ->
             reviewsDataset = getLocationReviews(element!!.id, newValue as MutableList<Review?>)
@@ -236,6 +288,13 @@ class LocationShowActivity : AppCompatActivity() {
     }
 
     companion object{
+        /**
+         * Fetch all reviews for a specific location
+         *
+         * @param locationID Specific location's id
+         * @param reviews List of reviews
+         * @return List of reviews for a specific location
+         */
         fun getLocationReviews(locationID: Int, reviews:MutableList<Review?>):MutableList<Review?>{
             val result: MutableList<Review?> = ArrayList()
             for (review in reviews){

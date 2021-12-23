@@ -18,7 +18,14 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
     constructor(items: List<Location?>): super() {
         LocationsAdapter.items = items as MutableList<Location?>
     }
-    
+
+    /**
+     * Function to update the list of locations
+     *
+     * @param parent A ViewGroup for locations
+     * @param viewType Adapter's position
+     * @return List of locations
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         //Inflate the layout, initialize the View Holder
         val v: View = LayoutInflater.from(parent.context).inflate(R.layout.location_list_item,
@@ -28,6 +35,13 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
         return holder
     }
 
+    /**
+     * Sets up the view holder for a Location
+     *
+     * @param holder Location's ViewHolder
+     * @param position Location's position/id
+     * @return void
+     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.titleLocation.text = items[position]?.locationTitle
         holder.longitude.text = "%.2f".format(items[position]?.locationLongitude)
@@ -41,11 +55,23 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
         }
     }
 
+    /**
+     * Update the number of photos and reviews
+     *
+     * @param numOfPhotos Number of photos
+     * @param numOfReviews Number of reviews
+     * @return void
+     */
     fun updateChildTables(numOfReviews : Int,numOfPhotos : Int) {
         this.numOfPhotos = numOfPhotos
         this.numOfReviews = numOfReviews
     }
 
+    /**
+     * Function to get review number count
+     *
+     * @return the number count of reviews
+     */
     override fun getItemCount(): Int {
         return items.size
     }
