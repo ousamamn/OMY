@@ -34,18 +34,19 @@ class ReviewsRepository(application: Application) {
     }
 
     /**
-     * Function to get reviews from database
+     * Get all the existing reviews
      *
-     * @return the list of trips data
+     * @return all reviews
      */
     fun getReviews(): LiveData<List<Review?>>? {
         return reviewsDBDao?.getAll()
     }
 
     /**
-     * Function to create review and save it in database
+     * Creates a new review, saving it to the database
      *
-     * @return new review data
+     * @param review A review to be saved
+     * @return void
      */
     suspend fun createNewReview(review: Review) {
         // somehow create a new review

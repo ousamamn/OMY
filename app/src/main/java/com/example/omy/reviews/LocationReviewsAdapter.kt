@@ -25,6 +25,13 @@ class LocationReviewsAdapter: RecyclerView.Adapter<LocationReviewsAdapter.ViewHo
         context = cont
     }
 
+    /**
+     * Function to update the list of reviews
+     *
+     * @param parent A ViewGroup for reviews
+     * @param viewType Adapter's position
+     * @return the list of reviews
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         //Inflate the layout, initialize the View Holder
         val v: View = LayoutInflater.from(parent.context).inflate(R.layout.location_review_list_item,
@@ -35,9 +42,11 @@ class LocationReviewsAdapter: RecyclerView.Adapter<LocationReviewsAdapter.ViewHo
     }
 
     /**
-     * Function to get and display the detail of reviews
+     * Sets up the view holder for a Review
      *
-     * @return the list of reviews
+     * @param holder Review's ViewHolder
+     * @param position Review's position/id
+     * @return void
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = reviews[position]?.reviewTitle

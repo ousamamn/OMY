@@ -19,9 +19,9 @@ class ReviewsViewModel(application: Application): AndroidViewModel(application) 
     }
 
     /**
-     * Function to get reviews
+     * Fetch specific reviews
      *
-     * @return the list of reviews data
+     * @return List of reviews data
      */
     fun getReviewsToDisplay(): LiveData<List<Review?>>? {
         if (this.reviewsToDisplay == null) {
@@ -31,7 +31,10 @@ class ReviewsViewModel(application: Application): AndroidViewModel(application) 
     }
 
     /**
-     * Function to create reviews
+     * Launches a new review and creates it in the database
+     *
+     * @param review A review
+     * @return void
      */
     fun createNewReview(review: Review) {
         viewModelScope.launch(Dispatchers.IO) { reviewsRepository.createNewReview(review) }
