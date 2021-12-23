@@ -13,6 +13,14 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 
+/*
+* TripShowActivity.kt
+* This file shows the detail of a trip
+  and provides with Google map
+  that will show the location's photo.
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class TripShowActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListener {
     private lateinit var mMap: GoogleMap
     private lateinit var element: Trip

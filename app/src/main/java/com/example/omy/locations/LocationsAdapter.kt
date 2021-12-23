@@ -10,6 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.omy.R
 import com.example.omy.data.Location
 
+/*
+* LocationsAdapter.kt
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
     private lateinit var context: Context
     private var numOfReviews: Int = 0

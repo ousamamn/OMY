@@ -28,6 +28,17 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
 
+/*
+* LocationShowActivity.kt
+* This file provides the users the
+  detail for a specific location including
+  the list of photos and reviews related
+  to it and the users are able to see all
+  the photos and reviews and also add new
+  photo and review.
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class LocationShowActivity : AppCompatActivity() {
     private lateinit var mRecyclerViewReviews: RecyclerView
     private lateinit var mReviewsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>

@@ -18,6 +18,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.omy.R
 import com.example.omy.data.Review
 
+/*
+* LocationAddReviewActivity.kt
+* This file provides the users a title field input,
+  a rating field input, and a description field input
+  to create a new review
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class LocationAddReviewActivity : AppCompatActivity() {
     private lateinit var titleEditText: EditText
     private lateinit var ratingEditText: EditText

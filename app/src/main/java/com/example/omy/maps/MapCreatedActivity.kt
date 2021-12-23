@@ -40,7 +40,16 @@ import java.util.*
 import kotlin.collections.ArrayList
 import java.util.UUID
 
-
+/*
+* MapCreatedActivity.kt
+* This file provides the users a Google map plus
+  self-tracking function along with
+  end the trip button, stop self-tracking button,
+  title for the trip, temperature and add
+  location name button.
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class MapCreatedActivity : AppCompatActivity(), OnMapReadyCallback {
     private var defaultLocation: Array<Double> = arrayOf(53.38, -1.48)
     private lateinit var mLocationRequest: LocationRequest

@@ -11,6 +11,11 @@ import com.example.omy.R
 import com.example.omy.data.Location
 import com.example.omy.data.Trip
 
+/*
+* TripsAdapter.kt
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class TripsAdapter : RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     private lateinit var context: Context
 

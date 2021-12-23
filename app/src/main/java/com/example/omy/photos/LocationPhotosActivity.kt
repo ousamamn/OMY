@@ -13,6 +13,14 @@ import com.example.omy.data.Image
 import com.example.omy.locations.LocationsViewModel
 import java.util.ArrayList
 
+/*
+* LocationPhotosActivity.kt
+* This file provides the users a list
+  of photos and the users are
+  able to click on them to see the detail.
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class LocationPhotosActivity : AppCompatActivity() {
     private lateinit var mRecyclerViewPhotos: RecyclerView
     private lateinit var mPhotosAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>

@@ -14,6 +14,13 @@ import com.example.omy.R
 import com.example.omy.data.Image
 import com.example.omy.locations.LocationsViewModel
 
+/*
+* PhotoShowActivity.kt
+* This file provides the selected photo
+  and its details for the users
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class PhotoShowActivity : FragmentActivity() {
     private lateinit var backButton: ImageView
     private var locationsViewModel: LocationsViewModel? = null

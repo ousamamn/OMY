@@ -9,6 +9,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import androidx.lifecycle.viewModelScope
 
+/*
+* TripsViewModel.kt
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class TripsViewModel(application: Application): AndroidViewModel(application) {
     private var tripsRepository: TripsRepository = TripsRepository(application)
     private var tripsToDisplay: LiveData<List<Trip?>>? = null

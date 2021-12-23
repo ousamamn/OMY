@@ -13,6 +13,13 @@ import com.example.omy.data.Review
 import com.example.omy.locations.LocationShowActivity
 import java.util.ArrayList
 
+/*
+* LocationReviewsActivity.kt
+* This file provides a list of
+  reviews for a specific location
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class LocationReviewsActivity : AppCompatActivity() {
     private lateinit var mRecyclerViewReviews: RecyclerView
     private lateinit var mReviewsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>

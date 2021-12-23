@@ -11,6 +11,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/*
+* TripsRepository.kt
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class TripsRepository(application: Application) {
     private var tripsDBDao: TripDao? = null
     var id:Int? =0

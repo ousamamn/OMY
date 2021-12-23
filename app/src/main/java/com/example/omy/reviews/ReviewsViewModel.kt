@@ -9,7 +9,11 @@ import kotlinx.coroutines.launch
 import androidx.lifecycle.viewModelScope
 import com.example.omy.data.Review
 
-
+/*
+* ReviewsViewModel.kt
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class ReviewsViewModel(application: Application): AndroidViewModel(application) {
     private var reviewsRepository: ReviewsRepository = ReviewsRepository(application)
     private var reviewsToDisplay: LiveData<List<Review?>>? = null

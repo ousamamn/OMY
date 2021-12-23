@@ -9,6 +9,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/*
+* ReviewsRepository.kt
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class ReviewsRepository(application: Application) {
     private var reviewsDBDao: ReviewDao? = null
     private val databaseObj:OMYDatabase? = MainRepository(application).databaseObj

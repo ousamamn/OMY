@@ -22,6 +22,16 @@ import com.example.omy.photos.PhotosViewModel
 import com.example.omy.trips.TripsViewModel
 import java.util.*
 
+/*
+* TripsFragment.kt
+* This file provides the users with a list
+  of photos that were stored in the database
+  and the photos are clickable to see the
+  detail of the selected photo. The browsing
+  function is also provided in this file.
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class PhotosFragment : Fragment() {
     private lateinit var searchView: SearchView
     private lateinit var mRecyclerView: RecyclerView

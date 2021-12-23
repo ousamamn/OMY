@@ -7,7 +7,11 @@ import androidx.lifecycle.MutableLiveData
 import com.example.omy.data.*
 import kotlinx.coroutines.runBlocking
 
-
+/*
+* LocationsViewModel.kt
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class LocationsViewModel(application: Application): AndroidViewModel(application) {
     private var locationsRepository: LocationsRepository = LocationsRepository(application)
     private var locationsToDisplay: LiveData<List<Location?>>? = null

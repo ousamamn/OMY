@@ -7,7 +7,11 @@ import androidx.lifecycle.MutableLiveData
 import com.example.omy.data.Image
 import kotlinx.coroutines.runBlocking
 
-
+/*
+* PhotosViewModel.kt
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class PhotosViewModel(application: Application): AndroidViewModel(application) {
     private var photosRepository: PhotosRepository = PhotosRepository(application)
     private var photosToDisplay: LiveData<List<Image>>? = null

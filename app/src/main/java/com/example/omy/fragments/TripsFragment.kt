@@ -21,6 +21,16 @@ import com.example.omy.fragments.HomeFragment.Companion.locations
 import com.example.omy.fragments.HomeFragment.Companion.tripandLocations
 import com.example.omy.locations.LocationsViewModel
 
+/*
+* TripsFragment.kt
+* This file provides the users with a list
+  of trips that were stored in the database
+  and the trips are clickable to see the
+  detail of the selected trip. Filtering
+  function is also provided in this file.
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class TripsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var tripsSortSpinner: Spinner
     private var tripsDataset: List<Trip?> = ArrayList<Trip?>()

@@ -42,6 +42,13 @@ import com.google.android.gms.location.LocationRequest
 import java.text.DateFormat
 import java.util.*
 
+/*
+* TripsFragment.kt
+* This file provides the users with a
+  title field input to create a new trip.
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class HomeFragment : Fragment() {
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mFusedLocationClient: FusedLocationProviderClient

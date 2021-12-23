@@ -13,8 +13,11 @@ import java.text.DateFormat
 import java.util.*
 
 /*
- * Implementation of service
- */
+* LocationService.kt
+* Implementation of service
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class LocationService : Service {
     private var mCurrentLocation: Location? = null
     private var mLastUpdateTime: String? = null

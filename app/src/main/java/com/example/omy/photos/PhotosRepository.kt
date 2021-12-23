@@ -7,6 +7,11 @@ import com.example.omy.MainRepository
 import com.example.omy.data.*
 import kotlinx.coroutines.*
 
+/*
+* PhotosRepository.kt
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class PhotosRepository(application: Application) {
     private var photosDBDao: ImageDao? = null
     private var photosLocationDBDao: ImageLocationDao? = null

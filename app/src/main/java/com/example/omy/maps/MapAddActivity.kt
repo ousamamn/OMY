@@ -24,6 +24,15 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
 
+/*
+* MapAddActivity.kt
+* This file provides the users
+  a title field input, a description field input,
+  a latitude and longitude field input
+  and a photo adding function to create a new location.
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class MapAddActivity : AppCompatActivity() {
     private lateinit var displayTitle: TextView
     private lateinit var latEditText: EditText

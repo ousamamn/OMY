@@ -10,6 +10,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
+/*
+* LocationsRepository.kt
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class LocationsRepository(application: Application) {
     private var locationsDBDao: LocationDao? = null
     private var photosLocationDBDao: ImageLocationDao? = null

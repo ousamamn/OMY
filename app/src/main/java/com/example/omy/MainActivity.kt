@@ -10,6 +10,14 @@ import com.example.omy.fragments.PhotosFragment
 import com.example.omy.fragments.TripsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
+/*
+* MainActivity.kt
+* This file provides a bottom navigation
+  bar and set the Home Fragment
+  as the primary page.
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class MainActivity : AppCompatActivity() {
     private val homeFragment = HomeFragment()
     private val locationsFragment = LocationsFragment()

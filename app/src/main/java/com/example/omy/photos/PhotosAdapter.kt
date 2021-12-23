@@ -16,6 +16,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
+/*
+* PhotosAdapter.kt
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder> {
     private lateinit var context: Context
 

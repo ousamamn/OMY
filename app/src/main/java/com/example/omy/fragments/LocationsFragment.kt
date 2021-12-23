@@ -18,6 +18,16 @@ import com.example.omy.locations.LocationsAdapter
 import com.example.omy.locations.LocationsViewModel
 import java.util.*
 
+/*
+* TripsFragment.kt
+* This file provides the users with a list
+  of locations that were stored in the database
+  and the locations are clickable to see the
+  detail of the selected location. Filter function
+  is also provided in this file.
+* Mneimneh, Sekulski, Ooi 2021
+* COM31007
+*/
 class LocationsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var locationsSortSpinner: Spinner
     private var locationsDataset: List<Location?> = ArrayList<Location?>()
